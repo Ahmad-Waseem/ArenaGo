@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arenago/views/login_view.dart';
 import 'package:flutter/material.dart';
 
+
 class LoadingView extends StatefulWidget {
   const LoadingView({Key? key}) : super(key: key);
 
@@ -44,7 +45,7 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 0, 64), // Set background color to orange
+      backgroundColor: Color.fromARGB(255, 255, 255, 255), // Set background color to orange
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,13 +54,10 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
             AnimatedOpacity(
               opacity: _opacity,
               duration: Duration(seconds: 1),
-              child: Text(
-                'ArenaGo',
-                style: TextStyle(
-                  fontSize: 44,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Image.asset(
+                'assets/logo.png', // Replace with the path to your logo image
+                width: 250,
+                height: 250,
               ),
             ),
             SizedBox(height: 16), // Add some space between ArenaGo and loading animation
@@ -77,7 +75,7 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
                       width: 16,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 81, 192, 7),
                         shape: BoxShape.circle,
                       ),
                     ),
