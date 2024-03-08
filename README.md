@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# arenago
+# ArenaGo
 
 A new Flutter project.
 
