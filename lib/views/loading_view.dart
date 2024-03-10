@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 class LoadingView extends StatefulWidget {
-  const LoadingView({Key? key}) : super(key: key);
+  const LoadingView({super.key});
 
   @override
   _LoadingViewState createState() => _LoadingViewState();
@@ -21,7 +21,7 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
     _opacity = 0.0;
 
     // Start fading in the ArenaGo text
-    Timer(Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 500), () {
       setState(() {
         _opacity = 1.0;
       });
@@ -30,14 +30,14 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
     // Start rotating animation for loading circles
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat();
 
     // Add a delay of 2 seconds before navigating to the login page
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginView()),
+        MaterialPageRoute(builder: (context) => const LoginView()),
       );
     });
   }
@@ -45,7 +45,7 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255), // Set background color to orange
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Set background color to orange
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,20 +53,20 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
             // Fade in ArenaGo text
             AnimatedOpacity(
               opacity: _opacity,
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               child: Image.asset(
                 'assets/logo.png', // Replace with the path to your logo image
                 width: 250,
                 height: 250,
               ),
             ),
-            SizedBox(height: 16), // Add some space between ArenaGo and loading animation
+            const SizedBox(height: 16), // Add some space between ArenaGo and loading animation
             // Loading animation with circles
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(3, (index) {
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: ScaleTransition(
                     scale: _animationController.drive(
                       Tween(begin: 0.5, end: 1.0).chain(CurveTween(curve: Curves.easeInOut)),
@@ -74,7 +74,7 @@ class _LoadingViewState extends State<LoadingView> with SingleTickerProviderStat
                     child: Container(
                       width: 16,
                       height: 16,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 81, 192, 7),
                         shape: BoxShape.circle,
                       ),

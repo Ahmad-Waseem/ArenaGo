@@ -1,6 +1,4 @@
 import 'package:arenago/views/loading_view.dart';
-import 'package:arenago/views/login_view.dart';
-import 'package:arenago/views/homepage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,8 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
-    return MaterialApp(
-      home: const LoadingView(),
+    return const MaterialApp(
+      home: LoadingView(),
 
       //routes: {
         //'/registration/': (context) => const RegistrationView(),

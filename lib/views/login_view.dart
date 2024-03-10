@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+Color buttonColor = Color.fromRGBO(48, 83, 62, 1);
+const double space_in_between = 10;
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -10,10 +12,80 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: const Color.fromRGBO(48, 83, 62, 1), // Set primary color
+        hintColor: const Color.fromRGBO(48, 83, 62, 1), // Set accent color
+        // Add more theme properties as needed
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Login"),
         ),
+        body: const LoginFormField(),
+      ),
     );
   }
 }
+
+
+class LoginFormField extends StatelessWidget
+{
+  const LoginFormField({super.key});
+
+  @override
+  Widget build(BuildContext context)
+  {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final HorizontalpaddingSize = screenWidth * 0.07; // 20% of screen width
+    final VerticalpaddingSize = screenWidth * 0.01; // 20% of screen width
+
+    return Center(
+  child: Column(
+    mainAxisSize: MainAxisSize.min, // Prevent column from expanding
+    mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+    crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: HorizontalpaddingSize),
+        child: TextFormField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40.0),
+            ),
+            labelText: 'User Name',
+            hintText: 'Enter valid Gmail or Phone Number',
+          ),
+        ),
+      ),
+      const SizedBox(height: space_in_between), // Spacing between fields (optional)
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: HorizontalpaddingSize),
+        child: TextFormField(
+          obscureText: true,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40.0),
+            ),
+            labelText: 'Password',
+            hintText: 'Enter your Password',
+          ),
+        ),
+      ),
+      const SizedBox(height: space_in_between), // Spacing between fields
+      FractionallySizedBox(
+        widthFactor: 0.8, // 60% of available width
+        child: FilledButton(
+          style: FilledButton.styleFrom(backgroundColor: const Color.fromRGBO(48, 83, 62, 1)),
+          onPressed: () {},
+          child: const Text('Login'),
+        ),
+      ),
+    ],
+  ),
+);
+
+  }
+}
+
+
