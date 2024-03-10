@@ -50,8 +50,17 @@ class LoginFormField extends StatelessWidget
         padding: EdgeInsets.symmetric(horizontal: HorizontalpaddingSize),
         child: TextFormField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(40.0),
+              borderSide: const BorderSide(
+               color:  Color.fromRGBO(0, 151, 178, 1), // Custom outline color
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40.0),
+              borderSide: const BorderSide(
+               color:  Color.fromRGBO(0, 151, 178, 1), // Custom outline color
+              ),
             ),
             labelText: 'User Name',
             hintText: 'Enter valid Gmail or Phone Number',
@@ -64,11 +73,21 @@ class LoginFormField extends StatelessWidget
         child: TextFormField(
           obscureText: true,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(40.0),
+              borderSide: const BorderSide(
+               color:  Color.fromRGBO(0, 151, 178, 1), // Custom outline color
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40.0),
+              borderSide: const BorderSide(
+               color:  Color.fromRGBO(0, 151, 178, 1), // Custom outline color
+              ),
             ),
             labelText: 'Password',
             hintText: 'Enter your Password',
+            //fillColor: Color.fromRGBO(0, 151, 178, 1)
           ),
         ),
       ),
