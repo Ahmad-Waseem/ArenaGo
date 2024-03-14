@@ -1,5 +1,7 @@
 import 'package:arenago/views/loading_view.dart';
 import 'package:flutter/material.dart';
+import 'package:arenago/views/theme.dart';
+//import 'package:google_fonts/google_fonts.dart';
 
 
 void main() async {
@@ -13,8 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
-    return const MaterialApp(
-      home: LoadingView(),
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+      ),
+      home: const LoadingView(),
 
       //routes: {
         //'/registration/': (context) => const RegistrationView(),
