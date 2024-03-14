@@ -3,8 +3,8 @@ import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/login_helpers/login_form.dart';
 import 'package:arenago/views/login_helpers/cancel_button.dart';
 
-Color buttonColor = const Color.fromRGBO(48, 83, 62, 1);
-const double space_in_between = 10;
+
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -44,7 +44,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
     return Scaffold(
       body: Stack(
         children: [
-          // Lets add some decorations
+          //The added circular decors
           Positioned(
             top: 100,
             right: -50,
@@ -53,7 +53,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: kPrimaryColor
+                color: loginOutlinecolor
               ),
             )
           ),
@@ -66,7 +66,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: kPrimaryColor
+                color: loginOutlinecolor
               ),
             )
           ),
@@ -136,7 +136,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
           child: isLogin ? const Text(
             "Don't have an account? Sign up",
             style: TextStyle(
-              color: kPrimaryColor,
+              color: kBackgroundColor ,
               fontSize: 18
             ),
           ) : null,

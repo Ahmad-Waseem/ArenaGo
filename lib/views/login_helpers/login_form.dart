@@ -30,7 +30,7 @@ class LoginForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Good to See You!',
+                  'Welcome!',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 const SizedBox(height: 40),
@@ -41,15 +41,17 @@ class LoginForm extends StatelessWidget {
                 TextField(
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.mail),
-                    hintText: 'Username',
+                    hintText: 'Username or Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
                 ),
+                const SizedBox(height: 5),
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.key),
                     hintText: 'Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),

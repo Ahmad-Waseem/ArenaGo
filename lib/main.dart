@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     WidgetsFlutterBinding.ensureInitialized();
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: loginOutlinecolor,
       ),
       home: const LoadingView(),
 
