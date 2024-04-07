@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0XFF6A62B7);
 const kBackgroundColor = Color(0XFFE5E5E5);
+const dBackgroundColor = Color.fromARGB(255, 167, 166, 166);
 
 const loginButtoncolor = Color(0xFF30533E);
 const loginOutlinecolor = Color(0xFF0097B2);

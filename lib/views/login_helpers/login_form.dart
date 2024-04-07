@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arenago/views/homepage.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -60,7 +61,13 @@ class LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () 
+                  {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => HomePage(),
+                    ));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                     shape: RoundedRectangleBorder(
