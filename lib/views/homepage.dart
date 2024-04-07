@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage>
           backgroundColor: dBackgroundColor, 
           
           unselectedItemColor: loginOutlinecolor,
-          
+
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -81,15 +81,15 @@ class _HomePageState extends State<HomePage>
               label: 'Play Buddies',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search), // Replace with your desired icon
+              icon: Icon(Icons.search), 
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history_toggle_off), // Replace with your desired icon
+              icon: Icon(Icons.history_toggle_off), 
               label: 'History',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded), // Replace with your desired icon
+              icon: Icon(Icons.person_rounded),
               label: 'Account',
             ),
           ],
