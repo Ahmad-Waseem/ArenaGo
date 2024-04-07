@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
+import 'package:arenago/views/TriggerMenu_Profilebutton';
+
 // homepage.dart
 
 class HomePage extends StatefulWidget {
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage>
       style: optionStyle,
     ),
     Text(
-      'Index 2: profile',
+      'Index 4: profile',
       style: optionStyle,
     ),
   ];
@@ -42,7 +44,14 @@ class _HomePageState extends State<HomePage>
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      
     });
+    if (index == 4) {
+    //Navigate to ProfilePage when "ProfileButton" is selected
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => TriggerMenu_ProfileButton(),
+    ));
+  }
   }
 
   @override
@@ -61,6 +70,7 @@ class _HomePageState extends State<HomePage>
           backgroundColor: dBackgroundColor, 
           
           unselectedItemColor: loginOutlinecolor,
+          
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
