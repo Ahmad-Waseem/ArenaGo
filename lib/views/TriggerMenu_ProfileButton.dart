@@ -8,7 +8,7 @@ import 'package:arenago/views/theme.dart';
 class ProfileMenu extends StatelessWidget {
   final Function onToggle; // Callback function to handle menu visibility toggling
 
-  const ProfileMenu({Key? key, required this.onToggle}) : super(key: key);
+  const ProfileMenu({super.key, required this.onToggle});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +20,17 @@ class ProfileMenu extends StatelessWidget {
           child: Column( // Replace ListView
             children: [
               ListTile(
-                title: Text('My Account'),
+                title: const Text('My Account'),
                 textColor: loginOutlinecolor,
                 onTap: () => Navigator.pop(context), // Example action on tap
               ),
               ListTile(
-                title: Text('Settings'),
+                title: const Text('Settings'),
                 textColor: loginOutlinecolor,
                 onTap: () => Navigator.pop(context), // Example action on tap
               ),
               ListTile(
-                title: Text('Info'),
+                title: const Text('Info'),
                 textColor: loginOutlinecolor,
                 onTap: () => Navigator.pop(context), // Example action on tap
               ),

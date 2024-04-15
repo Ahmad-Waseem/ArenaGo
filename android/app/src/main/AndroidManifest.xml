@@ -3,6 +3,11 @@
         android:label="arenago"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDTFxOByY2jClvTlw8BF5uIdSzGVxeN6Og"/>
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

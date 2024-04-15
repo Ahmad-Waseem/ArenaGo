@@ -3,7 +3,7 @@ import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -93,8 +93,9 @@ Widget _buildRecentsList() {
       showModalBottomSheet(
         context: context,
         builder: (context) => ProfileMenu(
-          onToggle: () { // Handle menu toggle here
-            // Your logic to close the menu
+          onToggle: () { 
+
+            
           },
         ),
       );
@@ -110,7 +111,7 @@ Widget _buildRecentsList() {
       body: Column(
         children: [
           _buildRecentsList(), //horizontally swipable "Recents" list
-          Text(
+          const Text(
             'Choices for you', // Heading for the "Choices for you" list
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
