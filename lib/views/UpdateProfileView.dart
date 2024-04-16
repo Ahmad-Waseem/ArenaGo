@@ -1,4 +1,6 @@
+import 'package:arenago/views/gmaps/EditableMap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class UpdateProfileView extends StatelessWidget {
   const UpdateProfileView({Key? key}) : super(key: key);
@@ -82,6 +84,12 @@ class UpdateProfileView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
+
+
+                    SizedBox(
+                      height: 200,
+                      child: EditableMap(),
+                    ),
 
                     // -- Form Submit Button
                     SizedBox(

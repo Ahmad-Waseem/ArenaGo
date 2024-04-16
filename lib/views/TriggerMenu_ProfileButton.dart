@@ -5,6 +5,7 @@
 import 'package:arenago/views/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
+import 'package:arenago/views/example.dart';
 
 class ProfileMenu extends StatelessWidget {
   final Function onToggle; // Callback function to handle menu visibility toggling
@@ -23,8 +24,9 @@ class ProfileMenu extends StatelessWidget {
               ListTile(
                 title: const Text('My Account'),
                 textColor: loginOutlinecolor,
-                onTap: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfileScreen()),);
-    }, // Example action on tap
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TestingMap()));//const ProfileScreen()),);
+                }, // Example action on tap
               ),
               ListTile(
                 title: const Text('Settings'),

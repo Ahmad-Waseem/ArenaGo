@@ -17,7 +17,7 @@ class LoadMapState extends State<LoadMap> {
 
   //default initial position (you can change this)
   static const CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(31.582045, 74.329376), // Default coordinates
+    target: LatLng(31.582045, 74.329376), // Default coordinates of Lahore
     zoom: 14.4746,
   );
 
@@ -50,20 +50,24 @@ class LoadMapState extends State<LoadMap> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      mapType: MapType.normal,
-      initialCameraPosition: _initialPosition,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-      markers: {
-        //marker for the user's location
-        const Marker(
-          markerId: MarkerId('user_location'),
-          position: LatLng(31.582045, 74.329376), // Default coordinates
-          infoWindow: InfoWindow(title: 'Your Location'),
-        ),
-      },
+    return SizedBox(
+      height: 200,
+
+      child: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: _initialPosition,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: {
+          //marker for the user's location
+          const Marker(
+            markerId: MarkerId('user_location'),
+            position: LatLng(31.582045, 74.329376), // Default coordinates
+            infoWindow: InfoWindow(title: 'Your Location'),
+          ),
+        },
+      )
     );
   }
 }
