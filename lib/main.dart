@@ -1,4 +1,5 @@
 import 'package:arenago/views/add_arena.dart';
+import 'package:arenago/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: const AddArenaView(),
+      home: AddArenaView(),
 
       //routes: {
         //'/registration/': (context) => const RegistrationView(),
