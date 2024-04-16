@@ -2,6 +2,7 @@
 //Doc link: https://api.flutter.dev/flutter/widgets/SingleChildScrollView-class.html
 //IT IS NOT BOTTOM SHEET
 
+import 'package:arenago/views/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 
@@ -22,7 +23,8 @@ class ProfileMenu extends StatelessWidget {
               ListTile(
                 title: const Text('My Account'),
                 textColor: loginOutlinecolor,
-                onTap: () => Navigator.pop(context), // Example action on tap
+                onTap: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfileScreen()),);
+    }, // Example action on tap
               ),
               ListTile(
                 title: const Text('Settings'),

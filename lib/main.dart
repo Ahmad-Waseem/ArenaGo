@@ -20,7 +20,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
+<<<<<<< Updated upstream
       home: AddArenaView(),
+=======
+      home: const LoginView(),
+>>>>>>> Stashed changes
 
       //routes: {
         //'/registration/': (context) => const RegistrationView(),
