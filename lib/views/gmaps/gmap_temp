@@ -1,7 +1,11 @@
+//https://stackoverflow.com/questions/38267667/how-to-get-current-position-and-show-in-map
+
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 class LoadMap extends StatefulWidget {

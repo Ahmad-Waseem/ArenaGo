@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
-
+import 'package:arenago/views/gmaps/LoadMap.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -81,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              
+
 
               const SizedBox(height: 10),
 // -- MENU
@@ -104,7 +104,18 @@ ListTile(
 //   title: Text("User Management"),
 //   onTap: () {},
 // ),
+
 Divider(),
+
+
+ListTile(
+  leading: Icon(Icons.location_on),
+  title: Text('My Location'),
+  trailing: Container(
+    height: 200,
+    child: LoadMap(UniqueKey()),
+  ),
+),
 
 const SizedBox(height: 10),
 
