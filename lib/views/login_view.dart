@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/login_helpers/login_form.dart';
 import 'package:arenago/views/login_helpers/cancel_button.dart';
+import 'package:flutter/widgets.dart';
 
 
 
@@ -44,7 +45,22 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
     return Scaffold(
       body: Stack(
         children: [
-          //The added circular decors
+          // Add field button on top
+        //   Positioned(
+        //   top: 40, // Adjust the value to position it vertically
+        //   width: size.width,
+        //   child: const Center(
+        //     child: Text(
+        //       'Add Field',
+        //       style: TextStyle(
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 20,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+    //The added circular decors
           Positioned(
             top: 100,
             right: -50,
@@ -103,9 +119,108 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
             },
           ),
 
+          Visibility(
+            visible: !isLogin,
+            child: Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+            width: size.width,
+            height: defaultLoginSize,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Create Account',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                  const SizedBox(height: 15),
+                  Image.asset('assets/logo.png', 
+                  width: 200,
+                  height: 200,), // Use a PNG image
+                  const SizedBox(height: 20),
+                  TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person),
+                      hintText: 'Username',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.mail),
+                      hintText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.key),
+                      hintText: 'Password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.key),
+                      hintText: 'Confirm Password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+                  
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () 
+                  {
+                    // Navigator.of(context).push(MaterialPageRoute
+                    // (
+                    //   builder: (context) => const HomePage(),
+                    // ));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    foregroundColor: loginOutlinecolor,
+                  ), // Add your login logic here
+                  child: const Text('REGISTER'),
+                ),
+                const SizedBox(height: 8),
+                   
+
+               
+                ],
+                ////////////////
+              ),
+            ),
+            
+          ),
+          
+        ),
+      ),
           // Register Form
           //RegisterForm(isLogin: isLogin, animationDuration: animationDuration, size: size, defaultLoginSize: defaultRegisterSize),
         ],
+        
       ),
     );
   }
@@ -128,7 +243,6 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
         child: GestureDetector(
           onTap: !isLogin ? null : () {
             animationController!.forward();
-
             setState(() {
               isLogin = !isLogin;
             });
@@ -144,6 +258,8 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
       ),
     );
   }
+
+  
 }
 
 
