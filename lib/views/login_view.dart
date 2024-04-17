@@ -144,9 +144,11 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   const SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person, color: kBackgroundColor,),
+                      prefixIcon: const Icon(Icons.person, color: kBackgroundColor),
                       hintText: 'Username',
+                      hintStyle: const TextStyle(color: Colors.white),    // border color not working
                       border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kBackgroundColor),
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
@@ -155,9 +157,11 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   const SizedBox(height: 8),
                   TextField(
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.mail),
+                      prefixIcon: const Icon(Icons.mail, color: kBackgroundColor),
                       hintText: 'Email',
+                      hintStyle: const TextStyle(color: kBackgroundColor),
                       border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: kBackgroundColor),
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
@@ -167,8 +171,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   TextField(
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key),
+                      prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
                       hintText: 'Password',
+                      hintStyle: const TextStyle(color: kBackgroundColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -179,8 +184,9 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   TextField(
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key),
+                      prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
                       hintText: 'Confirm Password',
+                      hintStyle: const TextStyle(color: kBackgroundColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
