@@ -65,7 +65,57 @@ class LoginForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
+
+                const Row(
+         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+             Text(
+            'Forget Password',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color:secondaryColor,
+              decoration: TextDecoration.none, // Add underline for clickable effect
+            ),
+          ),
+
+
+
+           Text(
+            'Business Account?',
+            
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color:secondaryColor,
+              decoration: TextDecoration.none, // Add underline for clickable effect
+            ),
+          )
+
+          // TextButton(
+          //   onPressed: null,
+            
+            
+          
+          //  child: Text(
+          //   'Business Account?',
+            
+          //   textAlign: TextAlign.right,
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     fontSize: 13,
+          //     color:secondaryColor,
+          //     decoration: TextDecoration.none, // Add underline for clickable effect
+          //   ),
+          // ),)
+           
+          ],
+            ),
+
+            const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () 
                   {
@@ -84,32 +134,7 @@ class LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 15),
 
-          const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-             Text(
-            'Add field',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color:loginOutlinecolor, // Change the color as desired
-              decoration: TextDecoration.none, // Add underline for clickable effect
-            ),
-          ),
-
-           Text('    ||    '),
-
-           Text(
-            'Sign in field',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color:loginOutlinecolor, // Change the color as desired
-              decoration: TextDecoration.none, // Add underline for clickable effect
-            ),
-          ),
-          ],
-            ),
+          
               ],
             ),
           ),

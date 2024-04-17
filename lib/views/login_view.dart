@@ -1,3 +1,4 @@
+import 'package:arenago/views/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/login_helpers/login_form.dart';
@@ -134,7 +135,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   const SizedBox(height: 10),
                   const Text(
                     'Create Account',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: kBackgroundColor),
                   ),
                   const SizedBox(height: 15),
                   Image.asset('assets/logo.png', 
@@ -143,7 +144,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   const SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person, color: kBackgroundColor,),
                       hintText: 'Username',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -190,10 +191,10 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                 ElevatedButton(
                   onPressed: () 
                   {
-                    // Navigator.of(context).push(MaterialPageRoute
-                    // (
-                    //   builder: (context) => const HomePage(),
-                    // ));
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const HomePage(),
+                    ));
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
