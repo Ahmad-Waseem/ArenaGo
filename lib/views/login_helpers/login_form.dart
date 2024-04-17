@@ -130,11 +130,15 @@ class LoginForm extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ), // Add your login logic here
-                  child: const Text('LOGIN'),
+                  child: const Text('LOGIN',
+                  style: TextStyle(
+                    color:secondaryColor,
+                  ),
+                ),
                 ),
                 const SizedBox(height: 15),
 
-          
+                
               ],
             ),
           ),
