@@ -13,6 +13,7 @@ class _AddArenaViewState extends State<AddArenaView> {
   final _arenaNameController = TextEditingController();
   final _arenaPriceController = TextEditingController();
   final _arenaAddressController = TextEditingController();
+  final _arenaContactController = TextEditingController();
   final _arenaTownController = TextEditingController();
   final _arenaCityController = TextEditingController();
 
@@ -63,14 +64,14 @@ class _AddArenaViewState extends State<AddArenaView> {
                 },
             ),
             const SizedBox(height: 16.0),
-            TextFormField(
+                        TextFormField(
               controller: _arenaTownController,
               decoration: const InputDecoration(
-                labelText: 'Contact',
+                labelText: 'Town',
               ),
               validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter town name';
+                    return 'Please enter Town name';
                   }
                   return null;
                 },
@@ -84,6 +85,20 @@ class _AddArenaViewState extends State<AddArenaView> {
               validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter City name';
+                  }
+                  return null;
+                },
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              controller: _arenaContactController,
+              decoration: const InputDecoration(
+                labelText: 'Contact',
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Contact info';
                   }
                   return null;
                 },
