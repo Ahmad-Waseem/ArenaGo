@@ -43,7 +43,7 @@ class LoginForm extends StatelessWidget {
                 // ),
                 const Text(
                   'Business Account',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                 ),
                 const SizedBox(height: 40),
                 Image.asset('assets/logo.png', 

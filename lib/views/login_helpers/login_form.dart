@@ -42,8 +42,8 @@ class LoginForm extends StatelessWidget {
                 //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 // ),
                 const Text(
-                  'Welcome!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  'User Account',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                 ),
                 const SizedBox(height: 40),
                 Image.asset('assets/logo.png', 
