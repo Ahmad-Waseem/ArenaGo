@@ -1,21 +1,21 @@
 import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
-import 'package:arenago/views/login_helpers/login_form.dart';
+import 'package:arenago/views/login_helpers/owner_login_form.dart';
 import 'package:arenago/views/login_helpers/cancel_button.dart';
 import 'package:flutter/widgets.dart';
-import 'package:arenago/views//owner_login_view.dart';
 
 
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class OwnerLoginView extends StatefulWidget {
+  const OwnerLoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<OwnerLoginView> createState() => _OwnerLoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMixin {
+class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProviderStateMixin {
   
   bool isLogin = true;
   late Animation<double> containerSize;
@@ -187,6 +187,32 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
                       hintText: 'Confirm Password',
+                      hintStyle: const TextStyle(color: kBackgroundColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.phone, color: kBackgroundColor),
+                      hintText: 'Phone No.',
+                      hintStyle: const TextStyle(color: kBackgroundColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 8),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.badge, color: kBackgroundColor),
+                      hintText: 'CNIC No.',
                       hintStyle: const TextStyle(color: kBackgroundColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),

@@ -1,4 +1,4 @@
-import 'package:arenago/views/owner_login_view.dart';
+import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/homepage.dart';
@@ -42,7 +42,7 @@ class LoginForm extends StatelessWidget {
                 //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 // ),
                 const Text(
-                  'Welcome!',
+                  'Business Account',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 const SizedBox(height: 40),
@@ -87,11 +87,9 @@ class LoginForm extends StatelessWidget {
           ),
 
 
-
-           Text(
-            'Business Account?',
-            
-            textAlign: TextAlign.right,
+          Text(
+            'user Account?',
+            textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13,
@@ -148,7 +146,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const OwnerLoginView(),
+                      builder: (context) => const LoginView(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(
