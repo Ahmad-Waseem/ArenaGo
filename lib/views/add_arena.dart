@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -25,6 +26,7 @@ class _AddArenaViewState extends State<AddArenaView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: dBackgroundColor,
       appBar: AppBar(
         title: Text('Add Arena'),
       ),
@@ -37,7 +39,7 @@ class _AddArenaViewState extends State<AddArenaView> {
             children: <Widget>[
               TextFormField(
                 controller: _arenaNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Arena Name',
                 ),
                 validator: (value) {
@@ -64,7 +66,7 @@ class _AddArenaViewState extends State<AddArenaView> {
             TextFormField(
               controller: _arenaTownController,
               decoration: const InputDecoration(
-                labelText: 'Town',
+                labelText: 'Contact',
               ),
               validator: (value) {
                   if (value == null || value.isEmpty) {

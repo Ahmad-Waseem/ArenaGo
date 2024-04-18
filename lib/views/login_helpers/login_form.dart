@@ -2,6 +2,7 @@ import 'package:arenago/views/owner_login_view.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/add_arena.dart';
 
 
 
@@ -148,7 +149,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const OwnerLoginView(),
+                      builder: (context) => AddArenaView(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(
