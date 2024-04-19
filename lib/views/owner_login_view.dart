@@ -136,89 +136,178 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
                   const SizedBox(height: 10),
                   const Text(
                     'Create Account',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: kBackgroundColor),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: kBackgroundColor),
                   ),
                   const SizedBox(height: 15),
                   Image.asset('assets/logo.png', 
                   width: 200,
                   height: 200,), // Use a PNG image
                   const SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person, color: kBackgroundColor),
-                      hintText: 'Username',
-                      hintStyle: const TextStyle(color: Colors.white),    // border color not working
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: kBackgroundColor),
-                        borderRadius: BorderRadius.circular(25),
+                  Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white, // Set the border color to white
+                            width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                          ),
+                          borderRadius: BorderRadius.circular(25), // Set the border radius
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.person, color: kBackgroundColor),
+                            hintText: 'Username',
+                            hintStyle: const TextStyle(color: Colors.white),
+                            // Remove the border property from here
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+
                   
                   const SizedBox(height: 8),
-                  TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.mail, color: kBackgroundColor),
-                      hintText: 'Email',
-                      hintStyle: const TextStyle(color: kBackgroundColor),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: kBackgroundColor),
-                        borderRadius: BorderRadius.circular(25),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color to white
+                          width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                        ),
+                        borderRadius: BorderRadius.circular(25), // Set the border radius
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.mail, color: kBackgroundColor),
+                          hintText: 'Email',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          // Remove the border property from here
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 8),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
-                      hintText: 'Password',
-                      hintStyle: const TextStyle(color: kBackgroundColor),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                                      const SizedBox(height: 8),
+                                      Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color to white
+                          width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                        ),
+                        borderRadius: BorderRadius.circular(25), // Set the border radius
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
+                          hintText: 'Password',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          // Remove the border property from here
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+
                   
                   const SizedBox(height: 8),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
-                      hintText: 'Confirm Password',
-                      hintStyle: const TextStyle(color: kBackgroundColor),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                 Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color to white
+                          width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                        ),
+                        borderRadius: BorderRadius.circular(25), // Set the border radius
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.key, color: kBackgroundColor),
+                          hintText: 'Confirm Password',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          // Remove the border property from here
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+
 
                   const SizedBox(height: 8),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.phone, color: kBackgroundColor),
-                      hintText: 'Phone No.',
-                      hintStyle: const TextStyle(color: kBackgroundColor),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color to white
+                          width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                        ),
+                        borderRadius: BorderRadius.circular(25), // Set the border radius
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.phone, color: kBackgroundColor),
+                          hintText: 'Phone No.',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          // Remove the border property from here
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+
 
                 const SizedBox(height: 8),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.badge, color: kBackgroundColor),
-                      hintText: 'CNIC No.',
-                      hintStyle: const TextStyle(color: kBackgroundColor),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Set the border color to white
+                          width: 2.0, // Set the border width to 2.0 (or any desired thickness)
+                        ),
+                        borderRadius: BorderRadius.circular(25), // Set the border radius
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.badge, color: kBackgroundColor),
+                          hintText: 'CNIC No.',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          // Remove the border property from here
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none, // Set borderSide to none to avoid double border
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+
                   
                 const SizedBox(height: 15),
                 ElevatedButton(

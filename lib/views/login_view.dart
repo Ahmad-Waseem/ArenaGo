@@ -133,16 +133,16 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   const Text(
                     'Create Account',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: kBackgroundColor),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: kBackgroundColor),
                   ),
                   const SizedBox(height: 15),
                   Image.asset('assets/logo.png', 
                   width: 200,
                   height: 200,), // Use a PNG image
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   TextField(
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.person, color: kBackgroundColor),

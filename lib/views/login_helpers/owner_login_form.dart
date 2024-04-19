@@ -43,7 +43,7 @@ class LoginForm extends StatelessWidget {
                 // ),
                 const Text(
                   'Business Account',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 const SizedBox(height: 40),
                 Image.asset('assets/logo.png', 
@@ -81,19 +81,19 @@ class LoginForm extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13,
-              color:secondaryColor,
+              color:kPrimaryColor,
               decoration: TextDecoration.none, // Add underline for clickable effect
             ),
           ),
 
 
           Text(
-            'user Account?',
+            'User Account?',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13,
-              color:secondaryColor,
+              color:kPrimaryColor,
               decoration: TextDecoration.none, // Add underline for clickable effect
             ),
           ),
@@ -157,7 +157,7 @@ class LoginForm extends StatelessWidget {
                   ), // Add your login logic here
                   child: const Text('LOGIN',
                   style: TextStyle(
-                    color:secondaryColor,
+                    color:kPrimaryColor,
                   ),
                 ),
                 ),
