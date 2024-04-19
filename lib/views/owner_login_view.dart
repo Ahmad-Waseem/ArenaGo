@@ -71,7 +71,7 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: loginOutlinecolor
+                color: kPrimaryColor
               ),
             )
           ),
@@ -84,7 +84,7 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: loginOutlinecolor
+                color: kPrimaryColor
               ),
             )
           ),
@@ -234,7 +234,7 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    foregroundColor: loginOutlinecolor,
+                    foregroundColor: kPrimaryColor,
                   ), // Add your login logic here
                   child: const Text('REGISTER'),
                 ),
@@ -270,7 +270,7 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
             topLeft: Radius.circular(100),
             topRight: Radius.circular(100),
           ),
-          color: loginOutlinecolor
+          color: kPrimaryColor
         ),
 
         alignment: Alignment.center,

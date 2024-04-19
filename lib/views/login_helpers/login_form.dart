@@ -149,7 +149,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => AddArenaView(),
+                      builder: (context) => const OwnerLoginView(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(

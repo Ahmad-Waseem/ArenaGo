@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "965928589812",
+    "firebase_url": "https://arenago-56abc-default-rtdb.firebaseio.com",
+    "project_id": "arenago-56abc",
+    "storage_bucket": "arenago-56abc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965928589812:android:34e72f25b42ee9e3adc1a1",
+        "android_client_info": {
+          "package_name": "com.example.arenago"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9zQalUWmrTksN0mOEW5IhtSuiel6QCEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
