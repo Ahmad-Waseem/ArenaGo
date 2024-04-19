@@ -1,3 +1,4 @@
+import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
@@ -200,7 +201,7 @@ class _LoginViewState extends State<LoginView> with SingleTickerProviderStateMix
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const HomePage(),
+                      builder: (context) => AddArenaView(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(

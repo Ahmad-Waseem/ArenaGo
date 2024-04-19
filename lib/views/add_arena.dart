@@ -30,27 +30,37 @@ class _AddArenaViewState extends State<AddArenaView> {
     return Scaffold(
       backgroundColor: dBackgroundColor,
       appBar: AppBar(
-        title: Text('Add Arena'),
+        title: const Text('Register Arena'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                controller: _arenaNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Arena Name',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter arena name';
-                  }
-                  return null;
-                },
-              ),
+  TextFormField(
+  controller: _arenaNameController,
+  decoration: const InputDecoration(
+    labelText: 'Arena Name',
+    contentPadding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20), // Adjust vertical padding
+    labelStyle: TextStyle(
+      fontSize: 22, // Adjust font size
+      fontWeight: FontWeight.bold, // Make the text bold
+      height: 2.0, // Adjust height
+      fontStyle: FontStyle.italic, // Apply italic style
+    ),
+  ),
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter arena name';
+    }
+    return null;
+  },
+),
+
+
+
               const SizedBox(height: 16.0),
               TextFormField(
               controller: _arenaAddressController,
@@ -118,7 +128,8 @@ class _AddArenaViewState extends State<AddArenaView> {
                   return null;
                 },
             ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -143,27 +154,46 @@ class _AddArenaViewState extends State<AddArenaView> {
               ),
             ),
             const SizedBox(height: 16.0),
-                        Row(
+            const SizedBox(height: 16.0),
+          Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black, // Set the border color
+                  width: 1.0, // Set the border width
+                ),
+                borderRadius: BorderRadius.circular(10.0), // Set border radius
+              ),
+              child: Row(
               // Arrange start and end time boxes inline responsively
               children: [
                 Flexible(
                   child: ListTile(
-                    title: const Text('Start Time'),
+                    title: const Text('Opening Time'),
                     subtitle: Text(_startTime?.format(context) ?? ''),
                     onTap: () => _selectStartTime(context),
                   ),
                 ),
+                
+                Container(
+                  color: Colors.black, // Set the color of the divider
+                  height: 50, // Set the height of the divider
+                  width: 1, // Set the thickness of the divider
+                ),
                 const SizedBox(width: 8.0),
                 Flexible(
                   child: ListTile(
-                    title: const Text('End Time'),
+                    title: const Text('Closing Time'),
                     subtitle: Text(_endTime?.format(context) ?? ''),
                     onTap: () => _selectEndTime(context),
+
                   ),
                 ),
               ],
             ),
-              SizedBox(height: 16.0),
+          ),
+
+              const SizedBox(height: 16.0),
+              const SizedBox(height: 8.0),
               Row(
               children: [
                 const Text('Arena Images: '),
@@ -183,9 +213,14 @@ class _AddArenaViewState extends State<AddArenaView> {
         );
       }
     },
-    child: Text('Add Arena'),
+    child: const Text('Add Arena',
+              style: TextStyle(
+                        color:Colors.black,
+                        decoration: TextDecoration.none, // Add underline for clickable effect
+                      ),
   ),
-)
+  ),
+),
 
             ],
           ),
