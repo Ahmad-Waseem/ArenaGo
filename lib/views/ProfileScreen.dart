@@ -107,15 +107,27 @@ ListTile(
 
 Divider(),
 
-
-ListTile(
-  leading: Icon(Icons.location_on),
-  title: Text('My Location'),
-  trailing: Container(
-    height: 200,
-    child: LoadMap(UniqueKey()),
+Container(
+  //decoration: BoxDecoration( borderRadius: BorderRadius.circular(50)),
+  
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      
+      const Text(textAlign: TextAlign.left, "Current Location:"),
+      LoadMap(UniqueKey()),
+    ],
   ),
 ),
+
+// ListTile(
+//   leading: Icon(Icons.location_on),
+//   title: Text('My Location'),
+//   trailing: Container(
+//     height: 200,
+    
+//   ),
+// ),
 
 const SizedBox(height: 10),
 

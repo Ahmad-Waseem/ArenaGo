@@ -1,3 +1,4 @@
+import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/owner_login_view.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
@@ -101,44 +102,6 @@ class LoginForm extends StatelessWidget {
             ),
           ),
 
-          // TextButton(
-          //     onPressed:  () {  navigateToHomePage(context);},
-          
-          //  child: Text(
-          //   'Business Account?',
-            
-          //   textAlign: TextAlign.right,
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     fontSize: 13,
-          //     color:secondaryColor,
-          //     decoration: TextDecoration.none, // Add underline for clickable effect
-          //   ),
-          // ),),
-
-          // void navigateToHomePage(BuildContext context) {
-          // Navigator.of(context).push(MaterialPageRoute(
-          // builder: (context) => const HomePage(),
-          // ));
-          // }
-
-          // Inside your build method or widget tree
-            // TextButton(
-            //     onPressed: navigateToHomePage,
-
-            //   child: Text(
-            //             'Business Account?',
-                        
-            //             textAlign: TextAlign.right,
-            //             style: TextStyle(
-            //               fontWeight: FontWeight.bold,
-            //               fontSize: 13,
-            //               color:secondaryColor,
-            //               decoration: TextDecoration.none, // Add underline for clickable effect
-            //             ),
-            //           ),
-            // ),
-           
           ],
           
             ),
@@ -149,7 +112,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const OwnerLoginView(),
+                      builder: (context) => const ProfileScreen(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(
