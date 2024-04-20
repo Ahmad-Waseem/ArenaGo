@@ -1,4 +1,5 @@
 import 'package:arenago/views/friends.dart';
+import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
@@ -100,6 +101,12 @@ Widget _buildRecentsList() {
           },
         ),
       );
+    }
+    else if (index == 2) {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const SearchPage(),
+                    ));
     }
     else if (index == 1) {
                     Navigator.of(context).push(MaterialPageRoute

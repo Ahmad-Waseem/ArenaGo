@@ -1,4 +1,5 @@
 import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
@@ -54,6 +55,12 @@ Widget _buildChoicesList() {
           },
         ),
       );
+    }
+    else if (index == 2) {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const SearchPage(),
+                    ));
     }
     else if (index == 1) {
                     Navigator.of(context).push(MaterialPageRoute
