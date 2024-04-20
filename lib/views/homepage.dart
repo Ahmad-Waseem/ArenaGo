@@ -1,3 +1,4 @@
+import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
@@ -92,15 +93,10 @@ Widget _buildRecentsList() {
       
     });
     if (index == 4) {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) => ProfileMenu(
-          onToggle: () { 
-
-            
-          },
-        ),
-      );
+      Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const ProfileScreen(),
+                    ));
     }
     else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute

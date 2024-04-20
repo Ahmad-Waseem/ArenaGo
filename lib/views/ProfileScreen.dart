@@ -3,8 +3,18 @@ import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/gmaps/LoadMap.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
 
   //light color scheme
   final Color primaryColor = Colors.blue; // Replace kprimary color
@@ -162,6 +172,7 @@ const SizedBox(height: 10),
         },
       ),            
     ],
+    
           ),
         ),
       ),
