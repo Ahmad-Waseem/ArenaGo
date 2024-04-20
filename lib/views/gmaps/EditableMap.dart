@@ -47,7 +47,9 @@ class _EditableMapState extends State<EditableMap> {
           ),
         },
 
-
+        
+        // Allow only panning gestures
+        gestureRecognizers: Set()..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer())),
       ),
     );
   }
