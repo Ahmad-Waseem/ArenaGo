@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: UpdateProfileView(),
+      home: const LoginView(),
 
       //routes: {
       //'/registration/': (context) => const RegistrationView(),
