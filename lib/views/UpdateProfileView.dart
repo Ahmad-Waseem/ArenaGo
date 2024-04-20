@@ -85,10 +85,9 @@ class UpdateProfileView extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-
                     SizedBox(
                       height: 200,
-                      child: EditableMap(),
+                      //child: EditableMap(),
                     ),
 
                     // -- Form Submit Button
