@@ -79,11 +79,11 @@ class LoginForm extends StatelessWidget {
                     //text is not clickabl, use Inkwell instead
                     InkWell(
                       onTap: () {
-                        // Handle the "Business Account?" text click here
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => OwnerLoginView()));
+                        // Handle the "Forgot Password" text click here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddArenaView()));
                       },
                       child: const Text(
-                        'Business Account?',
+                        'Forgot Password',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -95,11 +95,11 @@ class LoginForm extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        // Handle the "Forgot Password" text click here
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        // Handle the "Business Account" text click here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const OwnerLoginView()));
                       },
                       child: const Text(
-                        'Forgot Password',
+                        'Business Account?',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -119,7 +119,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const ProfileScreen(),
+                      builder: (context) => const HomePage(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(

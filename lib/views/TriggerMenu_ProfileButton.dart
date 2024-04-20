@@ -25,7 +25,7 @@ class ProfileMenu extends StatelessWidget {
                 title: const Text('My Account'),
                 textColor: loginOutlinecolor,
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TestingMap()));//const ProfileScreen()),);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));//const ProfileScreen()),);
                 }, // Example action on tap
               ),
               ListTile(

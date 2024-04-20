@@ -41,7 +41,7 @@ class UpdateProfileView extends StatelessWidget {
                         border: Border.all(color: secondaryColor, width: 4),
                       ),
                       child: const CircleAvatar(
-                        backgroundImage: AssetImage('assets/profile_image.jpg'),
+                        backgroundImage: AssetImage('assets/logo.png'),
                       ),
                     ),
                     Positioned(
