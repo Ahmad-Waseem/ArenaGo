@@ -31,7 +31,7 @@ class _AddArenaViewState extends State<AddArenaView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: dBackgroundColor,
+      //backgroundColor: dBackgroundColor,
       appBar: AppBar(
         title: const Text('Register Arena'),
       ),
@@ -42,93 +42,150 @@ class _AddArenaViewState extends State<AddArenaView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                controller: _arenaNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Arena Name',
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 100.0,
-                      vertical: 20), // Adjust vertical padding
-                  labelStyle: TextStyle(
-                    fontSize: 22, // Adjust font size
-                    fontWeight: FontWeight.bold, // Make the text bold
-                    height: 2.0, // Adjust height
-                    fontStyle: FontStyle.italic, // Apply italic style
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextFormField(
+                  controller: _arenaNameController,
+                  textAlign: TextAlign.center, // Center the text horizontally
+                  decoration: InputDecoration(
+                    labelText: 'Arena Name',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    labelStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      height: 2.0,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[200],
+                    ),
+                    border: InputBorder.none,
                   ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter arena name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter arena name';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _arenaAddressController,
-                decoration: const InputDecoration(
-                  labelText: 'Address',
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _arenaAddressController,
+                      decoration: InputDecoration(
+                        labelText: 'Address',
+                        prefixIcon: Icon(Icons.add_location_alt_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _arenaTownController,
+                      decoration: InputDecoration(
+                        labelText: 'Town',
+                        prefixIcon: Icon(Icons.add_home_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Town name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _arenaCityController,
+                      decoration: InputDecoration(
+                        labelText: 'City',
+                        prefixIcon: Icon(Icons.location_city_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter City name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _arenaContactController,
+                      decoration: InputDecoration(
+                        labelText: 'Contact',
+                        prefixIcon: Icon(Icons.phone),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Contact info';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _arenaPriceController,
+                      decoration: InputDecoration(
+                        labelText: 'Price (Rs. per hour)',
+                        prefixIcon: Icon(Icons.price_change_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter valid price';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter address';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _arenaTownController,
-                decoration: const InputDecoration(
-                  labelText: 'Town',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Town name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _arenaCityController,
-                decoration: const InputDecoration(
-                  labelText: 'City',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter City name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _arenaContactController,
-                decoration: const InputDecoration(
-                  labelText: 'Contact',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Contact info';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _arenaPriceController,
-                decoration: const InputDecoration(
-                  labelText: 'Price (Rs. per hour)',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter valid price';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 16.0),
               const SizedBox(height: 16.0),
@@ -148,7 +205,14 @@ class _AddArenaViewState extends State<AddArenaView> {
                       'Sun'
                     ])
                       FilterChip(
-                        label: Text(day),
+                        label: Text(
+                          day,
+                          style: TextStyle(
+                            color: _selectedDays.contains(day)
+                                ? Colors.white
+                                : null,
+                          ),
+                        ),
                         selected: _selectedDays.contains(day),
                         onSelected: (bool selected) {
                           setState(() {
@@ -159,6 +223,10 @@ class _AddArenaViewState extends State<AddArenaView> {
                             }
                           });
                         },
+                        selectedColor: kPrimaryColor,
+                        backgroundColor: _selectedDays.contains(day)
+                            ? kPrimaryColor // Change background color for selected chip
+                            : null,
                       ),
                   ],
                 ),
