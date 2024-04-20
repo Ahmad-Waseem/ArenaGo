@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:arenago/views/theme.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart'; // For generating unique arena IDs
 
 class AddArenaView extends StatefulWidget {
   @override
@@ -19,7 +23,6 @@ class _AddArenaViewState extends State<AddArenaView> {
   final _arenaCityController = TextEditingController();
 
   final List<String> _selectedDays = [];
-
 
   TimeOfDay? _startTime = const TimeOfDay(hour: 8, minute: 0);
   TimeOfDay? _endTime = const TimeOfDay(hour: 20, minute: 0);
@@ -39,196 +42,224 @@ class _AddArenaViewState extends State<AddArenaView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-  TextFormField(
-  controller: _arenaNameController,
-  decoration: const InputDecoration(
-    labelText: 'Arena Name',
-    contentPadding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20), // Adjust vertical padding
-    labelStyle: TextStyle(
-      fontSize: 22, // Adjust font size
-      fontWeight: FontWeight.bold, // Make the text bold
-      height: 2.0, // Adjust height
-      fontStyle: FontStyle.italic, // Apply italic style
-    ),
-  ),
-  validator: (value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter arena name';
-    }
-    return null;
-  },
-),
-
-
-
+              TextFormField(
+                controller: _arenaNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Arena Name',
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 100.0,
+                      vertical: 20), // Adjust vertical padding
+                  labelStyle: TextStyle(
+                    fontSize: 22, // Adjust font size
+                    fontWeight: FontWeight.bold, // Make the text bold
+                    height: 2.0, // Adjust height
+                    fontStyle: FontStyle.italic, // Apply italic style
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter arena name';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 16.0),
               TextFormField(
-              controller: _arenaAddressController,
-              decoration: const InputDecoration(
-                labelText: 'Address',
-              ),
-              validator: (value) {
+                controller: _arenaAddressController,
+                decoration: const InputDecoration(
+                  labelText: 'Address',
+                ),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter address';
                   }
                   return null;
                 },
-            ),
-            const SizedBox(height: 16.0),
-                        TextFormField(
-              controller: _arenaTownController,
-              decoration: const InputDecoration(
-                labelText: 'Town',
               ),
-              validator: (value) {
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _arenaTownController,
+                decoration: const InputDecoration(
+                  labelText: 'Town',
+                ),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Town name';
                   }
                   return null;
                 },
-            ),
-            const SizedBox(height: 16.0),
-                        TextFormField(
-              controller: _arenaCityController,
-              decoration: const InputDecoration(
-                labelText: 'City',
               ),
-              validator: (value) {
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _arenaCityController,
+                decoration: const InputDecoration(
+                  labelText: 'City',
+                ),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter City name';
                   }
                   return null;
                 },
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _arenaContactController,
-              decoration: const InputDecoration(
-                labelText: 'Contact',
               ),
-              keyboardType: TextInputType.number,
-              validator: (value) {
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _arenaContactController,
+                decoration: const InputDecoration(
+                  labelText: 'Contact',
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Contact info';
                   }
                   return null;
                 },
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _arenaPriceController,
-              decoration: const InputDecoration(
-                labelText: 'Price (Rs. per hour)',
               ),
-              keyboardType: TextInputType.number,
-              validator: (value) {
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _arenaPriceController,
+                decoration: const InputDecoration(
+                  labelText: 'Price (Rs. per hour)',
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter valid price';
                   }
                   return null;
                 },
-            ),
+              ),
               const SizedBox(height: 16.0),
               const SizedBox(height: 16.0),
               SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  const Text('Select Days: '),
-                  const SizedBox(width: 8.0),
-                  for (String day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
-                    FilterChip(
-                      label: Text(day),
-                      selected: _selectedDays.contains(day),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          if (selected) {
-                            _selectedDays.add(day);
-                          } else {
-                            _selectedDays.remove(day);
-                          }
-                        });
-                      },
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    const Text('Select Days: '),
+                    const SizedBox(width: 8.0),
+                    for (String day in [
+                      'Mon',
+                      'Tue',
+                      'Wed',
+                      'Thu',
+                      'Fri',
+                      'Sat',
+                      'Sun'
+                    ])
+                      FilterChip(
+                        label: Text(day),
+                        selected: _selectedDays.contains(day),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              _selectedDays.add(day);
+                            } else {
+                              _selectedDays.remove(day);
+                            }
+                          });
+                        },
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, // Set the border color
+                    width: 1.0, // Set the border width
+                  ),
+                  borderRadius:
+                      BorderRadius.circular(10.0), // Set border radius
+                ),
+                child: Row(
+                  // Arrange start and end time boxes inline responsively
+                  children: [
+                    Flexible(
+                      child: ListTile(
+                        title: const Text('Opening Time'),
+                        subtitle: Text(_startTime?.format(context) ?? ''),
+                        onTap: () => _selectStartTime(context),
+                      ),
                     ),
-                ],
+                    Container(
+                      color: Colors.black, // Set the color of the divider
+                      height: 50, // Set the height of the divider
+                      width: 1, // Set the thickness of the divider
+                    ),
+                    const SizedBox(width: 8.0),
+                    Flexible(
+                      child: ListTile(
+                        title: const Text('Closing Time'),
+                        subtitle: Text(_endTime?.format(context) ?? ''),
+                        onTap: () => _selectEndTime(context),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            const SizedBox(height: 16.0),
-          Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black, // Set the border color
-                  width: 1.0, // Set the border width
-                ),
-                borderRadius: BorderRadius.circular(10.0), // Set border radius
-              ),
-              child: Row(
-              // Arrange start and end time boxes inline responsively
-              children: [
-                Flexible(
-                  child: ListTile(
-                    title: const Text('Opening Time'),
-                    subtitle: Text(_startTime?.format(context) ?? ''),
-                    onTap: () => _selectStartTime(context),
-                  ),
-                ),
-                
-                Container(
-                  color: Colors.black, // Set the color of the divider
-                  height: 50, // Set the height of the divider
-                  width: 1, // Set the thickness of the divider
-                ),
-                const SizedBox(width: 8.0),
-                Flexible(
-                  child: ListTile(
-                    title: const Text('Closing Time'),
-                    subtitle: Text(_endTime?.format(context) ?? ''),
-                    onTap: () => _selectEndTime(context),
-
-                  ),
-                ),
-              ],
-            ),
-          ),
-
               const SizedBox(height: 16.0),
               const SizedBox(height: 8.0),
               Row(
-              children: [
-                const Text('Arena Images: '),
-                IconButton(
-                  icon: const Icon(Icons.add_photo_alternate),
-                  onPressed: _pickImages,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-              Center(  // Add this
-  child: ElevatedButton(
-    onPressed: () {
-      if (_formKey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Processing Data')),
-        );
-      }
-    },
-    child: const Text('Add Arena',
-              style: TextStyle(
-                        color:Colors.black,
-                        decoration: TextDecoration.none, // Add underline for clickable effect
+                children: [
+                  Text('Arena Images: '),
+                  IconButton(
+                    icon: Icon(Icons.add_photo_alternate),
+                    onPressed: _pickImages,
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.0),
+              Container(
+                height: 100.0, // Set a fixed height for the ListView
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _arenaImages.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Image.file(
+                        _arenaImages[index],
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
                       ),
-  ),
-  ),
-),
-
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              Center(
+                // Add this
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Processing Data')),
+                      );
+                    }
+                    _addArena(); // Call the _addArena function
+                  },
+                  child: const Text(
+                    'Add Arena',
+                    style: TextStyle(
+                      color: Colors.black,
+                      decoration: TextDecoration
+                          .none, // Add underline for clickable effect
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-    Future<void> _selectStartTime(BuildContext context) async {
+
+  Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: _startTime ?? const TimeOfDay(hour: 8, minute: 0),
@@ -254,23 +285,93 @@ class _AddArenaViewState extends State<AddArenaView> {
     }
   }
 
-  void _addArena() {
-    String arenaName = _arenaNameController.text.trim();
-    String arenaPrice = _arenaPriceController.text.trim();
-    // You can use _selectedDays, _startTime, _endTime, and _arenaImages to store arena data
-    // Perform validation if needed
-
-    // After adding, you can navigate back or perform any other action
-    Navigator.pop(context);
-  }
-
   Future<void> _pickImages() async {
     final picker = ImagePicker();
     final pickedImages = await picker.pickMultiImage();
 
     setState(() {
-      _arenaImages = pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
+      _arenaImages =
+          pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
     });
-    }
+  }
 
+  Future<void> _addArena() async {
+    String arenaName = _arenaNameController.text.trim();
+    String arenaPrice = _arenaPriceController.text.trim();
+
+    // Perform validation as needed (refer to previous responses)
+
+    //if (!FirebaseAuth.instance.currentUser!.isAuthenticated) {
+    // Handle case where user is not logged in
+    // ScaffoldMessenger.of(context).showSnackBar(
+    // const SnackBar(content: Text('Please sign in to add an arena!')),
+    //);
+    //return;
+    //}
+
+    try {
+      final arenaId = const Uuid().v4();
+      // Create a reference to the arenas collection in Realtime Database
+      final arenasRef = FirebaseDatabase.instance.ref('ArenaInfo/$arenaId');
+
+      // Prepare arena data
+      final arenaData = {
+        'arena_id': arenaId,
+        //'owner_id': FirebaseAuth.instance.currentUser!.uid,
+        'arena_name': arenaName,
+        'address': _arenaAddressController.text.trim(),
+        'town': _arenaTownController.text.trim(),
+        'city': _arenaCityController.text.trim(),
+        'contact': _arenaContactController.text.trim(),
+        'price':
+            double.tryParse(arenaPrice) ?? 0.0, // Handle invalid price input
+        'date':
+            DateTime.now().toIso8601String(), // Use ISO 8601 timestamp format
+        'start_time':
+            _startTime?.format(context) ?? '', // Handle null start time
+        'end_time': _endTime?.format(context) ?? '', // Handle null end time
+        'arena_images': [], // Initialize empty arena_images list
+      };
+
+      // Add arena data to the database
+      await arenasRef.set(arenaData);
+
+      // Upload arena images to Firebase Storage (if any)
+// Upload arena images to Firebase Storage (if any)
+      if (_arenaImages.isNotEmpty) {
+        final storageRef =
+            FirebaseStorage.instance.ref().child('arena_images').child(arenaId);
+        final imageUploadTasks = _arenaImages.map((image) =>
+            storageRef.child(image.path.split('/').last).putFile(image));
+        await Future.wait(imageUploadTasks);
+
+        // Obtain download URLs for the uploaded images
+        final List<String> imageDownloadUrls = [];
+        for (final uploadTask in imageUploadTasks) {
+          final imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
+          imageDownloadUrls.add(imageUrl);
+        }
+        //After image uploads are complete, update arena_images with image URLs
+        await arenasRef.update({
+          'arena_images': imageDownloadUrls,
+        });
+      }
+
+      // Show success message or navigate back
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Arena added successfully!')),
+      );
+      Navigator.pop(context);
+    } on FirebaseException catch (error) {
+      // Handle Firebase errors gracefully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error adding arena: ${error.message}')),
+      );
+    } catch (error) {
+      // Handle other unexpected errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred: ${error.toString()}')),
+      );
+    }
+  }
 }
