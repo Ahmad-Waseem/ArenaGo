@@ -73,38 +73,45 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    //text is not clickabl, use Inkwell instead
+                    InkWell(
+                      onTap: () {
+                        // Handle the "Business Account?" text click here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => OwnerLoginView()));
+                      },
+                      child: const Text(
+                        'Business Account?',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: secondaryColor,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Handle the "Forgot Password" text click here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      },
+                      child: const Text(
+                        'Forgot Password',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: secondaryColor,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-                const Row(
-         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-             Text(
-            'Forget Password',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-              color:secondaryColor,
-              decoration: TextDecoration.none, // Add underline for clickable effect
-            ),
-          ),
-
-
-
-           Text(
-            'Business Account?',
-            
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-              color:secondaryColor,
-              decoration: TextDecoration.none, // Add underline for clickable effect
-            ),
-          ),
-
-          ],
-          
-            ),
 
             const SizedBox(height: 15),
                 ElevatedButton(
