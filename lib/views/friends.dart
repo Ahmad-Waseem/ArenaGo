@@ -17,15 +17,38 @@ class FriendsPage extends StatefulWidget {
 
 class _FriendsPageState extends State<FriendsPage> {
   int _selectedIndex = 1;
+  bool isAdded = true;
+  String searchText = "";
 
 
 
-
-Widget _buildChoicesList() {
+Widget _buildFriendsList() {
   // Placeholder for the vertically scrollable "Choices for you" list
   return Expanded(
     child: ListView.builder(
-      itemCount: 12, // Number of items in the list
+      itemCount: 5, // Number of items in the list
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const CircleAvatar(
+            backgroundImage: AssetImage('assets/logo.png'), // Replace with your image asset
+          ),
+          title: Text('Friend ${index + 1}'),
+          subtitle: const Text('Some Cringy description for everyone'),
+          trailing: isAdded ? const Icon(Icons.check_circle, color: Colors.green) : null,
+
+          // Add onTap if needed
+        );
+      },
+    ),
+  );
+}
+
+
+Widget _buildNonFriendsList() {
+  // Placeholder for the vertically scrollable "Choices for you" list
+  return Expanded(
+    child: ListView.builder(
+      itemCount: 3, // Number of items in the list
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
@@ -80,11 +103,44 @@ Widget _buildChoicesList() {
       ),
       body: Column(
         children: [
-          const Text(
-            'Friends', // Heading for the "Choices for you" list
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Card(
+            elevation: 10.0,
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: 'Search',
+                //contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                // Perform search operation based on the input value
+                setState(() {
+                              if (value.isEmpty) {
+                                isAdded = true; // Set isAdded to true when the search bar is empty
+                              } 
+                              else {
+                                isAdded = false; // Set isAdded to false when there is text in the search bar
+                              }
+                              searchText = value;
+                });
+              },
+            ),
           ),
-          _buildChoicesList(), //vertically scrollable "Choices for you" list
+        ),
+
+        const SizedBox(height: 20),
+
+          // const Text(
+          //   'Friends', // Heading for the "Choices for you" list
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // ),
+          // if isAdded is false then the added friends will show
+          isAdded ? _buildFriendsList(): _buildNonFriendsList(),// change non friends list to filtered list using search text
+          
+          //const Divider(),
+          
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
