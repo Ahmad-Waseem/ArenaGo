@@ -1,5 +1,6 @@
 import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/add_arena.dart';
+import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/owner_login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: const LoginView(),
+      home: AddFieldView(),
 
       //routes: {
       //'/registration/': (context) => const RegistrationView(),

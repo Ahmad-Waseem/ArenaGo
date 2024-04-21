@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -269,7 +270,6 @@ class _AddArenaViewState extends State<AddArenaView> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              const SizedBox(height: 8.0),
               Row(
                 children: [
                   Text('Arena Images: '),
@@ -429,7 +429,7 @@ class _AddArenaViewState extends State<AddArenaView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Arena added successfully!')),
       );
-      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AddFieldView()));
     } on FirebaseException catch (error) {
       // Handle Firebase errors gracefully
       ScaffoldMessenger.of(context).showSnackBar(
