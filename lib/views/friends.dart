@@ -24,17 +24,26 @@ class _FriendsPageState extends State<FriendsPage> {
 
 Widget _buildFriendsList() {
   // Placeholder for the vertically scrollable "Choices for you" list
+  List<String> addedFriends = [
+    'luffy',
+    'messi',
+    'gracie',
+  ];
+  List<String> filteredAddedFriends = addedFriends.where((friend) {
+    return friend.toLowerCase().contains(searchText.toLowerCase());
+  }).toList();
+
   return Expanded(
     child: ListView.builder(
-      itemCount: 5, // Number of items in the list
+      itemCount: filteredAddedFriends.length,
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
             backgroundImage: AssetImage('assets/logo.png'), // Replace with your image asset
           ),
-          title: Text('Friend ${index + 1}'),
+          title: Text(filteredAddedFriends[index]),
           subtitle: const Text('Some Cringy description for everyone'),
-          trailing: isAdded ? const Icon(Icons.check_circle, color: Colors.green) : null,
+          trailing: const Icon(Icons.check_circle, color: Colors.green),
 
           // Add onTap if needed
         );
@@ -45,16 +54,25 @@ Widget _buildFriendsList() {
 
 
 Widget _buildNonFriendsList() {
-  // Placeholder for the vertically scrollable "Choices for you" list
+  List<String> nonAddedFriends = [
+    'hamza',
+    'taytoman',
+    'luffy',
+  ];
+
+  List<String> filteredNonAddedFriends = nonAddedFriends.where((notFriend) {
+    return notFriend.toLowerCase().contains(searchText.toLowerCase());
+  }).toList();
+
   return Expanded(
     child: ListView.builder(
-      itemCount: 3, // Number of items in the list
+      itemCount: filteredNonAddedFriends.length,
       itemBuilder: (context, index) {
         return ListTile(
           leading: const CircleAvatar(
             backgroundImage: AssetImage('assets/logo.png'), // Replace with your image asset
           ),
-          title: Text('Friend ${index + 1}'),
+          title: Text(filteredNonAddedFriends[index]),
           subtitle: const Text('Some Cringy description for everyone'),
           // Add onTap if needed
         );
@@ -62,6 +80,7 @@ Widget _buildNonFriendsList() {
     ),
   );
 }
+
 
 
   void _onItemTapped(int index) {
@@ -118,10 +137,10 @@ Widget _buildNonFriendsList() {
                 // Perform search operation based on the input value
                 setState(() {
                               if (value.isEmpty) {
-                                isAdded = true; // Set isAdded to true when the search bar is empty
+                                isAdded = false; // Set isAdded to true when the search bar is empty
                               } 
                               else {
-                                isAdded = false; // Set isAdded to false when there is text in the search bar
+                                isAdded = true; // Set isAdded to false when there is text in the search bar
                               }
                               searchText = value;
                 });
@@ -136,10 +155,11 @@ Widget _buildNonFriendsList() {
           //   'Friends', // Heading for the "Choices for you" list
           //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           // ),
-          // if isAdded is false then the added friends will show
-          isAdded ? _buildFriendsList(): _buildNonFriendsList(),// change non friends list to filtered list using search text
-          
-          //const Divider(),
+          // if isAdded is false then only the added friends will show
+          isAdded ? _buildFriendsList() : 
+          _buildFriendsList(),
+          _buildNonFriendsList()
+
           
         ],
       ),
