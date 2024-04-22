@@ -1,3 +1,4 @@
+import 'package:arenago/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
@@ -160,7 +161,10 @@ const SizedBox(height: 10),
                 content: Text("Are you sure, you want to Logout?"),
                 actions: [
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context),//onPressed: ,//() //=> //logout(),
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const LoginView(),
+                    )),//onPressed: ,//() //=> //logout(),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, side: BorderSide.none),
                     child: Text("Yes"),
                   ),
