@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:arenago/views/add_fields.dart';
+import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/owner_profilescreen.dart';
+import 'package:arenago/views/owner_search.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +32,80 @@ class _AddArenaViewState extends State<AddArenaView> {
   TimeOfDay? _endTime = const TimeOfDay(hour: 20, minute: 0);
   List<File> _arenaImages = [];
 
+  int _selectedIndex = 1;
+
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    // There will be widgets in it
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Friends',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Search',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: History',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 4: Profile',
+      style: optionStyle,
+    ),
+  ];
+
+
+  //light color scheme
+  final Color primaryColor = Colors.blue; // Replace kprimary color
+  final Color darkColor = Colors.black; // Text color, dbg button
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      
+    });
+    if (index == 4) {
+      Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const OwnerProfileScreen(),
+                    ));
+    }
+    else if (index == 2) {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const OwnerSearchPage(),
+                    ));
+    }
+    else if (index == 1) {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => AddArenaView(),
+                    ));
+    }
+    else if (index == 0) {
+                    Navigator.of(context).push(MaterialPageRoute
+                    (
+                      builder: (context) => const OwnerHomePage(),
+                    ));
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: dBackgroundColor,
       appBar: AppBar(
         title: const Text('Register Arena'),
+        automaticallyImplyLeading: false, // This removes the back button
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -324,6 +395,37 @@ class _AddArenaViewState extends State<AddArenaView> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor:dBackgroundColor,
+        unselectedItemColor: loginOutlinecolor,
+
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history_toggle_off),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_rounded),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: kPrimaryColor, 
+        onTap: _onItemTapped,
+      ),
+
     );
   }
 
@@ -442,4 +544,5 @@ class _AddArenaViewState extends State<AddArenaView> {
       );
     }
   }
+   
 }

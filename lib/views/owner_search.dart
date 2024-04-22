@@ -1,19 +1,22 @@
 import 'package:arenago/views/ProfileScreen.dart';
+import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
 import 'package:flutter/widgets.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+class OwnerSearchPage extends StatefulWidget {
+  const OwnerSearchPage({super.key});
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _OwnerSearchPageState createState() => _OwnerSearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _OwnerSearchPageState extends State<OwnerSearchPage> {
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -22,19 +25,19 @@ class _SearchPageState extends State<SearchPage> {
     });
     if (index == 4) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
+        builder: (context) => const OwnerProfileScreen(),
       ));
     } else if (index == 2) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const SearchPage(),
+        builder: (context) => const OwnerSearchPage(),
       ));
     } else if (index == 1) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const FriendsPage(),
+        builder: (context) => AddArenaView(),
       ));
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => const OwnerHomePage(),
       ));
     }
   }
@@ -120,8 +123,8 @@ class _SearchPageState extends State<SearchPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

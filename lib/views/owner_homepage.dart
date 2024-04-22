@@ -1,18 +1,21 @@
 import 'package:arenago/views/ProfileScreen.dart';
+import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/friends.dart';
+import 'package:arenago/views/owner_profilescreen.dart';
+import 'package:arenago/views/owner_search.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class OwnerHomePage extends StatefulWidget {
+  const OwnerHomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _OwnerHomePageState createState() => _OwnerHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _OwnerHomePageState extends State<OwnerHomePage> {
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
 Widget _buildRecentsList() {
   // Sample data for recent activities
-  final List<String> recentActivities = ["Activity 1", "Activity 2", "Activity 3", "Activity 4"];
+  final List<String> recentActivities = ["Actovity 1", "Activity 2", "Activity 3", "Activity 4"];
 
   return SizedBox(
     height: 150.0, // Adjust height as needed
@@ -95,25 +98,25 @@ Widget _buildRecentsList() {
     if (index == 4) {
       Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const ProfileScreen(),
+                      builder: (context) => const OwnerProfileScreen(),
                     ));
     }
     else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const SearchPage(),
+                      builder: (context) => const OwnerSearchPage(),
                     ));
     }
     else if (index == 1) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const FriendsPage(),
+                      builder: (context) => AddArenaView(),
                     ));
     }
     else if (index == 0) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const OwnerHomePage(),
                     ));
     }
   }
@@ -123,7 +126,7 @@ Widget _buildRecentsList() {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ArenaGo'),
-          automaticallyImplyLeading: false, // This removes the back button
+        automaticallyImplyLeading: false, // This removes the back button
       ),
       body: Column(
         children: [
@@ -145,8 +148,8 @@ Widget _buildRecentsList() {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

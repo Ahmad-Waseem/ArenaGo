@@ -119,6 +119,7 @@ Widget _buildNonFriendsList() {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ArenaGo'),
+        automaticallyImplyLeading: false, // This removes the back button
       ),
       body: Column(
         children: [

@@ -1,5 +1,6 @@
 import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class LoginForm extends StatelessWidget {
                 // ),
                 const Text(
                   'Business Account',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                 ),
                 const SizedBox(height: 40),
                 Image.asset('assets/logo.png', 
@@ -159,7 +160,7 @@ class LoginForm extends StatelessWidget {
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const LoginView(),
+                      builder: (context) => const OwnerHomePage(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(

@@ -1,5 +1,6 @@
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/owner_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/login_helpers/owner_login_form.dart';
@@ -315,7 +316,7 @@ class _OwnerLoginViewState extends State<OwnerLoginView> with SingleTickerProvid
                   {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const OwnerHomePage(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(

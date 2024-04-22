@@ -1,4 +1,6 @@
 import 'package:arenago/views/add_arena.dart';
+import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 
@@ -76,7 +78,7 @@ class SignupPanel extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddArenaView(),
+                  builder: (context) => const HomePage(),
                 ));
               },
               style: ElevatedButton.styleFrom(

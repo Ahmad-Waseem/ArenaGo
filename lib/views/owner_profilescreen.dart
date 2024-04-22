@@ -1,21 +1,25 @@
+import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/owner_login_view.dart';
+import 'package:arenago/views/owner_search.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/gmaps/LoadMap.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class OwnerProfileScreen extends StatefulWidget {
+  const OwnerProfileScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _OwnerProfileScreenState createState() => _OwnerProfileScreenState();
 }
 
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _OwnerProfileScreenState extends State<OwnerProfileScreen> {
 int _selectedIndex = 4;
 
   static const TextStyle optionStyle =
@@ -46,7 +50,7 @@ int _selectedIndex = 4;
   ];
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _OwnerProfileScreenState createState() => _OwnerProfileScreenState();
 
   //light color scheme
   final Color primaryColor = Colors.blue; // Replace kprimary color
@@ -61,25 +65,25 @@ int _selectedIndex = 4;
     if (index == 4) {
       Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const ProfileScreen(),
+                      builder: (context) => const OwnerProfileScreen(),
                     ));
     }
     else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const SearchPage(),
+                      builder: (context) => const OwnerSearchPage(),
                     ));
     }
     else if (index == 1) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const FriendsPage(),
+                      builder: (context) => AddArenaView(),
                     ));
     }
     else if (index == 0) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const OwnerHomePage(),
                     ));
     }
   }
@@ -227,7 +231,7 @@ const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const LoginView(),
+                      builder: (context) => const OwnerLoginView(),
                     )),//onPressed: ,//() //=> //logout(),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, side: BorderSide.none),
                     child: Text("Yes"),
@@ -254,8 +258,8 @@ const SizedBox(height: 10),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

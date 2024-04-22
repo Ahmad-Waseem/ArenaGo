@@ -1,4 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
+import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/owner_login_view.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class LoginForm extends StatelessWidget {
                 // ),
                 const Text(
                   'User Account',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                 ),
                 const SizedBox(height: 40),
                 Image.asset('assets/logo.png', 
@@ -80,7 +81,7 @@ class LoginForm extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         // Handle the "Forgot Password" text click here
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddArenaView()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddFieldView()));
                       },
                       child: const Text(
                         'Forgot Password',
