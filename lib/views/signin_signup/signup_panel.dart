@@ -150,20 +150,6 @@ class _SignupPanelState extends State<SignupPanel> {
                   ),
                 ),
               ),
-<<<<<<< Updated upstream
-            ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-=======
               const SizedBox(height: 15),
               ElevatedButton(
                 onPressed: () async {
@@ -210,7 +196,6 @@ class _SignupPanelState extends State<SignupPanel> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   foregroundColor: loginOutlinecolor,
->>>>>>> Stashed changes
                 ),
                 child: const Text('REGISTER'),
               ),
