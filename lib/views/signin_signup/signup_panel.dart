@@ -1,3 +1,4 @@
+import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
@@ -95,6 +96,7 @@ class _SignupPanelState extends State<SignupPanel> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
                   }
+
                   return null;
                 },
                 onSaved: (value) {
@@ -125,7 +127,7 @@ class _SignupPanelState extends State<SignupPanel> {
                     return 'Please confirm your password';
                   }
                   if (value != _password) {
-                    return 'Passwords do not match';
+                    return 'Passwords do not match!';
                   }
                   return null;
                 },
@@ -151,10 +153,18 @@ class _SignupPanelState extends State<SignupPanel> {
                 ),
               ),
               const SizedBox(height: 15),
+
+
+
+
+
+
+
               ElevatedButton(
                 onPressed: () async {
+                  _formKey.currentState!.save();
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                    
                     try {
                       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
                       print('User created: ${credential.user!.uid}');
@@ -166,8 +176,8 @@ class _SignupPanelState extends State<SignupPanel> {
                       // Clear form fields
                       _formKey.currentState!.reset();
                       // Navigate to the next screen
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => AddArenaView()),
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => UpdateProfileView()),
                       );
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'weak-password') {
@@ -189,6 +199,7 @@ class _SignupPanelState extends State<SignupPanel> {
                       );
                     }
                   }
+                  
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
