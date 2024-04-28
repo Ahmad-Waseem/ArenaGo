@@ -5,8 +5,7 @@ import 'package:arenago/views/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/homepage.dart';
-
-
+import 'package:arenago/views/login_helpers/owner_forgot_pw.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -22,9 +21,8 @@ class LoginForm extends StatelessWidget {
   final Size size;
   final double defaultLoginSize;
 
-  @override 
+  @override
   Widget build(BuildContext context) {
-      
     return AnimatedOpacity(
       opacity: isLogin ? 1.0 : 0.0,
       duration: animationDuration * 4,
@@ -37,7 +35,6 @@ class LoginForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              
               children: [
                 // Add field button as login view (will fade away when animation called)
                 //   const Text(
@@ -49,9 +46,11 @@ class LoginForm extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                 ),
                 const SizedBox(height: 40),
-                Image.asset('assets/logo.png', 
-                width: 200,
-                height: 200,), // Use a PNG image
+                Image.asset(
+                  'assets/logo.png',
+                  width: 200,
+                  height: 200,
+                ), // Use a PNG image
                 const SizedBox(height: 40),
                 TextField(
                   decoration: InputDecoration(
@@ -82,7 +81,11 @@ class LoginForm extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         // Handle the "Forgot Password" text click here
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddFieldView()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const OwnerForgotPasswordPage()));
                       },
                       child: const Text(
                         'Forgot Password',
@@ -98,7 +101,10 @@ class LoginForm extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         // Handle the "Business Account" text click here
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginView()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginView()));
                       },
                       child: const Text(
                         'User Account?',
@@ -114,70 +120,66 @@ class LoginForm extends StatelessWidget {
                   ],
                 ),
 
-          // TextButton(
-          //     onPressed:  () {  navigateToHomePage(context);},
-          
-          //  child: Text(
-          //   'Business Account?',
-            
-          //   textAlign: TextAlign.right,
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     fontSize: 13,
-          //     color:secondaryColor,
-          //     decoration: TextDecoration.none, // Add underline for clickable effect
-          //   ),
-          // ),),
+                // TextButton(
+                //     onPressed:  () {  navigateToHomePage(context);},
 
-          // void navigateToHomePage(BuildContext context) {
-          // Navigator.of(context).push(MaterialPageRoute(
-          // builder: (context) => const HomePage(),
-          // ));
-          // }
+                //  child: Text(
+                //   'Business Account?',
 
-          // Inside your build method or widget tree
-            // TextButton(
-            //     onPressed: navigateToHomePage,
+                //   textAlign: TextAlign.right,
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     fontSize: 13,
+                //     color:secondaryColor,
+                //     decoration: TextDecoration.none, // Add underline for clickable effect
+                //   ),
+                // ),),
 
-            //   child: Text(
-            //             'Business Account?',
-                        
-            //             textAlign: TextAlign.right,
-            //             style: TextStyle(
-            //               fontWeight: FontWeight.bold,
-            //               fontSize: 13,
-            //               color:secondaryColor,
-            //               decoration: TextDecoration.none, // Add underline for clickable effect
-            //             ),
-            //           ),
-            // ),
-           
-        
+                // void navigateToHomePage(BuildContext context) {
+                // Navigator.of(context).push(MaterialPageRoute(
+                // builder: (context) => const HomePage(),
+                // ));
+                // }
 
-            const SizedBox(height: 15),
+                // Inside your build method or widget tree
+                // TextButton(
+                //     onPressed: navigateToHomePage,
+
+                //   child: Text(
+                //             'Business Account?',
+
+                //             textAlign: TextAlign.right,
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 13,
+                //               color:secondaryColor,
+                //               decoration: TextDecoration.none, // Add underline for clickable effect
+                //             ),
+                //           ),
+                // ),
+
+                const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () 
-                  {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const OwnerHomePage(),
                     ));
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ), // Add your login logic here
-                  child: const Text('LOGIN',
-                  style: TextStyle(
-                    color:kPrimaryColor,
+                  child: const Text(
+                    'LOGIN',
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                    ),
                   ),
                 ),
-                ),
                 const SizedBox(height: 15),
-
-                
               ],
             ),
           ),
@@ -185,5 +187,4 @@ class LoginForm extends StatelessWidget {
       ),
     );
   }
-
 }

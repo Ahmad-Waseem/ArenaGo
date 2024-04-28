@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/add_arena.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:arenago/views/login_helpers/forgot_pw.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -105,7 +106,8 @@ class _LoginFormState extends State<LoginForm> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AddFieldView()));
+                                  builder: (context) =>
+                                      const ForgotPasswordPage()));
                         },
                         child: const Text(
                           'Forgot Password',
@@ -146,8 +148,8 @@ class _LoginFormState extends State<LoginForm> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         try {
-                          final credentials =
-                              await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          final credentials = await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
                             email: _email,
                             password: _password,
                           );
@@ -168,14 +170,15 @@ class _LoginFormState extends State<LoginForm> {
                           } else if (e.code == 'wrong-password') {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Wrong password provided for that user.'),
+                                content: Text(
+                                    'Wrong password provided for that user.'),
                               ),
                             );
-                          }
-                          else {
+                          } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Error. Make sure Email/password are correct'),
+                                content: Text(
+                                    'Error. Make sure Email/password are correct'),
                               ),
                             );
                           }
@@ -183,8 +186,8 @@ class _LoginFormState extends State<LoginForm> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
