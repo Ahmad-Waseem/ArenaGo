@@ -154,6 +154,12 @@ class _LoginFormState extends State<LoginForm> {
                             password: _password,
                           );
                           if (credentials.user != null) {
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Login Sucessful'),
+                                backgroundColor: loginButtoncolor
+                              ));
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const HomePage(),
@@ -165,13 +171,27 @@ class _LoginFormState extends State<LoginForm> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('No user found for that email.'),
+                                backgroundColor: moderateErrorColor
                               ),
                             );
                           } else if (e.code == 'wrong-password') {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
-                                    'Wrong password provided for that user.'),
+                                    'Wrong password provided for that user.'
+                                    ),
+                                backgroundColor: moderateErrorColor
+
+                              ),
+                            );
+                          }else if (e.code == 'too-many-requests') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Too Many Attempts: Attempt after few minutes'
+                                    ),
+                                backgroundColor: moderateErrorColor
+
                               ),
                             );
                           } else {
@@ -179,6 +199,7 @@ class _LoginFormState extends State<LoginForm> {
                               const SnackBar(
                                 content: Text(
                                     'Error. Make sure Email/password are correct'),
+                                    backgroundColor: moderateErrorColor
                               ),
                             );
                           }

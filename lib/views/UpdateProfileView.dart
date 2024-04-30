@@ -1,4 +1,6 @@
 import 'package:arenago/views/gmaps/EditableMap.dart';
+import 'package:arenago/views/login_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:arenago/views/theme.dart';
@@ -187,14 +189,72 @@ class UpdateProfileView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 5),
+                    
+                    
+                    
                     Divider(),
-
+                    
                     // -- Created Date and Delete Button
                     Container(
                       width: double
                           .infinity, // Make the container extend from edge to edge horizontally
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          
+
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginView()),
+                            );
+                            showDialog(
+                                context: context,
+                                builder: (context) => const AlertDialog(
+                                  content: Text('Signed Out Successfully!\nWill be waiting for you!'),
+                              )
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 244, 54, 86).withOpacity(0.1),
+                          elevation: 0,
+                          disabledBackgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        child: const Text('Sign Out'),
+                      ),
+                    ),
+                    // -- Created Date and Delete Button
+                    Container(
+                      width: double
+                          .infinity, // Make the container extend from edge to edge horizontally
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            await FirebaseAuth.instance.currentUser!.delete();
+
+                            const SnackBar(
+                                content: Text('Account Deleted: We will miss you! :('),
+                                backgroundColor: moderateErrorColor
+                              );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginView()),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'requires-recent-login') {
+                              showDialog(
+                                context: context,
+                                builder: (context) => const AlertDialog(
+                                  content: Text('SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in!'),
+                              ),
+                            
+                            );
+                            }
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red.withOpacity(0.1),
                           elevation: 0,
