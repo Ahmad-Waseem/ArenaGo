@@ -16,7 +16,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: user != null ? HomePage() : LoginView(),
+      home: user != null ? const HomePage() : const LoginView(),
 
       //routes: {
       //'/registration/': (context) => const RegistrationView(),

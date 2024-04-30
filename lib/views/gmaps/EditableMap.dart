@@ -4,14 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditableMap extends StatefulWidget {
+  
+  final LatLng initialLocation;
+  final Function(LatLng) onLocationChanged;
+
+  EditableMap({required this.initialLocation, required this.onLocationChanged});
+
   @override
   _EditableMapState createState() => _EditableMapState();
 }
 
 class _EditableMapState extends State<EditableMap> {
   GoogleMapController? _mapController;
-  LatLng _userLocation = LatLng(31.582045, 74.329376); //...Fetch from Firebase
-
+  late LatLng _userLocation; //...default, overright if passed
+  
+  @override
+  void initState() {
+    super.initState();
+    _userLocation = widget.initialLocation;
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
@@ -20,14 +31,9 @@ class _EditableMapState extends State<EditableMap> {
   void _onMarkerDragEnd(LatLng newPosition) {
     setState(() {
       _userLocation = newPosition;
-      
-                                    //Update Firebase with the new user location
-
-
-
+      widget.onLocationChanged(newPosition);
     });
   }
-  
 
   
   @override

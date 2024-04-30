@@ -1,20 +1,137 @@
+import 'dart:io';
+
 import 'package:arenago/views/gmaps/EditableMap.dart';
 import 'package:arenago/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:arenago/views/theme.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
-class UpdateProfileView extends StatelessWidget {
+
+class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({Key? key}) : super(key: key);
+
+  @override
+  _UpdateProfileViewState createState() => _UpdateProfileViewState();
+}
+
+class _UpdateProfileViewState extends State<UpdateProfileView> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressNumberController = TextEditingController();
+  LatLng? _location;
+  final String _profilePic = "";
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData(_usernameController, _phoneNumberController, _addressNumberController, _location, _profilePic);
+  }
+
+  Future<void> _onSelectImageTap() async
+  {
+    final userId = FirebaseAuth.instance.currentUser;
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) 
+    {
+      final storageReference = FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
+      await storageReference.putFile(File(pickedImage.path));
+      final imageUrl = await storageReference.getDownloadURL();
+
+      //Realtime Database
+      final userRef = FirebaseDatabase.instance.ref('users/$userId');
+      userRef.update({
+        'profilePic': imageUrl,
+      });
+    }
+  }
+
+  Future<void> fetchUserData(
+    TextEditingController usernameController,
+    TextEditingController phoneNumberController,
+    TextEditingController addressNumberController,
+    LatLng? latlng,
+    String profileImage,
+
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('good'),
+                                backgroundColor: moderateErrorColor
+                              ),);
+      if (user != null) {
+        final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+        final snapshot = await userRef.get();
+        if (snapshot.exists) {
+          final userData = snapshot.value as Map<String, dynamic>;
+          usernameController..text = userData['username'] as String;
+          phoneNumberController.text = userData['phone'] as String;
+          addressNumberController.text = userData['address'] as String;
+          latlng = LatLng(
+            userData['location']['latitude'] as double,
+            userData['location']['longitude'] as double,
+          );
+          profileImage = userData['profilePic'] as String;
+               ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('good'),
+                                backgroundColor: moderateErrorColor
+                              ),);
+        }
+        else{
+               ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Nodata'),
+                                backgroundColor: moderateErrorColor
+                              ),);
+        }
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
+
+  Future<void> updateUserData(
+    String username,
+    String phoneNumber,
+    String address,
+    LatLng location,
+
+
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+        await userRef.update({
+          'username': username,
+          'phone': phoneNumber,
+          'address': address,
+          'location': {
+            'latitude': location.latitude,
+            'longitude': location.longitude,
+          },
+
+        });
+      }
+    } catch (e) {
+      print('Error updating user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text('Edit Profile', style: Theme.of(context).textTheme.headline4),
-        //backgroundColor: loginOutlinecolor,
+        title: Text('Edit Profile', style: Theme.of(context).textTheme.headline4),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -22,17 +139,12 @@ class UpdateProfileView extends StatelessWidget {
           child: Column(
             children: [
               // -- IMAGE with ICON
-
               Container(
                 padding: const EdgeInsets.fromLTRB(100.0, 15.0, 100.0, 15.0),
-                //color: loginOutlinecolor,
                 decoration: BoxDecoration(
-                  color:
-                      loginOutlinecolor, // Set the color to blue for the border
-                  borderRadius: BorderRadius.circular(
-                      40), // Set the border radius for rounded corners
+                  color: loginOutlinecolor,
+                  borderRadius: BorderRadius.circular(40),
                 ),
-                //width: double.infinity,
                 child: Stack(
                   children: [
                     Container(
@@ -42,9 +154,13 @@ class UpdateProfileView extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(color: secondaryColor, width: 4),
                       ),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('assets/logo.png'),
-                      ),
+                      child: _profilePic != ""
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(_profilePic),
+                            )
+                          : const CircleAvatar(
+                              backgroundImage: NetworkImage('https://picsum.photos/250?image=9'),
+                            ),
                     ),
                     Positioned(
                       bottom: 0,
@@ -56,15 +172,14 @@ class UpdateProfileView extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: Colors.blue,
                         ),
-                        child: const Icon(Icons.camera_alt,
-                            color: Colors.black, size: 20),
+                        child: IconButton(
+                          icon: const Icon(Icons.camera_alt), color: Colors.black, iconSize: 20, onPressed: _onSelectImageTap,),
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 30),
-
               // -- Form Fields
               Form(
                 child: Column(
@@ -74,58 +189,77 @@ class UpdateProfileView extends StatelessWidget {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: _usernameController,//for test purpose
                             decoration: InputDecoration(
-                              labelText: 'Full Name',
+                              labelText: 'User Name',
                               prefixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide:
-                                    const BorderSide(color: loginOutlinecolor),
+                                borderSide: BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 0),
+                                vertical: 12,
+                                horizontal: 0,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
+                            controller: _phoneNumberController,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               prefixIcon: Icon(Icons.email),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide:
-                                    const BorderSide(color: loginOutlinecolor),
+                                borderSide: BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 0),
+                                vertical: 12,
+                                horizontal: 0,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
+                            controller: _phoneNumberController,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
+                            validator: (value) {
+                              if (value!.length < 11) {
+                                return 'Phone number must be 11 digits long.';
+                              }
+                              return null; // Valid input
+                            },
                             decoration: InputDecoration(
                               labelText: 'Phone Number',
                               prefixIcon: Icon(Icons.phone),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide:
-                                    const BorderSide(color: loginOutlinecolor),
+                                borderSide: BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 0),
+                                vertical: 12,
+                                horizontal: 0,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
+                            controller: _addressNumberController,
                             decoration: InputDecoration(
                               labelText: 'Address',
                               prefixIcon: Icon(Icons.add_location_alt_rounded),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide:
-                                    const BorderSide(color: loginOutlinecolor),
+                                borderSide: BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 0),
+                                vertical: 12,
+                                horizontal: 0,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -136,11 +270,12 @@ class UpdateProfileView extends StatelessWidget {
                               prefixIcon: Icon(Icons.lock),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide:
-                                    const BorderSide(color: loginOutlinecolor),
+                                borderSide: BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 0),
+                                vertical: 12,
+                                horizontal: 0,
+                              ),
                               suffixIcon: IconButton(
                                 icon: const Icon(Icons.visibility_off),
                                 onPressed: () {},
@@ -150,10 +285,8 @@ class UpdateProfileView extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     //////////
                     const SizedBox(height: 20),
-
                     const Text(
                       'Drag the pointer to select location',
                       style: TextStyle(
@@ -162,83 +295,56 @@ class UpdateProfileView extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Set the border radius for rounded corners
+                      borderRadius: BorderRadius.circular(20.0),
                       child: SizedBox(
                         height: 200,
-                        child: EditableMap(),
+                        child: EditableMap(
+                          initialLocation: _location ?? const LatLng(31.582045, 74.329376),
+                          onLocationChanged: (newLocation) {
+                            setState(() {
+                              _location = newLocation;
+                            });
+                          },
+                        ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
                     // -- Form Submit Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final username = _usernameController.text;
+                          final phoneNumber = _phoneNumberController.text;
+                          final address = _addressNumberController.text;
+                          final location = _location;
+                          await updateUserData(_usernameController.text, _phoneNumberController.text, _addressNumberController.text, _location!);
+                          // Implement any additional logic here
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
-                        child: const Text('Edit Profile',
-                            style: TextStyle(color: Colors.white)),
+                        child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                     const SizedBox(height: 5),
-                    
-                    
-                    
                     Divider(),
                     
                     // -- Created Date and Delete Button
                     Container(
-                      width: double
-                          .infinity, // Make the container extend from edge to edge horizontally
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut();
-                          
-
-
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => const LoginView()),
-                            );
-                            showDialog(
-                                context: context,
-                                builder: (context) => const AlertDialog(
-                                  content: Text('Signed Out Successfully!\nWill be waiting for you!'),
-                              )
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 244, 54, 86).withOpacity(0.1),
-                          elevation: 0,
-                          disabledBackgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        child: const Text('Sign Out'),
-                      ),
-                    ),
-                    // -- Created Date and Delete Button
-                    Container(
-                      width: double
-                          .infinity, // Make the container extend from edge to edge horizontally
+                      width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
                           try {
                             await FirebaseAuth.instance.currentUser!.delete();
-
                             const SnackBar(
-                                content: Text('Account Deleted: We will miss you! :('),
-                                backgroundColor: moderateErrorColor
-                              );
+                              content: Text('Account Deleted: We will miss you :('),
+                              backgroundColor: moderateErrorColor,
+                            );
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const LoginView()),
@@ -248,10 +354,9 @@ class UpdateProfileView extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (context) => const AlertDialog(
-                                  content: Text('SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in!'),
-                              ),
-                            
-                            );
+                                  content: Text('SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in'),
+                                ),
+                              );
                             }
                           }
                         },

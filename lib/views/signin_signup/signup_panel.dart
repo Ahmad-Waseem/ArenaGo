@@ -221,26 +221,32 @@ class _SignupPanelState extends State<SignupPanel> {
   }
 }
 
-
 Future<void> addUserToRealtimeDatabase(String username) async {
   try {
-    String uid = auth.currentUser!.uid;
-    LatLng defaultPosition = LatLng(31.582045, 74.329376);
-    final userRef = FirebaseDatabase.instance.ref('Users/$uid');
+    final user = auth.currentUser;
+    if (user != null) {
+      final uid = user.uid;
+      final defaultPosition = LatLng(31.582045, 74.329376);
+      final userRef = FirebaseDatabase.instance.ref('users/$uid');
 
-    // Set user data (create or update)
-    await userRef.set({
-      'uid': uid,
-      'username': username,
-      'location' : defaultPosition,
-    });
+      // Set user data (create or update)
+      await userRef.set({
+        'uid': uid,
+        'username': username,
+        'location': {
+          'latitude': defaultPosition.latitude,
+          'longitude': defaultPosition.longitude,
+        },
+      });
 
-    print('User data added to Realtime Database successfully!');
+      print('User data added to Realtime Database successfully!');
+    } else {
+      print('Error: auth.currentUser is null');
+    }
   } catch (e) {
     print('Error adding user data to Realtime Database: $e');
   }
 }
-
 
 
 
