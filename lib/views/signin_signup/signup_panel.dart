@@ -2,10 +2,12 @@ import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 
@@ -168,7 +170,7 @@ class _SignupPanelState extends State<SignupPanel> {
                     try {
                       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
                       print('User created: ${credential.user!.uid}');
-                      addUserToFirestore(_username);                  //update _username
+                      addUserToRealtimeDatabase(_username);                  //update _username
                       // Display success message
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('User account created successfully')),
@@ -220,25 +222,24 @@ class _SignupPanelState extends State<SignupPanel> {
 }
 
 
-
-// Function to add user data to Firestore
-Future<void> addUserToFirestore(String username) async {
+Future<void> addUserToRealtimeDatabase(String username) async {
   try {
     String uid = auth.currentUser!.uid;
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+    LatLng defaultPosition = LatLng(31.582045, 74.329376);
+    final userRef = FirebaseDatabase.instance.ref('Users/$uid');
 
     // Set user data (create or update)
     await userRef.set({
       'uid': uid,
       'username': username,
-    }, );  // Use merge: true to avoid overwriting existing data
+      'location' : defaultPosition,
+    });
 
-    print('User data added to Firestore successfully!');
+    print('User data added to Realtime Database successfully!');
   } catch (e) {
-    print('Error adding user data to Firestore: $e');
+    print('Error adding user data to Realtime Database: $e');
   }
 }
-
 
 
 
