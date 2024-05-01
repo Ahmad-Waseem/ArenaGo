@@ -13,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 
+
 class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({Key? key}) : super(key: key);
 
@@ -25,7 +26,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressNumberController = TextEditingController();
   LatLng? _location;
-  String _profilePic = "";
+  var _profilePic = "";
 
 
   @override
@@ -53,38 +54,47 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             data?['location']['latitude'],
             data?['location']['longitude'],
           );
-          _profilePic = data?['profilePic'] as String? ?? '';
+          setState(() {
+            _profilePic = data!['profilePic'].toString();           
+          });
+
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('good'),
-            backgroundColor: moderateErrorColor,
-          ),
-        );
       
     } catch (e) {
       print('Error fetching user data: $e');
     }
   }
 
-  Future<void> _onSelectImageTap() async
-  {
-    final userId = FirebaseAuth.instance.currentUser;
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) 
+  Future<void> _onSelectImageTap() async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) 
+      {
+        final storageReference = FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
+        await storageReference.putFile(File(pickedImage.path));
+
+        final imageUrl = await storageReference.getDownloadURL();
+
+
+        // Realtime Database
+        final userRef = FirebaseDatabase.instance.ref('users/$userId');
+        //final profileRef = userRef.child('profilePic');
+        userRef.update({
+          'profilePic': imageUrl,
+        });
+      }
+    } else 
     {
-      final storageReference = FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
-      await storageReference.putFile(File(pickedImage.path));
-
-      final imageUrl = await storageReference.getDownloadURL();
-
-      //Realtime Database
-      final userRef = FirebaseDatabase.instance.ref('users/$userId');
-      userRef.set({
-        'profilePic': imageUrl,
-      });
+      print('User ID is null or not authenticated.');
     }
+  } 
+  catch (e) {
+    print('Error uploading image: $e');
   }
+  }
+
 
 
   Future<void> updateUserData(
@@ -142,7 +152,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                         shape: BoxShape.circle,
                         border: Border.all(color: secondaryColor, width: 4),
                       ),
-                      child: _profilePic != ""
+                      child: _profilePic.isNotEmpty
                           ? CircleAvatar(
                               backgroundImage: NetworkImage(_profilePic),
                             )
