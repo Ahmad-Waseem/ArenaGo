@@ -2,6 +2,7 @@ import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/search.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
@@ -225,11 +226,14 @@ const SizedBox(height: 10),
                 content: Text("Are you sure, you want to Logout?"),
                 actions: [
                   ElevatedButton(
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute
-                    (
+                    onPressed: () {
+                    signOut();  
+
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const LoginView(),
-                    )),//onPressed: ,//() //=> //logout(),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, side: BorderSide.none),
+                    ));
+                    },//onPressed: ,//() //=> //logout(),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, side: BorderSide.none, ),
                     child: Text("Yes"),
                   ),
                   OutlinedButton(onPressed: () => Navigator.pop(context), child: Text("No")),
@@ -276,5 +280,14 @@ const SizedBox(height: 10),
       ),
       
     );
+  }
+}
+
+Future<void> signOut() async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    print('User signed out successfully.');
+  } catch (e) {
+    print('Error signing out: $e');
   }
 }
