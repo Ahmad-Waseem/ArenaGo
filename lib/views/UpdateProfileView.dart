@@ -25,7 +25,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressNumberController = TextEditingController();
-  LatLng? _location;
+  var _location;
   var _profilePic = "";
 
 
@@ -44,17 +44,21 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
         debugPrint('this user $id');
       
         final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
-        userRef.onValue.listen((event) {
+        userRef.onValue.listen((event) async {
           var dataSnapshot = event.snapshot;
           var data = dataSnapshot.value as Map?;
           _usernameController.text = data?['username'] ?? '';
           _phoneNumberController.text = data?['phone'] ?? '';
           _addressNumberController.text = data?['address'] ?? '';
           _location = LatLng(
-            data?['location']['latitude'],
-            data?['location']['longitude'],
+            data?['location']['latitude'] as double,
+            data?['location']['longitude'] as double,
           );
           setState(() {
+            _location = LatLng(
+            data?['location']['latitude'] as double,
+            data?['location']['longitude'] as double,
+          );
             _profilePic = data!['profilePic'].toString();           
           });
 
@@ -157,7 +161,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                               backgroundImage: NetworkImage(_profilePic),
                             )
                           : const CircleAvatar(
-                              backgroundImage: NetworkImage('https://picsum.photos/250?image=9'),
+                              backgroundImage: NetworkImage('https://w0.peakpx.com/wallpaper/43/184/HD-wallpaper-dream-twitter-search-twitter-dream-black.jpg'),
                             ),
                     ),
                     Positioned(
@@ -297,8 +301,12 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                       borderRadius: BorderRadius.circular(20.0),
                       child: SizedBox(
                         height: 200,
-                        child: EditableMap(
-                          initialLocation: _location ?? const LatLng(31.582045, 74.329376),
+                        child: _location == null
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          :EditableMap(
+                          initialLocation: _location,
                           onLocationChanged: (newLocation) {
                             setState(() {
                               _location = newLocation;

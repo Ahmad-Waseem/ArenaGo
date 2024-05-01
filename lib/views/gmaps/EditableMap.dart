@@ -31,7 +31,7 @@ class _EditableMapState extends State<EditableMap> {
   void _onMarkerDragEnd(LatLng newPosition) {
     setState(() {
       _userLocation = newPosition;
-      widget.onLocationChanged(newPosition);
+      widget.onLocationChanged(_userLocation);
     });
   }
 
