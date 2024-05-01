@@ -25,13 +25,46 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressNumberController = TextEditingController();
   LatLng? _location;
-  final String _profilePic = "";
+  String _profilePic = "";
 
 
   @override
   void initState() {
     super.initState();
-    fetchUserData(_usernameController, _phoneNumberController, _addressNumberController, _location, _profilePic);
+    fetchUserData();
+  }
+
+
+  Future<void> fetchUserData() async {
+    try {
+        debugPrint('worked till here');
+      final user = FirebaseAuth.instance.currentUser;
+      String id = user!.uid;
+        debugPrint('this user $id');
+      
+        final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+        userRef.onValue.listen((event) {
+          var dataSnapshot = event.snapshot;
+          var data = dataSnapshot.value as Map?;
+          _usernameController.text = data?['username'] ?? '';
+          _phoneNumberController.text = data?['phone'] ?? '';
+          _addressNumberController.text = data?['address'] ?? '';
+          _location = LatLng(
+            data?['location']['latitude'],
+            data?['location']['longitude'],
+          );
+          _profilePic = data?['profilePic'] as String? ?? '';
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('good'),
+            backgroundColor: moderateErrorColor,
+          ),
+        );
+      
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
   }
 
   Future<void> _onSelectImageTap() async
@@ -42,62 +75,17 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     {
       final storageReference = FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
       await storageReference.putFile(File(pickedImage.path));
+
       final imageUrl = await storageReference.getDownloadURL();
 
       //Realtime Database
       final userRef = FirebaseDatabase.instance.ref('users/$userId');
-      userRef.update({
+      userRef.set({
         'profilePic': imageUrl,
       });
     }
   }
 
-  Future<void> fetchUserData(
-    TextEditingController usernameController,
-    TextEditingController phoneNumberController,
-    TextEditingController addressNumberController,
-    LatLng? latlng,
-    String profileImage,
-
-  ) async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('good'),
-                                backgroundColor: moderateErrorColor
-                              ),);
-      if (user != null) {
-        final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
-        final snapshot = await userRef.get();
-        if (snapshot.exists) {
-          final userData = snapshot.value as Map<String, dynamic>;
-          usernameController..text = userData['username'] as String;
-          phoneNumberController.text = userData['phone'] as String;
-          addressNumberController.text = userData['address'] as String;
-          latlng = LatLng(
-            userData['location']['latitude'] as double,
-            userData['location']['longitude'] as double,
-          );
-          profileImage = userData['profilePic'] as String;
-               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('good'),
-                                backgroundColor: moderateErrorColor
-                              ),);
-        }
-        else{
-               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Nodata'),
-                                backgroundColor: moderateErrorColor
-                              ),);
-        }
-      }
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
-  }
 
   Future<void> updateUserData(
     String username,
@@ -318,8 +306,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           final username = _usernameController.text;
                           final phoneNumber = _phoneNumberController.text;
                           final address = _addressNumberController.text;
-                          final location = _location;
-                          await updateUserData(_usernameController.text, _phoneNumberController.text, _addressNumberController.text, _location!);
+                          final location = LatLng(0,0);
+                          await updateUserData(_usernameController.text, _phoneNumberController.text, _addressNumberController.text, _location?? location);
                           // Implement any additional logic here
                         },
                         style: ElevatedButton.styleFrom(
