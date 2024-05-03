@@ -61,43 +61,32 @@ class _AddArenaViewState extends State<AddArenaView> {
     ),
   ];
 
-
   //light color scheme
   final Color primaryColor = Colors.blue; // Replace kprimary color
   final Color darkColor = Colors.black; // Text color, dbg button
 
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      
     });
     if (index == 4) {
-      Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const OwnerProfileScreen(),
-                    ));
-    }
-    else if (index == 2) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const OwnerSearchPage(),
-                    ));
-    }
-    else if (index == 1) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => AddArenaView(),
-                    ));
-    }
-    else if (index == 0) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const OwnerHomePage(),
-                    ));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerProfileScreen(),
+      ));
+    } else if (index == 2) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerSearchPage(),
+      ));
+    } else if (index == 1) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AddArenaView(),
+      ));
+    } else if (index == 0) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerHomePage(),
+      ));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -396,9 +385,8 @@ class _AddArenaViewState extends State<AddArenaView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:dBackgroundColor,
+        backgroundColor: dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,
-
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -422,10 +410,9 @@ class _AddArenaViewState extends State<AddArenaView> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: kPrimaryColor, 
+        selectedItemColor: kPrimaryColor,
         onTap: _onItemTapped,
       ),
-
     );
   }
 
@@ -531,7 +518,12 @@ class _AddArenaViewState extends State<AddArenaView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Arena added successfully!')),
       );
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AddFieldView()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddFieldView(arenaId: arenaId),
+        ),
+      );
     } on FirebaseException catch (error) {
       // Handle Firebase errors gracefully
       ScaffoldMessenger.of(context).showSnackBar(
@@ -544,5 +536,4 @@ class _AddArenaViewState extends State<AddArenaView> {
       );
     }
   }
-   
 }

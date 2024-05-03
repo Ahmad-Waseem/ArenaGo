@@ -19,7 +19,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 
@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
 
   }
   
+  
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +51,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: user != null ? const HomePage() : const LoginView(),
-
+      //home: user != null ? const HomePage() : const LoginView(),
+      home: AddArenaView()
       //routes: {
       //'/registration/': (context) => const RegistrationView(),
       //'/login/': (context) => const LoginView(),

@@ -1,25 +1,30 @@
 import 'package:arenago/views/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
+import 'package:uuid/uuid.dart'; // For generating unique arena IDs
 
 class AddFieldView extends StatefulWidget {
-  const AddFieldView({super.key});
+  //const AddFieldView({super.key});
+  final String arenaId;
 
+  const AddFieldView({Key? key, required this.arenaId}) : super(key: key);
   @override
   State<AddFieldView> createState() => _AddFieldViewState();
 }
 
 class _AddFieldViewState extends State<AddFieldView> {
   final _formKey = GlobalKey<FormState>();
-  final _FieldTypeController = TextEditingController();
   final _FieldPriceController = TextEditingController();
   final _FieldBasePriceController = TextEditingController();
   final _FieldPeakPriceController = TextEditingController();
   final _FieldTimeSlotsController = TextEditingController();
   final _AvailableMaterialController = TextEditingController();
-  final _GroundTypeController = TextEditingController();
+  final _fieldLengthController = TextEditingController();
+  final _fieldWidthController = TextEditingController();
 
   String? _selectedFieldType = 'indoor'; // Default value
   String? _selectedGroundType = 'Grass'; // Default value
@@ -74,17 +79,16 @@ class _AddFieldViewState extends State<AddFieldView> {
   }
 
   // Function to validate time slots (check for overlaps)
-bool _validateSlots() {
-  for (int i = 0; i < _slots.length - 1; i++) {
-    for (int j = i + 1; j < _slots.length; j++) {
-      if (_slots[i].startTime == _slots[j].startTime) {
-        return false;
+  bool _validateSlots() {
+    for (int i = 0; i < _slots.length - 1; i++) {
+      for (int j = i + 1; j < _slots.length; j++) {
+        if (_slots[i].startTime == _slots[j].startTime) {
+          return false;
+        }
       }
     }
+    return true;
   }
-  return true;
-}
-  
 
   final _arenaAddressController = TextEditingController();
   @override
@@ -177,6 +181,59 @@ bool _validateSlots() {
                 ),
               ),
               const SizedBox(height: 10.0),
+              Row(
+                children: [
+                  Flexible(
+                    // Allows proportional resizing of the length field
+                    child: TextFormField(
+                      controller: _fieldLengthController,
+                      decoration: InputDecoration(
+                        labelText: 'Length (m)', // Shortened label
+                        prefixIcon: Icon(Icons.linear_scale_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter field length';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10.0), // Spacing between fields
+                  Flexible(
+                    // Allows proportional resizing of the width field
+                    child: TextFormField(
+                      controller: _fieldWidthController,
+                      decoration: InputDecoration(
+                        labelText: 'Width (m)', // Shortened label
+                        prefixIcon: Icon(Icons.linear_scale_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide: const BorderSide(color: kPrimaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter field width';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10.0),
+
               TextFormField(
                 controller: _AvailableMaterialController,
                 decoration: InputDecoration(
@@ -286,11 +343,11 @@ bool _validateSlots() {
                 label: const Text('Add Time Slot'),
               ),
               // Display an error message if slots overlap
-              if (!_validateSlots())
-                Text(
-                  'Error: Time slots cannot overlap!',
-                  style: TextStyle(color: Colors.red),
-                ),
+              //if (!_validateSlots())
+              //Text(
+              //'Error: Time slots cannot overlap!',
+              //style: TextStyle(color: Colors.red),
+              //),
               const SizedBox(height: 20.0),
               Center(
                 // Add this
@@ -301,10 +358,10 @@ bool _validateSlots() {
                         SnackBar(content: Text('Processing Data')),
                       );
                     }
-                    //_addField(); // Call the _addArena function
+                    _addField(); // Call the _addArena function
                   },
                   child: const Text(
-                    'Add Arena',
+                    'Add Field',
                     style: TextStyle(
                       color: Colors.black,
                       decoration: TextDecoration
@@ -319,6 +376,57 @@ bool _validateSlots() {
       ),
     );
   }
+
+  Future<void> _addField() async {
+    try {
+      final fieldId = const Uuid().v4();
+      // Create a reference to the arenas collection in Realtime Database
+      final _firebaseRef = FirebaseDatabase.instance.ref(
+          'FieldInfo/$fieldId'); // Replace with your actual database reference
+
+      // Prepare arena data
+      final arenaId =
+          widget.arenaId; // Assuming passed as a constructor argument
+
+      final fieldData = {
+        'fieldId': fieldId, // Add the field ID as the primary key
+        'arenaId': arenaId,
+        //'ownerId': FirebaseAuth.instance.currentUser!.uid, // Include the owner's user ID
+        'fieldType': _selectedFieldType,
+        'groundType': _selectedGroundType,
+        'length': double.parse(_fieldLengthController
+            .text), // Assuming length is a numerical value
+        'width': double.parse(
+            _fieldWidthController.text), // Assuming width is a numerical value
+        'availableMaterial': _AvailableMaterialController.text,
+        'price': double.parse(
+            _FieldPriceController.text), // Assuming price is a numerical value
+        'peakPrice': double.parse(_FieldPeakPriceController
+            .text), // Assuming peakPrice is a numerical value
+        'basePrice': double.parse(_FieldBasePriceController
+            .text), // Assuming basePrice is a numerical value
+        'timeSlots': _slots.map((slot) => slot.toJson()).toList(),
+      };
+      // Add arena data to the database
+      await _firebaseRef.set(fieldData);
+
+      // Show success message or navigate back
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Field added successfully!')),
+      );
+      Navigator.pop(context);
+    } on FirebaseException catch (error) {
+      // Handle Firebase errors gracefully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error adding field: ${error.message}')),
+      );
+    } catch (error) {
+      // Handle other unexpected errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred: ${error.toString()}')),
+      );
+    }
+  }
 }
 
 // Class to represent a time slot
@@ -327,7 +435,10 @@ class TimeSlot {
   DateTime? endTime;
 
   TimeSlot({this.startTime, this.endTime});
-
+  Map<String, dynamic> toJson() => {
+        'startTime': startTime?.toString(),
+        'endTime': endTime?.toString(),
+      };
   // Function to check if this slot overlaps with another
   bool overlaps(TimeSlot other) {
     if (startTime == null ||
