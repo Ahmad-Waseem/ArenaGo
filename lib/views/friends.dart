@@ -23,63 +23,52 @@ class _FriendsPageState extends State<FriendsPage> {
 
 
 Widget _buildFriendsList() {
-  // Placeholder for the vertically scrollable "Choices for you" list
   List<String> addedFriends = [
-    'luffy',
     'messi',
     'gracie',
+    'luffy',
   ];
-  List<String> filteredAddedFriends = addedFriends.where((friend) {
-    return friend.toLowerCase().contains(searchText.toLowerCase());
-  }).toList();
-
-  return Expanded(
-    child: ListView.builder(
-      itemCount: filteredAddedFriends.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: const CircleAvatar(
-            backgroundImage: AssetImage('assets/logo.png'), // Replace with your image asset
-          ),
-          title: Text(filteredAddedFriends[index]),
-          subtitle: const Text('Some Cringy description for everyone'),
-          trailing: const Icon(Icons.check_circle, color: Colors.green),
-
-          // Add onTap if needed
-        );
-      },
-    ),
-  );
-}
-
-
-Widget _buildNonFriendsList() {
+  
   List<String> nonAddedFriends = [
     'hamza',
     'taytoman',
     'luffy',
   ];
 
-  List<String> filteredNonAddedFriends = nonAddedFriends.where((notFriend) {
-    return notFriend.toLowerCase().contains(searchText.toLowerCase());
-  }).toList();
+  List<String> allFriends = [];
+  if (searchText.isEmpty) {
+    allFriends.addAll(addedFriends);
+  } else {
+    allFriends.addAll(addedFriends.where((friend) => friend.toLowerCase().contains(searchText.toLowerCase())));
+    allFriends.addAll(nonAddedFriends.where((friend) => friend.toLowerCase().contains(searchText.toLowerCase())));
+  }
 
   return Expanded(
     child: ListView.builder(
-      itemCount: filteredNonAddedFriends.length,
+      itemCount: allFriends.length,
       itemBuilder: (context, index) {
+        final friend = allFriends[index];
+        final isAddedFriend = addedFriends.contains(friend);
+        final isNonAddedFriend = nonAddedFriends.contains(friend);
+
         return ListTile(
           leading: const CircleAvatar(
             backgroundImage: AssetImage('assets/logo.png'), // Replace with your image asset
           ),
-          title: Text(filteredNonAddedFriends[index]),
+          title: Text(friend),
           subtitle: const Text('Some Cringy description for everyone'),
+          trailing: isAddedFriend ? const Icon(Icons.check_circle, color: Colors.green) : (isNonAddedFriend ? const Icon(Icons.add_circle, color: Colors.blue) : null),
           // Add onTap if needed
         );
       },
     ),
   );
 }
+
+// Widget _buildNonFriendsList() {
+//   // This method is no longer needed and can be removed
+//   return Container();
+// }
 
 
 
@@ -158,8 +147,8 @@ Widget _buildNonFriendsList() {
           // ),
           // if isAdded is false then only the added friends will show
           isAdded ? _buildFriendsList() : 
-          _buildFriendsList(),
-          _buildNonFriendsList()
+          _buildFriendsList()
+          //_buildNonFriendsList()
 
           
         ],
@@ -175,11 +164,11 @@ Widget _buildNonFriendsList() {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            label: 'Friends',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Search Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history_toggle_off),
