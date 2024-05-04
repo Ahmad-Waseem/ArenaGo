@@ -310,29 +310,60 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
-                          try {
-                            await FirebaseAuth.instance.currentUser!.delete();
-                            const SnackBar(
-                              content:
-                                  Text('Account Deleted: We will miss you :('),
-                              backgroundColor: moderateErrorColor,
-                            );
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginView()),
-                            );
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'requires-recent-login') {
-                              showDialog(
-                                context: context,
-                                builder: (context) => const AlertDialog(
-                                  content: Text(
-                                      'SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in'),
-                                ),
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Delete Account"),
+                                content: Text(
+                                    "Are you sure you want to delete your account?"),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      try {
+                                        await FirebaseAuth.instance.currentUser!
+                                            .delete();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Account Deleted: We will miss you :('),
+                                            backgroundColor: moderateErrorColor,
+                                          ),
+                                        );
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const LoginView()),
+                                        );
+                                      } on FirebaseAuthException catch (e) {
+                                        if (e.code == 'requires-recent-login') {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              content: Text(
+                                                'SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login.',
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      side: BorderSide.none,
+                                    ),
+                                    child: Text("Yes"),
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("No"),
+                                  ),
+                                ],
                               );
-                            }
-                          }
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red.withOpacity(0.1),
