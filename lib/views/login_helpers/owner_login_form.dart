@@ -3,12 +3,13 @@ import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_helpers/owner_forgot_pw.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({
+class OwnerLoginForm extends StatefulWidget {
+  const OwnerLoginForm({
     super.key,
     required this.isLogin,
     required this.animationDuration,
@@ -20,18 +21,32 @@ class LoginForm extends StatelessWidget {
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
+  
+
+  @override
+  _OwnerLoginFormState createState() => _OwnerLoginFormState();
+}
+
+class _OwnerLoginFormState extends State<OwnerLoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final double defaultLoginSize = size.height - (size.height * 0.2);
     return AnimatedOpacity(
-      opacity: isLogin ? 1.0 : 0.0,
-      duration: animationDuration * 4,
+      opacity: widget.isLogin ? 1.0 : 0.0,
+      duration: widget.animationDuration * 4,
       child: Align(
         alignment: Alignment.center,
         child: SizedBox(
           width: size.width,
           height: defaultLoginSize,
           child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +67,16 @@ class LoginForm extends StatelessWidget {
                   height: 200,
                 ), // Use a PNG image
                 const SizedBox(height: 40),
-                TextField(
+                TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _email = value!;
+                    },
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.mail),
                     hintText: 'Username or Email',
@@ -62,7 +86,16 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                TextField(
+                 TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _password = value!;
+                    },
                   obscureText: true,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.key),
@@ -160,11 +193,68 @@ class LoginForm extends StatelessWidget {
 
                 const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const OwnerHomePage(),
-                    ));
-                  },
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        try {
+                          final credentials = await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                            email: _email,
+                            password: _password,
+                          );
+                          if (credentials.user != null) {
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Login Sucessful'),
+                                backgroundColor: loginButtoncolor
+                              ));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const OwnerHomePage(),
+                              ),
+                            );
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('No user found for that email.'),
+                                backgroundColor: moderateErrorColor
+                              ),
+                            );
+                          } else if (e.code == 'wrong-password') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Wrong password provided for that user.'
+                                    ),
+                                backgroundColor: moderateErrorColor
+
+                              ),
+                            );
+                          }else if (e.code == 'too-many-requests') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Too Many Attempts: Attempt after few minutes'
+                                    ),
+                                backgroundColor: moderateErrorColor
+
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Error. Make sure Email/password are correct'),
+                                    backgroundColor: moderateErrorColor
+                              ),
+                            );
+                          }
+                        }
+                      }
+                    },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
@@ -181,6 +271,7 @@ class LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 15),
               ],
+            ),
             ),
           ),
         ),
