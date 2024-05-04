@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/homepage.dart';
@@ -5,6 +8,8 @@ import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 
+
+String currentUserId = "";
 
 class PlayBuddiesPage extends StatefulWidget {
   const PlayBuddiesPage({super.key});
@@ -19,23 +24,39 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
   List<String> friends = [];
   List<FriendRequest> friendRequests = [];
   List<User> nonFriends = [];
+  
 
   @override
   void initState() {
     super.initState();
+
+    _getCurrentUserId();
     _loadData();
   }
 
+  void _getCurrentUserId() async {
+    try
+    {
+      final user = FirebaseAuth.instance.currentUser;
+      String id = user!.uid;
+      currentUserId = id;
+    }
+    catch(e){
+      debugPrint("doomed");
+
+    }
+  
+}
   void _loadData() {
     // Load friends
-    FriendsService().getFriends('currentUserId').listen((friendIds) {
+    FriendsService().getFriends(currentUserId).listen((friendIds) {
       setState(() {
         friends = friendIds;
       });
     });
 
     // Load friend requests
-    FriendsService().getFriendRequests('currentUserId').listen((requests) {
+    FriendsService().getFriendRequests(currentUserId).listen((requests) {
       setState(() {
         friendRequests = requests;
       });
@@ -57,6 +78,7 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
 
   void _onItemTapped(int index) {
     setState(() {
+      debugPrint("worked till here");
       _selectedIndex = index;
     });
     if (index == 4) {
@@ -306,12 +328,12 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
   }
 
   Future<void> _sendFriendRequest(String toUserId) async {
-    await FriendsService().sendFriendRequest('currentUserId', toUserId);
+    await FriendsService().sendFriendRequest(currentUserId, toUserId);
   }
 
   Future<void> _acceptFriendRequest(String requestId, String fromUserId) async {
     await FriendsService()
-        .acceptFriendRequest(requestId, 'currentUserId', fromUserId);
+        .acceptFriendRequest(requestId, currentUserId, fromUserId);
   }
 
   Future<void> _rejectFriendRequest(String requestId) async {
@@ -336,7 +358,7 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
   }
 
   void _loadFriendRequests() {
-    FriendsService().getFriendRequests('currentUserId').listen((requests) {
+    FriendsService().getFriendRequests(currentUserId).listen((requests) {
       setState(() {
         friendRequests = requests;
       });
@@ -401,17 +423,19 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
 
   Future<void> _acceptFriendRequest(String requestId, String fromUserId) async {
     await FriendsService()
-        .acceptFriendRequest(requestId, 'currentUserId', fromUserId);
+        .acceptFriendRequest(requestId, currentUserId, fromUserId);
+    debugPrint("=================================================accepted req");
   }
 
   Future<void> _rejectFriendRequest(String requestId) async {
     await FriendsService().rejectFriendRequest(requestId);
+
   }
 }
 
 class FriendsService {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
-
+  
   // Send a friend request
   Future<void> sendFriendRequest(String fromUserId, String toUserId) async {
     final newRequestRef = _database.ref('friendRequests').push();
@@ -420,6 +444,9 @@ class FriendsService {
       'toUserId': toUserId,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
     });
+    debugPrint("=================================================sent req");
+    debugPrint("=============================================");
+    debugPrint("=================================================%^*%^%");
   }
 
   // Yes a friend request
