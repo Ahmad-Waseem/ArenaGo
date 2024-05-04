@@ -18,3 +18,5 @@ const LinearGradient backgroundGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
 );
+
+//const ownerNavbar = ["Home, Friends, Search Arena, History, Account"];

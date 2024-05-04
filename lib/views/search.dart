@@ -222,11 +222,11 @@ class _SearchPageState extends State<SearchPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            label: 'Search User',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Search Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history_toggle_off),

@@ -51,37 +51,19 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Card(
-              elevation: 10.0,
-              child: TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Search',
-                  //contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                  border: InputBorder.none,
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onChanged: (value) {
-                  // Perform search operation based on the input value
-                },
-              ),
-            ),
-          ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
 
             //width: double.infinity,
             decoration: BoxDecoration(
-              color: kPrimaryColor,
+              color: loginOutlinecolor,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Full Name',
-                  prefixIcon: Icon(Icons.person),
+                  labelText: 'Arena Name',
+                  prefixIcon: Icon(Icons.stadium_rounded),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(200.0),
                     borderSide: const BorderSide(color: loginOutlinecolor),
@@ -93,25 +75,144 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
                       .white, // Set the color inside the text box to white
                 ),
               ),
+              const SizedBox(width: 3.0),
               Row(
-                children: [],
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    // optional flex property if flex is 1 because the default flex is 1
+                    flex: 1,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Location',
+                        prefixIcon: Icon(Icons.location_on_outlined),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide:
+                              const BorderSide(color: loginOutlinecolor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                        filled: true, // Set filled to true
+                        fillColor: Colors
+                            .white, // Set the color inside the text box to white
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 0.0),
+                  Expanded(
+                    // optional flex property if flex is 1 because the default flex is 1
+                    flex: 1,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Max Distance',
+                        prefixIcon: Icon(Icons.route_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide:
+                              const BorderSide(color: loginOutlinecolor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                        filled: true, // Set filled to true
+                        fillColor: Colors
+                            .white, // Set the color inside the text box to white
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              TextField(
-                style: new TextStyle(
-                    fontSize: 12.0,
-                    color: const Color(0xFF000000),
-                    fontWeight: FontWeight.w200,
-                    fontFamily: "Roboto"),
+              const SizedBox(width: 3.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                      // optional flex property if flex is 1 because the default flex is 1
+                      flex: 1,
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                200.0), // Adjust as desired
+                          ),
+                          hintText: 'Arena Type',
+                          //prefixIcon: Icon(Icons.sports_cricket),
+                        ),
+                        items: <String>[
+                          'Futsal',
+                          'Football',
+                          'Cricket(Outdoor)',
+                          'D'
+                        ].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (_) {},
+                      )),
+                  const SizedBox(width: 0.0),
+                  Expanded(
+                    // optional flex property if flex is 1 because the default flex is 1
+                    flex: 1,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Max Price',
+                        prefixIcon: Icon(Icons.attach_money_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(200.0),
+                          borderSide:
+                              const BorderSide(color: loginOutlinecolor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                        filled: true, // Set filled to true
+                        fillColor: Colors
+                            .white, // Set the color inside the text box to white
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              TextField(
-                style: new TextStyle(
-                    fontSize: 12.0,
-                    color: const Color(0xFF000000),
-                    fontWeight: FontWeight.w200,
-                    fontFamily: "Roboto"),
-              )
+              const SizedBox(width: 3.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Srart Time',
+                  prefixIcon: Icon(Icons.sports_soccer_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(200.0),
+                    borderSide: const BorderSide(color: loginOutlinecolor),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                  filled: true, // Set filled to true
+                  fillColor: Colors
+                      .white, // Set the color inside the text box to white
+                ),
+              ),
             ]),
-          )
+          ),
+          SizedBox(
+            width: 200,
+            child: ElevatedButton(
+              onPressed: () {
+                /*Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => .......));*/
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: loginOutlinecolor,
+                  side: BorderSide.none,
+                  shape: const StadiumBorder()),
+              child:
+                  const Text("Search", style: TextStyle(color: Colors.white)),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -128,7 +229,7 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Search Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history_toggle_off),
@@ -140,7 +241,7 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: kPrimaryColor,
+        selectedItemColor: loginOutlinecolor,
         onTap: _onItemTapped,
       ),
     );
