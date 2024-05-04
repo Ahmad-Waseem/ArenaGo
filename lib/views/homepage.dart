@@ -3,7 +3,7 @@ import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
-import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
+import 'package:arenago/views/play_buddies/friendlist.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -107,7 +107,7 @@ Widget _buildRecentsList() {
     else if (index == 1) {
                     Navigator.of(context).push(MaterialPageRoute
                     (
-                      builder: (context) => const FriendsPage(),
+                      builder: (context) => const PlayBuddiesPage(),
                     ));
     }
     else if (index == 0) {
