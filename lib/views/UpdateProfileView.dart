@@ -12,8 +12,6 @@ import 'package:arenago/views/theme.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-
 class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({Key? key}) : super(key: key);
 
@@ -24,10 +22,10 @@ class UpdateProfileView extends StatefulWidget {
 class _UpdateProfileViewState extends State<UpdateProfileView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _addressNumberController = TextEditingController();
+  final TextEditingController _addressNumberController =
+      TextEditingController();
   var _location;
   var _profilePic = "";
-
 
   @override
   void initState() {
@@ -35,79 +33,69 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     fetchUserData();
   }
 
-
   Future<void> fetchUserData() async {
     try {
-
       final user = FirebaseAuth.instance.currentUser;
       String id = user!.uid;
-        debugPrint('this user $id');
-      
-        final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
-        userRef.onValue.listen((event) async {
-          var dataSnapshot = event.snapshot;
-          var data = dataSnapshot.value as Map?;
-          _usernameController.text = data?['username'] ?? '';
-          _phoneNumberController.text = data?['phone'] ?? '';
-          _addressNumberController.text = data?['address'] ?? '';
+      debugPrint('this user $id');
+
+      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      userRef.onValue.listen((event) async {
+        var dataSnapshot = event.snapshot;
+        var data = dataSnapshot.value as Map?;
+        _usernameController.text = data?['username'] ?? '';
+        _phoneNumberController.text = data?['phone'] ?? '';
+        _addressNumberController.text = data?['address'] ?? '';
+        _location = LatLng(
+          data?['location']['latitude'] as double,
+          data?['location']['longitude'] as double,
+        );
+        setState(() {
           _location = LatLng(
             data?['location']['latitude'] as double,
             data?['location']['longitude'] as double,
           );
-          setState(() {
-            _location = LatLng(
-            data?['location']['latitude'] as double,
-            data?['location']['longitude'] as double,
-          );
-            _profilePic = data!['profilePic'].toString();           
-          });
-
+          _profilePic = data!['profilePic'].toString();
         });
-      
+      });
     } catch (e) {
       print('Error fetching user data: $e');
     }
   }
 
   Future<void> _onSelectImageTap() async {
-  try {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId != null) {
-      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedImage != null) 
-      {
-        final storageReference = FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
-        await storageReference.putFile(File(pickedImage.path));
+    try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
+        final pickedImage =
+            await ImagePicker().pickImage(source: ImageSource.gallery);
+        if (pickedImage != null) {
+          final storageReference =
+              FirebaseStorage.instance.ref('profileImages/${pickedImage.name}');
+          await storageReference.putFile(File(pickedImage.path));
 
-        final imageUrl = await storageReference.getDownloadURL();
+          final imageUrl = await storageReference.getDownloadURL();
 
-
-        // Realtime Database
-        final userRef = FirebaseDatabase.instance.ref('users/$userId');
-        //final profileRef = userRef.child('profilePic');
-        userRef.update({
-          'profilePic': imageUrl,
-        });
+          // Realtime Database
+          final userRef = FirebaseDatabase.instance.ref('users/$userId');
+          //final profileRef = userRef.child('profilePic');
+          userRef.update({
+            'profilePic': imageUrl,
+          });
+        }
+      } else {
+        print('User ID is null or not authenticated.');
       }
-    } else 
-    {
-      print('User ID is null or not authenticated.');
+    } catch (e) {
+      print('Error uploading image: $e');
     }
-  } 
-  catch (e) {
-    print('Error uploading image: $e');
   }
-  }
-
-
 
   Future<void> updateUserData(
     String username,
     String phoneNumber,
     String address,
     LatLng location,
-
-
   ) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -121,7 +109,6 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             'latitude': location.latitude,
             'longitude': location.longitude,
           },
-
         });
       }
     } catch (e) {
@@ -133,7 +120,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile', style: Theme.of(context).textTheme.headline4),
+        title:
+            Text('Edit Profile', style: Theme.of(context).textTheme.headline4),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -161,7 +149,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                               backgroundImage: NetworkImage(_profilePic),
                             )
                           : const CircleAvatar(
-                              backgroundImage: NetworkImage('https://w0.peakpx.com/wallpaper/43/184/HD-wallpaper-dream-twitter-search-twitter-dream-black.jpg'),
+                              backgroundImage: NetworkImage(
+                                  'https://w0.peakpx.com/wallpaper/43/184/HD-wallpaper-dream-twitter-search-twitter-dream-black.jpg'),
                             ),
                     ),
                     Positioned(
@@ -175,7 +164,11 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           color: Colors.blue,
                         ),
                         child: IconButton(
-                          icon: const Icon(Icons.camera_alt), color: Colors.black, iconSize: 20, onPressed: _onSelectImageTap,),
+                          icon: const Icon(Icons.camera_alt),
+                          color: Colors.black,
+                          iconSize: 20,
+                          onPressed: _onSelectImageTap,
+                        ),
                       ),
                     ),
                   ],
@@ -191,29 +184,14 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                       child: Column(
                         children: [
                           TextFormField(
-                            controller: _usernameController,//for test purpose
+                            controller: _usernameController, //for test purpose
                             decoration: InputDecoration(
                               labelText: 'User Name',
                               prefixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide: BorderSide(color: loginOutlinecolor),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 0,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            controller: _phoneNumberController,
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(200.0),
-                                borderSide: BorderSide(color: loginOutlinecolor),
+                                borderSide:
+                                    BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 12,
@@ -240,7 +218,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                               prefixIcon: Icon(Icons.phone),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide: BorderSide(color: loginOutlinecolor),
+                                borderSide:
+                                    BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 12,
@@ -256,31 +235,12 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                               prefixIcon: Icon(Icons.add_location_alt_rounded),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(200.0),
-                                borderSide: BorderSide(color: loginOutlinecolor),
+                                borderSide:
+                                    BorderSide(color: loginOutlinecolor),
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 12,
                                 horizontal: 0,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(200.0),
-                                borderSide: BorderSide(color: loginOutlinecolor),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 0,
-                              ),
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.visibility_off),
-                                onPressed: () {},
                               ),
                             ),
                           ),
@@ -302,17 +262,17 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                       child: SizedBox(
                         height: 200,
                         child: _location == null
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          :EditableMap(
-                          initialLocation: _location,
-                          onLocationChanged: (newLocation) {
-                            setState(() {
-                              _location = newLocation;
-                            });
-                          },
-                        ),
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : EditableMap(
+                                initialLocation: _location,
+                                onLocationChanged: (newLocation) {
+                                  setState(() {
+                                    _location = newLocation;
+                                  });
+                                },
+                              ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -324,8 +284,12 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           final username = _usernameController.text;
                           final phoneNumber = _phoneNumberController.text;
                           final address = _addressNumberController.text;
-                          final location = LatLng(0,0);
-                          await updateUserData(_usernameController.text, _phoneNumberController.text, _addressNumberController.text, _location?? location);
+                          final location = LatLng(0, 0);
+                          await updateUserData(
+                              _usernameController.text,
+                              _phoneNumberController.text,
+                              _addressNumberController.text,
+                              _location ?? location);
                           // Implement any additional logic here
                         },
                         style: ElevatedButton.styleFrom(
@@ -334,12 +298,13 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
-                        child: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
+                        child: const Text('Save Changes',
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ),
                     const SizedBox(height: 5),
                     Divider(),
-                    
+
                     // -- Created Date and Delete Button
                     Container(
                       width: double.infinity,
@@ -348,19 +313,22 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           try {
                             await FirebaseAuth.instance.currentUser!.delete();
                             const SnackBar(
-                              content: Text('Account Deleted: We will miss you :('),
+                              content:
+                                  Text('Account Deleted: We will miss you :('),
                               backgroundColor: moderateErrorColor,
                             );
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const LoginView()),
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginView()),
                             );
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'requires-recent-login') {
                               showDialog(
                                 context: context,
                                 builder: (context) => const AlertDialog(
-                                  content: Text('SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in'),
+                                  content: Text(
+                                      'SAFETY MEASURE!\nPlease Sign-Out and Log in Again.\nDeletion requires a recent Login in'),
                                 ),
                               );
                             }

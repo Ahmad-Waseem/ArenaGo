@@ -10,8 +10,7 @@ import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/gmaps/LoadMap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:developer';
-
-
+import 'package:arenago/views/login_helpers/forgot_pw.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var _usernameController = "";
   var _phoneNumberController = "";
   var _addressNumberController = "";
-  LatLng? _location = null ;
+  LatLng? _location = null;
   var _profilePic = "";
 
   @override
@@ -50,7 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           data?['location']['latitude'] as double,
           data?['location']['longitude'] as double,
         );
-        debugPrint('---------++++++++++++++++++++***********************$_location');
+        debugPrint(
+            '---------++++++++++++++++++++***********************$_location');
         setState(() {
           _location = LatLng(
             data?['location']['latitude'] as double,
@@ -139,23 +139,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               /// profile
-
-              Stack(
-                children: [
-                  SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: _profilePic.isNotEmpty
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(_profilePic),
-                              )
-                            : const CircleAvatar(
-                                child: Center(child: CircularProgressIndicator()),
-                              ),
-                      )),
-                ],
+              Container(
+                padding: const EdgeInsets.fromLTRB(100.0, 15.0, 100.0, 15.0),
+                decoration: BoxDecoration(
+                  color: loginOutlinecolor,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: _profilePic.isNotEmpty
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(_profilePic),
+                                )
+                              : const CircleAvatar(
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                ),
+                        )),
+                    const SizedBox(height: 10),
+                    Center(
+                        child: Text(
+                      "@" + _usernameController,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ))
+                  ],
+                ),
               ),
 
               const SizedBox(height: 10),
@@ -167,44 +185,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               /// -- BUTTON
 
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UpdateProfileView()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: loginOutlinecolor,
+                        side: BorderSide.none,
+                        shape: const StadiumBorder()),
+                    child: Text("Edit Profile",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UpdateProfileView()));*/
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: loginOutlinecolor,
+                        side: BorderSide.none,
+                        shape: const StadiumBorder()),
+                    child: Text("Billing Details",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ]),
+
+              const SizedBox(height: 0),
+
               SizedBox(
-                width: 200,
+                width: 180,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UpdateProfileView()));
+                            builder: (context) => const ForgotPasswordPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
+                      backgroundColor: loginOutlinecolor,
                       side: BorderSide.none,
                       shape: const StadiumBorder()),
-                  child:
-                      Text("Edit Profile", style: TextStyle(color: darkColor)),
+                  child: Text("Reset Password",
+                      style: TextStyle(color: Colors.white)),
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
 
-              const Divider(),
-
-              const SizedBox(height: 10),
+              /*const Divider(),
 
               const SizedBox(height: 10),
+
 // -- MENU
-
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Settings"),
-                onTap: () {},
-              ),
-
               ListTile(
                 leading: Icon(Icons.payment),
-                title: Text("Billing Details"),
+                title: Center(child: Text("Billing Details")),
                 onTap: () {},
-              ),
+              ),  */
 
 //THIS WILl bE USED in OWNERS COPY
 // ListTile(
@@ -221,28 +270,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(textAlign: TextAlign.left, "Current Location:"),
-                    _location == null
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : LoadMap(initialPosition: _location),
+                    Center(
+                        child: const Text(
+                            textAlign: TextAlign.center, "Current Location:")),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: SizedBox(
+                          height: 200,
+                          child: _location == null
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : LoadMap(initialPosition: _location),
+                        ))
                   ],
                 ),
               ),
 
               const SizedBox(height: 10),
+              Divider(),
 
               ListTile(
-                leading: Icon(Icons.info),
-                title: Text("Info"),
-                onTap: () {},
-              ),
-
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text("Logout"),
-                textColor: Colors.red,
+                title: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(
+                          width:
+                              8), // Add some spacing between the icon and text
+                      Text("Logout", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
                 onTap: () {
                   showDialog(
                     context: context,
@@ -274,6 +334,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   );
                 },
+              ),
+
+              ListTile(
+                title: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.info),
+                      SizedBox(
+                          width:
+                              8), // Add some spacing between the icon and text
+                      Text("Info"),
+                    ],
+                  ),
+                ),
+                onTap: () {},
               ),
             ],
           ),
