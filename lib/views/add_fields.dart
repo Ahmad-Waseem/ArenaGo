@@ -1,11 +1,15 @@
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart'; // For generating unique arena IDs
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 class AddFieldView extends StatefulWidget {
   //const AddFieldView({super.key});
@@ -30,6 +34,7 @@ class _AddFieldViewState extends State<AddFieldView> {
   String? _selectedGroundType = 'Grass'; // Default value
 
   List<TimeSlot> _slots = [];
+  List<File> _fieldImages = [];
 
   // Function to handle selecting start time
   void _selectStartTime(BuildContext context) async {
@@ -342,12 +347,36 @@ class _AddFieldViewState extends State<AddFieldView> {
                 icon: const Icon(Icons.add),
                 label: const Text('Add Time Slot'),
               ),
-              // Display an error message if slots overlap
-              //if (!_validateSlots())
-              //Text(
-              //'Error: Time slots cannot overlap!',
-              //style: TextStyle(color: Colors.red),
-              //),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Text('Field Images: '),
+                  IconButton(
+                    icon: Icon(Icons.add_photo_alternate),
+                    onPressed: _pickImages,
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.0),
+              Container(
+                height: 100.0, // Set a fixed height for the ListView
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _fieldImages.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Image.file(
+                        _fieldImages[index],
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+
               const SizedBox(height: 20.0),
               Center(
                 // Add this
@@ -358,7 +387,7 @@ class _AddFieldViewState extends State<AddFieldView> {
                         SnackBar(content: Text('Processing Data')),
                       );
                     }
-                    _addField(); // Call the _addArena function
+                    _addField(); 
                   },
                   child: const Text(
                     'Add Field',
@@ -377,11 +406,19 @@ class _AddFieldViewState extends State<AddFieldView> {
     );
   }
 
+  Future<void> _pickImages() async {
+    final picker = ImagePicker();
+    final pickedImages = await picker.pickMultiImage();
+
+    setState(() {
+      _fieldImages =
+          pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
+    });
+  }
   Future<void> _addField() async {
     try {
       final fieldId = const Uuid().v4();
-      // Create a reference to the arenas collection in Realtime Database
-      final _firebaseRef = FirebaseDatabase.instance.ref(
+      final _fieldRef = FirebaseDatabase.instance.ref(
           'FieldInfo/$fieldId'); // Replace with your actual database reference
 
       // Prepare arena data
@@ -406,10 +443,29 @@ class _AddFieldViewState extends State<AddFieldView> {
         'basePrice': double.parse(_FieldBasePriceController
             .text), // Assuming basePrice is a numerical value
         'timeSlots': _slots.map((slot) => slot.toJson()).toList(),
-      };
-      // Add arena data to the database
-      await _firebaseRef.set(fieldData);
+        'field_images': [], // Initialize empty field_images list
 
+      };
+      // Add field data to the database
+      await _fieldRef.set(fieldData);
+      if (_fieldImages.isNotEmpty) {
+        final storageRef =
+            FirebaseStorage.instance.ref().child('field_images').child(fieldId);
+        final imageUploadTasks = _fieldImages.map((image) =>
+            storageRef.child(image.path.split('/').last).putFile(image));
+        await Future.wait(imageUploadTasks);
+
+        // Obtain download URLs for the uploaded images
+        final List<String> imageDownloadUrls = [];
+        for (final uploadTask in imageUploadTasks) {
+          final imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
+          imageDownloadUrls.add(imageUrl);
+        }
+        //After image uploads are complete, update field_images with image URLs
+        await _fieldRef.update({
+          'field_images': imageDownloadUrls,
+        });
+      }
       // Show success message or navigate back
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Field added successfully!')),

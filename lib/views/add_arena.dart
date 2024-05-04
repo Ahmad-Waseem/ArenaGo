@@ -1,16 +1,21 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/gmaps/EditableMap.dart';
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:arenago/views/owner_search.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart'; // For generating unique arena IDs
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AddArenaView extends StatefulWidget {
   @override
@@ -32,13 +37,34 @@ class _AddArenaViewState extends State<AddArenaView> {
   TimeOfDay? _endTime = const TimeOfDay(hour: 20, minute: 0);
   List<File> _arenaImages = [];
 
+  LatLng? _userLocation;
+  void _onLocationChanged(LatLng newPosition) {
+    setState(() {
+      _userLocation = newPosition;
+    });
+  }
+
+  final Completer<GoogleMapController> _googleMapController = Completer();
+
+  //TextEditingController? _addressController; // Optional for address input
+
+  // ... other variables for arena details
+
+  @override
+  void initState() {
+    super.initState();
+    // _addressController = TextEditingController();
+    _userLocation =
+        LatLng(31.48132079738145, 74.30306039750576); // Assign default location
+  }
+
   int _selectedIndex = 1;
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
-    // There will be widgets in it
+    //There will be widgets in it
     Text(
       'Index 0: Home',
       style: optionStyle,
@@ -330,6 +356,45 @@ class _AddArenaViewState extends State<AddArenaView> {
                 ),
               ),
               const SizedBox(height: 16.0),
+              Column(children: [
+                ElevatedButton(
+                  child: const Text('getCurrentPosition'),
+                  onPressed: () async {
+                    Position position = await Geolocator.getCurrentPosition(
+                        desiredAccuracy: LocationAccuracy.high);
+                    LatLng newPosition = LatLng(position.latitude.toDouble(),
+                        position.longitude.toDouble());
+                    _onLocationChanged(newPosition);
+                  },
+                ),
+                Text(
+                  'Drag the pointer to select location (or enter address)',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: SizedBox(
+                    height: 200,
+                    child: _userLocation == null
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : EditableMap(
+                            initialLocation: _userLocation!,
+                            onLocationChanged: (newLocation) {
+                              setState(() {
+                                _userLocation = newLocation;
+                              });
+                            },
+                          ),
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Text('Arena Images: '),
@@ -358,7 +423,6 @@ class _AddArenaViewState extends State<AddArenaView> {
                   },
                 ),
               ),
-              const SizedBox(height: 8.0),
               Center(
                 // Add this
                 child: ElevatedButton(
@@ -416,6 +480,35 @@ class _AddArenaViewState extends State<AddArenaView> {
     );
   }
 
+  //   Future<void> _fetchUserLocation() async {
+  //   final user = FirebaseAuth.instance.currentUser; // Assuming you have user authentication
+  //   if (user != null) {
+  //     final docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+  //     final docSnapshot = await docRef.get();
+  //     if (docSnapshot.exists) {
+  //       final locationData = docSnapshot.data()!['location']; // Adjust field name if needed
+  //       if (locationData != null) {
+  //         final double latitude = locationData['latitude']; // Adjust field name if needed
+  //         final double longitude = locationData['longitude']; // Adjust field name if needed
+  //         setState(() {
+  //           _userLocation = LatLng(latitude, longitude);
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+  // Future setCameraPosition(double latitude, double longitude) async {
+  //   GoogleMapController controller = await _googleMapController.future;
+  //   double zoom = await controller.getZoomLevel();
+  //   CameraPosition _pos = CameraPosition(
+  //     target: LatLng(latitude, longitude),
+  //     zoom: zoom,
+  //   );
+  //   controller.animateCamera(
+  //     CameraUpdate.newCameraPosition(_pos),
+  //   );
+  // }
+
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -456,16 +549,6 @@ class _AddArenaViewState extends State<AddArenaView> {
     String arenaName = _arenaNameController.text.trim();
     String arenaPrice = _arenaPriceController.text.trim();
 
-    // Perform validation as needed (refer to previous responses)
-
-    //if (!FirebaseAuth.instance.currentUser!.isAuthenticated) {
-    // Handle case where user is not logged in
-    // ScaffoldMessenger.of(context).showSnackBar(
-    // const SnackBar(content: Text('Please sign in to add an arena!')),
-    //);
-    //return;
-    //}
-
     try {
       final arenaId = const Uuid().v4();
       // Create a reference to the arenas collection in Realtime Database
@@ -488,13 +571,16 @@ class _AddArenaViewState extends State<AddArenaView> {
             _startTime?.format(context) ?? '', // Handle null start time
         'end_time': _endTime?.format(context) ?? '', // Handle null end time
         'arena_images': [], // Initialize empty arena_images list
+        'location': {
+          'latitude': _userLocation!.latitude,
+          'longitude': _userLocation!.longitude,
+        },
       };
 
       // Add arena data to the database
       await arenasRef.set(arenaData);
 
       // Upload arena images to Firebase Storage (if any)
-// Upload arena images to Firebase Storage (if any)
       if (_arenaImages.isNotEmpty) {
         final storageRef =
             FirebaseStorage.instance.ref().child('arena_images').child(arenaId);
