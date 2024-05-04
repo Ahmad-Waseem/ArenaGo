@@ -38,7 +38,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
 
   Future<void> fetchUserData() async {
     try {
-        debugPrint('worked till here');
+
       final user = FirebaseAuth.instance.currentUser;
       String id = user!.uid;
         debugPrint('this user $id');

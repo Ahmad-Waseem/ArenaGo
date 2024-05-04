@@ -194,7 +194,7 @@ Container(
     children: [
       
       const Text(textAlign: TextAlign.left, "Current Location:"),
-      LoadMap(UniqueKey()),
+      //LoadMap(UniqueKey()),
     ],
   ),
 ),
