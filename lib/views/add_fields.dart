@@ -1,3 +1,4 @@
+import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart'; // For generating unique arena IDs
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 
 class AddFieldView extends StatefulWidget {
   //const AddFieldView({super.key});
@@ -387,7 +387,7 @@ class _AddFieldViewState extends State<AddFieldView> {
                         SnackBar(content: Text('Processing Data')),
                       );
                     }
-                    _addField(); 
+                    _addField();
                   },
                   child: const Text(
                     'Add Field',
@@ -415,6 +415,7 @@ class _AddFieldViewState extends State<AddFieldView> {
           pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
     });
   }
+
   Future<void> _addField() async {
     try {
       final fieldId = const Uuid().v4();
@@ -444,7 +445,6 @@ class _AddFieldViewState extends State<AddFieldView> {
             .text), // Assuming basePrice is a numerical value
         'timeSlots': _slots.map((slot) => slot.toJson()).toList(),
         'field_images': [], // Initialize empty field_images list
-
       };
       // Add field data to the database
       await _fieldRef.set(fieldData);
@@ -470,7 +470,11 @@ class _AddFieldViewState extends State<AddFieldView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Field added successfully!')),
       );
-      Navigator.pop(context);
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OwnerHomePage()),
+      );
     } on FirebaseException catch (error) {
       // Handle Firebase errors gracefully
       ScaffoldMessenger.of(context).showSnackBar(

@@ -43,7 +43,8 @@ dependencies:
   firebase_auth: ^4.19.2
   firebase_storage: ^11.7.2
   shared_preferences: ^2.2.3
-  
+  carousel_slider: ^4.2.1  # Consider using the latest compatible version
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

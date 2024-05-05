@@ -251,26 +251,6 @@ class _AddArenaViewState extends State<AddArenaView> {
                       },
                     ),
                     const SizedBox(height: 10.0),
-                    TextFormField(
-                      controller: _arenaPriceController,
-                      decoration: InputDecoration(
-                        labelText: 'Price (Rs. per hour)',
-                        prefixIcon: Icon(Icons.price_change_rounded),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(200.0),
-                          borderSide: const BorderSide(color: kPrimaryColor),
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter valid price';
-                        }
-                        return null;
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -557,7 +537,7 @@ class _AddArenaViewState extends State<AddArenaView> {
       // Prepare arena data
       final arenaData = {
         'arena_id': arenaId,
-        //'owner_id': FirebaseAuth.instance.currentUser!.uid,
+        'owner_id': FirebaseAuth.instance.currentUser!.uid,
         'arena_name': arenaName,
         'address': _arenaAddressController.text.trim(),
         'town': _arenaTownController.text.trim(),
