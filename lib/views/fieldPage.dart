@@ -1,10 +1,12 @@
+import 'package:arenago/views/arenaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Replace with your actual import path
 
 class FieldPage extends StatelessWidget {
-  final Map<String, dynamic> fieldData;
+  final FieldInfo fieldData;
 
-  FieldPage({required this.fieldData});
+  FieldPage({Key? key, required this.fieldData}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,49 +25,49 @@ class FieldPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
-              Text(
-                'Field Id: ${fieldData['fieldId']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              _buildImageCarousel(fieldData['images']), // Add image carousel if images provided
-              SizedBox(height: 8.0),
-              Text(
-                'Field Type: ${fieldData['fieldType']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Ground Type: ${fieldData['groundType']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Dimensions: ${fieldData['length']} x ${fieldData['width']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Available Material: ${fieldData['availableMaterial']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Price: ₹${fieldData['price']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Base Price: ₹${fieldData['basePrice']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Peak Price: ₹${fieldData['peakPrice']}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              _buildTimeSlots(fieldData['timeSlots']), // Add time slots list
+              // Text(
+              //   'Field Id: ${fieldData['fieldId']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // _buildImageCarousel(fieldData['images']), // Add image carousel if images provided
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Field Type: ${fieldData['fieldType']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Ground Type: ${fieldData['groundType']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Dimensions: ${fieldData['length']} x ${fieldData['width']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Available Material: ${fieldData['availableMaterial']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Price: ₹${fieldData['price']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Base Price: ₹${fieldData['basePrice']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // Text(
+              //   'Peak Price: ₹${fieldData['peakPrice']}',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // SizedBox(height: 8.0),
+              // _buildTimeSlots(fieldData['timeSlots']), // Add time slots list
             ],
           ),
         ),

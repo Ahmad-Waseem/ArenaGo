@@ -1,5 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/arenaPage.dart';
 import 'package:arenago/views/friends.dart';
@@ -53,159 +51,6 @@ class Location {
   });
 }
 
-// // Simulate API call to fetch arenas (replace with your actual implementation)
-// Future<List<ArenaInfo>> fetchArenas() async {
-//   // Replace with your API call logic
-//   await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-//   return [
-//     ArenaInfo(
-//       arenaId: "7cc93f33-46f6-42cd-baae-006358d88e36",
-//       arenaName: "Arena A",
-//       address: "vh",
-//       city: "fg",
-//       contact: "85",
-//       date: DateTime.parse("2024-05-04T23:22:38.908086"),
-//       endTime: "8:00 PM",
-//       location: Location(latitude: 31.82882274353957, longitude: 75.51695141941309),
-//       price: 88,
-//       startTime: "8:00 AM",
-//       town: "fg",
-//       arenaImages: [
-//         "https://firebasestorage.googleapis.com/v0/b/arenago-56abc.appspot.com/o/arena_images%2F7cc93f33-46f6-42cd-baae-006358d88e36%2FScreenshot_20240504_170356_com.example.arenago.jpg?alt=media&token=fc710ca8-2bd6-4544-9928-8bb881243cdb"
-//       ],
-//     ),
-//     // Add more arenas if needed
-//   ];
-// }
-
-// class OwnerHomePage extends StatefulWidget {
-//   const OwnerHomePage({super.key});
-
-//   @override
-//   _OwnerHomePageState createState() => _OwnerHomePageState();
-// }
-
-// class _OwnerHomePageState extends State<OwnerHomePage> {
-//   int _selectedIndex = 0;
-
-//   static const TextStyle optionStyle =
-//       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-//   static const List<Widget> _widgetOptions = <Widget>[
-//     // There will be widgets in it
-//     Text(
-//       'Index 0: Home',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 1: Friends',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 2: Search',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 3: History',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 4: Profile',
-//       style: optionStyle,
-//     ),
-//   ];
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//     if (index == 4) {
-//       Navigator.of(context).push(MaterialPageRoute(
-//         builder: (context) => const OwnerProfileScreen(),
-//       ));
-//     } else if (index == 2) {
-//       Navigator.of(context).push(MaterialPageRoute(
-//         builder: (context) => const OwnerSearchPage(),
-//       ));
-//     } else if (index == 1) {
-//       Navigator.of(context).push(MaterialPageRoute(
-//         builder: (context) => AddArenaView(),
-//       ));
-//     } else if (index == 0) {
-//       Navigator.of(context).push(MaterialPageRoute(
-//         builder: (context) => const OwnerHomePage(),
-//       ));
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('ArenaGo'),
-//         automaticallyImplyLeading: false, // This removes the back button
-//       ),
-//       body: FutureBuilder<List<ArenaInfo>>(
-//         future: fetchArenas(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData) {
-//             final arenas = snapshot.data!;
-//             return ListView.builder(
-//               itemCount: arenas.length,
-//               itemBuilder: (context, index) {
-//                 final arena = arenas[index];
-//                 return Card(
-//                   child: ListTile(
-//                     title: Text(arena.arenaName),
-//                     subtitle: Text(arena.arenaId),
-//                     onTap: () => Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => ArenaPage(arena: arena),
-//                       ),
-//                     ),
-//                   ),
-//                 );
-//               },
-//             );
-//           } else if (snapshot.hasError) {
-//             return Center(child: Text('Error fetching arenas'));
-//           }
-//           return Center(child: CircularProgressIndicator());
-//         },
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         backgroundColor: dBackgroundColor,
-//         unselectedItemColor: loginOutlinecolor,
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             label: 'Home',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.stadium),
-//             label: 'Add Arena',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.search),
-//             label: 'Search',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.history_toggle_off),
-//             label: 'History',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.person_rounded),
-//             label: 'Account',
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: kPrimaryColor,
-//         onTap: _onItemTapped,
-//       ),
-//     );
-//   }
-// }
 
 class OwnerHomePage extends StatefulWidget {
   const OwnerHomePage({Key? key}) : super(key: key);
@@ -262,7 +107,6 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
     );
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
