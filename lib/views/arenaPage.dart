@@ -1,4 +1,5 @@
 import 'package:arenago/views/add_fields.dart';
+import 'package:arenago/views/bookField.dart';
 import 'package:arenago/views/fieldPage.dart';
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -237,7 +238,7 @@ Widget _buildFieldList(BuildContext context, List<FieldInfo> fieldData) {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FieldPage(fieldData: field),
+              builder: (context) => BookField(fieldData: field),
             ),
           ),
           child: Container(
@@ -262,6 +263,7 @@ Widget _buildFieldList(BuildContext context, List<FieldInfo> fieldData) {
                 SizedBox(height: 8.0),
                 Text('Field Type: ${field.fieldType}'),
                 Text('Price: \$${field.price}'),
+                //Text('${field.timeSlots[0].startTime}'),
                 SizedBox(height: 8.0),
                 // Add more field details as needed
               ],
@@ -310,4 +312,15 @@ class TimeSlot {
     required this.startTime,
     required this.endTime,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TimeSlot &&
+          runtimeType == other.runtimeType &&
+          startTime == other.startTime &&
+          endTime == other.endTime;
+
+  @override
+  int get hashCode => startTime.hashCode ^ endTime.hashCode;
 }

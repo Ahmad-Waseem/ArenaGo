@@ -1,6 +1,7 @@
 import 'package:arenago/views/arenaPage.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart'; // Replace with your actual import path
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart'; // Replace with your actual import path
 
 class FieldPage extends StatelessWidget {
   final FieldInfo fieldData;
@@ -68,7 +69,8 @@ class FieldPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 8.0),
-              // _buildTimeSlots(fieldData['timeSlots']), // Add time slots list
+             _buildTimeSlots(fieldData.timeSlots), // Add time slots list
+
             ],
           ),
         ),
@@ -99,18 +101,18 @@ class FieldPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeSlots(List<dynamic>? timeSlots) {
-    if (timeSlots == null || timeSlots.isEmpty) {
-      return Text('No time slots available.', style: TextStyle(fontSize: 16));
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: timeSlots
-          .map((slot) => Text(
-                '• ${slot['startTime']} - ${slot['endTime']}',
-                style: TextStyle(fontSize: 16),
-              ))
-          .toList(),
-    );
+Widget _buildTimeSlots(List<TimeSlot>? timeSlots) {
+  if (timeSlots == null || timeSlots.isEmpty) {
+    return Text('No time slots available.', style: TextStyle(fontSize: 16));
   }
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: timeSlots.map((slot) => Text(
+      '• ${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
+      style: TextStyle(fontSize: 16),
+    )).toList(),
+  );
+}
+
+
 }
