@@ -6,6 +6,34 @@ import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Friend {
+  final String uid;
+  final String displayName;
+  //final String email; // Or any other relevant friend information
+
+  Friend(
+      {required this.uid,
+      required this.displayName /*, required this.email */});
+}
+
+final friendsCollection = FirebaseFirestore.instance.collection('friends');
+
+Stream<List<Friend>> getFriends() {
+  return friendsCollection.snapshots().map((snapshot) {
+    return snapshot.docs.map((doc) {
+      // Assuming your friend data structure in Firestore
+      final data = doc.data();
+      return Friend(
+        uid: doc.id,
+        displayName: data['displayName'],
+        //email: data['email'], // Or access other friend properties
+      );
+    }).toList();
+  });
+}
+
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -14,6 +42,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List<String> selectedFriendUids = [];
+
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -49,7 +79,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+            padding: const EdgeInsets.fromLTRB(10, 25, 10, 25),
 
             //width: double.infinity,
             decoration: BoxDecoration(
@@ -57,6 +87,7 @@ class _SearchPageState extends State<SearchPage> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(children: <Widget>[
+              // optional flex property if flex is 1 because the default flex is 1
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Arena Name',
@@ -191,6 +222,62 @@ class _SearchPageState extends State<SearchPage> {
                       .white, // Set the color inside the text box to white
                 ),
               ),
+              const SizedBox(width: 15.0),
+
+              StreamBuilder<List<Friend>>(
+                stream: getFriends(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final friends = snapshot.data!;
+
+                  return DropdownButtonFormField<List<String>>(
+                    // Use List<String> for multiple selections
+                    value:
+                        selectedFriendUids, // List to store selected friend UIDs
+                    isExpanded: true,
+                    hint: const Text('Select Friends'),
+                    items: friends
+                        .map((friend) => DropdownMenuItem(
+                              value: [
+                                friend.uid
+                              ], // Return a list with the friend's UID for selection
+                              child: Text(friend.displayName),
+                            ))
+                        .toList(),
+                    onChanged: (List<String>? newValues) {
+                      setState(() {
+                        selectedFriendUids =
+                            newValues ?? []; // Handle null selection
+                      });
+                    },
+                  );
+                },
+              ),
+
+              /*SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    /*Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => .......));*/
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      side: BorderSide.none,
+                      shape: const StadiumBorder()),
+                  child: const Text("Search",
+                      style: TextStyle(color: loginOutlinecolor)),
+                ),
+              ),*/
             ]),
           ),
           SizedBox(

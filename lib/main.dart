@@ -23,9 +23,6 @@ void main() async {
   runApp(MyApp());
 }
 
-
-
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -34,15 +31,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   User? user;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +46,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: user != null ? const OwnerHomePage() : const LoginView(),
+      home: user != null ? const HomePage() : const LoginView(),
+
       //home: AddArenaView()
       //routes: {
       //'/registration/': (context) => const RegistrationView(),
