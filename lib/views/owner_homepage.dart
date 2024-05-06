@@ -1,11 +1,11 @@
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/arenaPage.dart';
-import 'package:arenago/views/friends.dart';
+
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:arenago/views/owner_search.dart';
-import 'package:arenago/views/search.dart';
+
 import 'package:arenago/views/theme.dart';
-import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -62,6 +62,32 @@ class OwnerHomePage extends StatefulWidget {
 class _OwnerHomePageState extends State<OwnerHomePage> {
   final arenasRef = FirebaseDatabase.instance.ref().child('ArenaInfo');
   final currentUserId = FirebaseAuth.instance.currentUser!.uid.toString();
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 4) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerProfileScreen(),
+      ));
+    } else if (index == 2) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerSearchPage(),
+      ));
+    } else if (index == 1) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AddArenaView(),
+      ));
+    } else if (index == 0) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const OwnerHomePage(),
+      ));
+    }
+  }
+
 
   Widget _buildArenaListItem(
       BuildContext context, Animation<double> animation, ArenaInfo arenaInfo) {
@@ -182,7 +208,37 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
           ],
         ),
           ],
-        )
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: dBackgroundColor,
+        unselectedItemColor: loginOutlinecolor,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search Arena',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history_toggle_off),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_rounded),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: loginOutlinecolor,
+        onTap: _onItemTapped,
+      ),
+
         );
   }
 }

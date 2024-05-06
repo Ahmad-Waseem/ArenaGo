@@ -1,10 +1,11 @@
 import 'package:arenago/views/ProfileScreen.dart';
-import 'package:arenago/views/friends.dart';
+
 import 'package:arenago/views/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
-import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
-import 'package:flutter/widgets.dart';
+
+
+import 'package:arenago/views/play_buddies/friendlist.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -30,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
       ));
     } else if (index == 1) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const FriendsPage(),
+        builder: (context) => const PlayBuddiesPage(),
       ));
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(

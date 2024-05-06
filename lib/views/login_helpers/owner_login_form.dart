@@ -1,11 +1,11 @@
-import 'package:arenago/views/add_fields.dart';
+
 import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:arenago/views/homepage.dart';
+
 import 'package:arenago/views/login_helpers/owner_forgot_pw.dart';
 
 class OwnerLoginForm extends StatefulWidget {
@@ -31,6 +31,7 @@ class _OwnerLoginFormState extends State<OwnerLoginForm> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,13 +97,21 @@ class _OwnerLoginFormState extends State<OwnerLoginForm> {
                     onSaved: (value) {
                       _password = value!;
                     },
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.key),
                     hintText: 'Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
+                    suffixIcon: IconButton(
+                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                   ),
                 ),
                 const SizedBox(height: 5),

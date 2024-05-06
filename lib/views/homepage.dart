@@ -1,5 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
-import 'package:arenago/views/friends.dart';
+
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
