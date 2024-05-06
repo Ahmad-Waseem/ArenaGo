@@ -1,3 +1,4 @@
+import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/fieldPage.dart';
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -80,10 +81,34 @@ class _ArenaPageState extends State<ArenaPage> {
               _buildArenaInfo(widget.arena),
               SizedBox(height: 24.0),
               _buildFieldList(context, fields),
+              SizedBox(height: 16.0),
+            _buildButtons(context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            // Navigate to edit arena page
+          },
+          child: Text('Edit Arena'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddFieldView(arenaId: widget.arena.arenaId)),
+    );          },
+          child: Text('Add Field'),
+        ),
+      ],
     );
   }
 
