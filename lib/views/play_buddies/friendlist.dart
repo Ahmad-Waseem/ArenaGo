@@ -8,7 +8,6 @@ import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 
-
 String currentUserId = "";
 
 class PlayBuddiesPage extends StatefulWidget {
@@ -24,7 +23,6 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
   List<String> friends = [];
   List<FriendRequest> friendRequests = [];
   List<User> nonFriends = [];
-  
 
   @override
   void initState() {
@@ -35,18 +33,15 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
   }
 
   void _getCurrentUserId() async {
-    try
-    {
+    try {
       final user = FirebaseAuth.instance.currentUser;
       String id = user!.uid;
       currentUserId = id;
-    }
-    catch(e){
+    } catch (e) {
       debugPrint("doomed");
-
     }
-  
-}
+  }
+
   void _loadData() {
     // Load friends
     FriendsService().getFriends(currentUserId).listen((friendIds) {
@@ -324,7 +319,10 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
     // Fetch user data from the Realtime Database and return a User object
     final snapshot = await FirebaseDatabase.instance.ref('users/$userId').get();
     final userData = snapshot.value as Map<dynamic, dynamic>;
-    return User(id: userId, username: userData['username'], profilePic: userData['profilePic']);
+    return User(
+        id: userId,
+        username: userData['username'],
+        profilePic: userData['profilePic']);
   }
 
   Future<void> _sendFriendRequest(String toUserId) async {
@@ -380,7 +378,7 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final user = snapshot.data!;
-                
+
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(user.profilePic),
@@ -418,7 +416,10 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
     // Fetch user data from the Realtime Database and return a User object
     final snapshot = await FirebaseDatabase.instance.ref('users/$userId').get();
     final userData = snapshot.value as Map<dynamic, dynamic>;
-    return User(id: userId, username: userData['username'], profilePic: userData['profilePic']);
+    return User(
+        id: userId,
+        username: userData['username'],
+        profilePic: userData['profilePic']);
   }
 
   Future<void> _acceptFriendRequest(String requestId, String fromUserId) async {
@@ -429,13 +430,12 @@ class _FriendRequestsPageState extends State<FriendRequestsPage> {
 
   Future<void> _rejectFriendRequest(String requestId) async {
     await FriendsService().rejectFriendRequest(requestId);
-
   }
 }
 
 class FriendsService {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
-  
+
   // Send a friend request
   Future<void> sendFriendRequest(String fromUserId, String toUserId) async {
     final newRequestRef = _database.ref('friendRequests').push();
@@ -515,10 +515,9 @@ class FriendsService {
       if (data != null) {
         return data.entries
             .map((entry) => User(
-                  id: entry.key,
-                  username: entry.value['username'],
-                  profilePic: entry.value['profilePic']
-                ))
+                id: entry.key,
+                username: entry.value['username'],
+                profilePic: entry.value['profilePic']))
             .toList();
       }
       return [];

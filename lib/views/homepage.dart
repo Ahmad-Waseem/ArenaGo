@@ -1,5 +1,6 @@
 import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/friends.dart';
+import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
-          //RecommendationsWidget(),
+          RecommendationsWidget(),
         ],
       ),
 
