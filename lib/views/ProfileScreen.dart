@@ -1,4 +1,4 @@
-import 'package:arenago/views/friends.dart';
+
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
 import 'package:arenago/views/search.dart';
@@ -9,8 +9,9 @@ import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/UpdateProfileView.dart';
 import 'package:arenago/views/gmaps/LoadMap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:developer';
+
 import 'package:arenago/views/login_helpers/forgot_pw.dart';
+import 'package:arenago/views/play_buddies/friendlist.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -112,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ));
     } else if (index == 1) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const FriendsPage(),
+        builder: (context) => const PlayBuddiesPage(),
       ));
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(

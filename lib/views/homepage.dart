@@ -1,5 +1,6 @@
 import 'package:arenago/views/ProfileScreen.dart';
-import 'package:arenago/views/friends.dart';
+
+import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
@@ -42,51 +43,6 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
-Widget _buildRecentsList() {
-  // Sample data for recent activities
-  final List<String> recentActivities = ["Activity 1", "Activity 2", "Activity 3", "Activity 4"];
-
-  return SizedBox(
-    height: 150.0, // Adjust height as needed
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: recentActivities.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              color: Colors.grey[200],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(recentActivities[index]),
-            ),
-          ),
-        );
-      },
-    ),
-  );
-}
-
-
-  Widget _buildChoicesList() {
-    //placeholder for the vertically scrollable "Choices for you" list
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 20, // Number of items in the list
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Choice ${index + 1}'),
-            subtitle: Text('Description for Choice ${index + 1}'),
-            // Add onTap if needed
-          );
-        },
-      ),
-    );
-  }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -125,16 +81,20 @@ Widget _buildRecentsList() {
         title: const Text('ArenaGo'),
           automaticallyImplyLeading: false, // This removes the back button
       ),
-      body: Column(
+      body: const Column(
         children: [
-          _buildRecentsList(), //horizontally swipable "Recents" list
-          const Text(
-            'Choices for you', // Heading for the "Choices for you" list
+          //here, we will have recent booking widget after booking is done
+          SizedBox(height: 4.0),
+          Divider(),
+          Text(
+            'Recommendations',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          _buildChoicesList(), //vertically scrollable "Choices for you" list
+          SizedBox(height: 8.0),
+          RecommendationsWidget(),
         ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor:dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,

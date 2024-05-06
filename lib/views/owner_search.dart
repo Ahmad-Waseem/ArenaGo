@@ -1,12 +1,12 @@
-import 'package:arenago/views/ProfileScreen.dart';
+
 import 'package:arenago/views/add_arena.dart';
-import 'package:arenago/views/friends.dart';
-import 'package:arenago/views/homepage.dart';
+
+
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
-import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
+
 import 'package:flutter/widgets.dart';
 
 class OwnerSearchPage extends StatefulWidget {

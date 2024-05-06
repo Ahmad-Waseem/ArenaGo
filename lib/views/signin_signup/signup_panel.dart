@@ -1,12 +1,12 @@
 import 'package:arenago/views/UpdateProfileView.dart';
-import 'package:arenago/views/add_arena.dart';
-import 'package:arenago/views/homepage.dart';
-import 'package:arenago/views/login_view.dart';
+
+
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 

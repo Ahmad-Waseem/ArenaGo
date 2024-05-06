@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/gmaps/EditableMap.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,14 +14,14 @@ import 'package:arenago/views/theme.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UpdateProfileView extends StatefulWidget {
-  const UpdateProfileView({Key? key2}) : super(key: key2);
+class OwnerUpdateProfileView extends StatefulWidget {
+  const OwnerUpdateProfileView({Key? key}) : super(key: key);
 
   @override
-  _UpdateProfileViewState createState() => _UpdateProfileViewState();
+  _OwnerUpdateProfileViewState createState() => _OwnerUpdateProfileViewState();
 }
 
-class _UpdateProfileViewState extends State<UpdateProfileView> {
+class _OwnerUpdateProfileViewState extends State<OwnerUpdateProfileView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressNumberController =
@@ -299,7 +300,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                               ));
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const ProfileScreen(),
+                                builder: (context) => const OwnerProfileScreen(),
                               ),
                             );
                         },
