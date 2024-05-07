@@ -1,10 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
-<<<<<<< Updated upstream
-
-=======
-import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage_widgets/RecentBookingsWidget.dart';
->>>>>>> Stashed changes
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
@@ -21,32 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    // There will be widgets in it
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Friends',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Search',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: History',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Profile',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
