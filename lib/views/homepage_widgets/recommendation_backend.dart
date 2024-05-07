@@ -32,11 +32,40 @@ class RecommendationsBackend {
     return availableFields;
   }
 
-  // Future<FieldInfo> fetchFieldInfo(String fieldId)async
-  // {
+  Future<FieldInfo> fetchFieldInfo(var field)async
+  {
 
-  //     return Null;
-  // }
+      final Map<dynamic, dynamic> fieldData = field;
+      debugPrint('---------       2');
+      debugPrint('---------       3');
+
+      debugPrint('---------       4');
+
+      // Create FieldInfo object
+      final FieldInfo fieldInfo = FieldInfo(
+        fieldId: field['fieldId'],
+        arenaId: fieldData['arenaId'],
+        availableMaterial: fieldData['availableMaterial'],
+        basePrice: fieldData['basePrice'],
+        fieldType: fieldData['fieldType'],
+        fieldImages: (fieldData['field_images'] as List<dynamic>)
+            .map((image) => image as String)
+            .toList(),
+        groundType: fieldData['groundType'],
+        length: fieldData['length'],
+        peakPrice: fieldData['peakPrice'],
+        price: fieldData['price'],
+        timeSlots: (fieldData['timeSlots'] as List<dynamic>)
+            .map((slot) => TimeSlot(
+                  startTime: DateTime.parse(slot['startTime']),
+                  endTime: DateTime.parse(slot['endTime']),
+                ))
+            .toList(),
+        width: fieldData['width'],
+      );
+      debugPrint('---------       5');
+      return fieldInfo;
+  }
 
   // Check if a field has available timeslots
   bool isFieldAvailable(Map<String, dynamic> fieldInfo) 

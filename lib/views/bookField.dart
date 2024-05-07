@@ -496,7 +496,7 @@ Widget _buildTimeSlotList(List<TimeSlot> timeSlots) {
     children: timeSlots.map((slot) => RadioListTile<TimeSlot>(
       title: Text(
         '${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
       ),
       value: slot,
       groupValue: _selectedTimeSlot,
