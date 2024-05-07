@@ -113,16 +113,18 @@ class _RecentBookingsWidgetState extends State<RecentBookingsWidget> {
   Widget build(BuildContext context) {
     return !hasBooking
         ? Container(
-            width: double.infinity,
-            height: 50,
-            decoration: BoxDecoration(
-              color: loginOutlinecolor,
-              borderRadius: BorderRadius.circular(8.0), // Rounded corners
-            ),
-            child: const Text("( ･ω･ ?)\nNo recent Bewking",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          )
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Container(
+              width: double.infinity,
+              height: 50,
+              decoration: BoxDecoration(
+                color: loginOutlinecolor,
+                borderRadius: BorderRadius.circular(15.0), // Rounded corners
+              ),
+              child: const Text("( ･ω･ ?)\nNo recent Bewking",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ))
         : /////////////
         Container(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
