@@ -1,6 +1,7 @@
 import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
@@ -18,25 +19,52 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<String> _friendsList = []; // List to store fetched friends
+ // List<String> _friendsList = []; // List to store fetched friends
+  List<String> friends = [];
   List<String> _selectedFriends = []; // List to store selected friends
 
   @override
   void initState() {
     super.initState();
     _fetchFriendList(); // Fetch friends list when the page is initialized
+    _loadData();
+  }
+void _loadData() {
+    // Load friends
+    FriendsService().getFriends(currentUserId).listen((friendIds) {
+      setState(() {
+        friends = friendIds;
+      });
+    });
+}
+
+
+  Future<User> _getUserById(String userId) async {
+    // Fetch user data from the Realtime Database and return a User object
+    final snapshot = await FirebaseDatabase.instance.ref('users/$userId').get();
+    final userData = snapshot.value as Map<dynamic, dynamic>;
+    return User(
+        id: userId,
+        username: userData['username'],
+        profilePic: userData['profilePic']);
   }
 
+
+  
   void _fetchFriendList() {
     // Implement logic to fetch friends list from Firebase or any other data source
     // Here, we are using a dummy list as an example
     setState(() {
-      _friendsList = [
-        'Friend 1',
-        'Friend 2',
-        'Friend 3',
-        'Friend 4',
-      ];
+      //  _friendsList = [
+      //   'Friend 1',
+      //   'Friend 2',
+      //   'Friend 3',
+      //   'Friend 4',
+      // ];
+      _loadData();
+      //print(_friendsList);
+      //FriendsService().getFriends(currentUserId);
+      //_buildFriendsList(_friendsList);
     });
   }
 
@@ -249,7 +277,7 @@ class _SearchPageState extends State<SearchPage> {
                     }
                   });
                 },
-                items: _friendsList.map((String friend) {
+                items: friends.map((String friend) {
                   return DropdownMenuItem<String>(
                     value: friend,
                     child: Text(friend), // Assuming you display friend names
