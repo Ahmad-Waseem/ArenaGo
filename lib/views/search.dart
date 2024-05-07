@@ -1,4 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
+import 'package:arenago/views/SearchedArenasPage.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,6 +29,12 @@ class Friend {
 ////////////
 
 class _SearchPageState extends State<SearchPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _arenaNameController = TextEditingController();
+  final _maxPriceController = TextEditingController();
+  final _arenaTypeController = TextEditingController();
+  final _startTimeController = TextEditingController();
+  final _maxDistanceController = TextEditingController();
   // List<String> _friendsList = []; // List to store fetched friends
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   List<String> friendIds = [];
@@ -38,6 +45,8 @@ class _SearchPageState extends State<SearchPage> {
 
   List<Friend> _selectedFriends = []; ////////////^
   final friendsL = <Friend>[]; ///////////////////<
+  TimeOfDay? _startTime = const TimeOfDay(hour: 8, minute: 0);
+  TimeOfDay? _endTime = const TimeOfDay(hour: 20, minute: 0);
 
   @override
   void initState() {
@@ -120,6 +129,18 @@ class _SearchPageState extends State<SearchPage> {
       ));
     }
   }
+    Future<void> _selectStartTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _startTime ?? const TimeOfDay(hour: 8, minute: 0),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _startTime = pickedTime;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,23 +182,18 @@ class _SearchPageState extends State<SearchPage> {
                   Expanded(
                     // optional flex property if flex is 1 because the default flex is 1
                     flex: 1,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Location',
-                        prefixIcon: Icon(Icons.location_on_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(200.0),
-                          borderSide:
-                              const BorderSide(color: loginOutlinecolor),
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 0),
-                        filled: true, // Set filled to true
-                        fillColor: Colors
-                            .white, // Set the color inside the text box to white
+                    child: ListTile(
+                        title: const Text('Opening Time'),
+                        subtitle: Text(_startTime?.format(context) ?? ''),
+                        onTap: () => _selectStartTime(context),
                       ),
                     ),
-                  ),
+                    Container(
+                      color: Colors.black, // Set the color of the divider
+                      height: 50, // Set the height of the divider
+                      width: 1, // Set the thickness of the divider
+                    ),
+                  
                   SizedBox(width: 0.0),
                   Expanded(
                     // optional flex property if flex is 1 because the default flex is 1
@@ -223,10 +239,7 @@ class _SearchPageState extends State<SearchPage> {
                           //prefixIcon: Icon(Icons.sports_cricket),
                         ),
                         items: <String>[
-                          'Futsal',
-                          'Football',
-                          'Cricket(Outdoor)',
-                          'D'
+                          'Indoor', 'Outdoor'
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -259,21 +272,21 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
               const SizedBox(height: 6.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Start Time',
-                  prefixIcon: Icon(Icons.sports_soccer_rounded),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(200.0),
-                    borderSide: const BorderSide(color: loginOutlinecolor),
-                  ),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 12, horizontal: 0),
-                  filled: true, // Set filled to true
-                  fillColor: Colors
-                      .white, // Set the color inside the text box to white
-                ),
-              ),
+              // TextFormField(
+              //   decoration: InputDecoration(
+              //     labelText: 'Start Time',
+              //     prefixIcon: Icon(Icons.sports_soccer_rounded),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(200.0),
+              //       borderSide: const BorderSide(color: loginOutlinecolor),
+              //     ),
+              //     contentPadding:
+              //         EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+              //     filled: true, // Set filled to true
+              //     fillColor: Colors
+              //         .white, // Set the color inside the text box to white
+              //   ),
+              // ),
               const SizedBox(height: 15.0),
 
 
@@ -351,10 +364,10 @@ class _SearchPageState extends State<SearchPage> {
             width: 200,
             child: ElevatedButton(
               onPressed: () {
-                /*Navigator.push(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => .......));*/
+                        builder: (context) => SearchedArenasPage()));
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: loginOutlinecolor,
@@ -362,6 +375,7 @@ class _SearchPageState extends State<SearchPage> {
                   shape: const StadiumBorder()),
               child:
                   const Text("Search", style: TextStyle(color: Colors.white)),
+                  
             ),
           ),
         ],
