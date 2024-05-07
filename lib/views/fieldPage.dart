@@ -1,7 +1,7 @@
-import 'package:arenago/views/arenaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:intl/intl.dart'; // Replace with your actual import path
+import 'package:intl/intl.dart';
+import 'package:arenago/views/arenaPage.dart';
 
 class FieldPage extends StatelessWidget {
   final FieldInfo fieldData;
@@ -15,62 +15,81 @@ class FieldPage extends StatelessWidget {
         title: Text('Field Details'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 15.0),
-              _buildImageCarousel(fieldData
-                  .fieldImages), // Add image carousel if images provided
-              SizedBox(height: 25.0),
-              Text(
-                'Field Info:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              SizedBox(height: 20.0),
+              _buildImageCarousel(fieldData.fieldImages),
+              SizedBox(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  'Field Info',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
               ),
-              SizedBox(height: 18.0),
-              Text(
-                'Field Id: ${fieldData.fieldId}',
-                style: TextStyle(fontSize: 16),
+              Divider(color: Colors.grey),
+              SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Field Id: ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                    child: Text(
+                      fieldData.fieldId,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 8.0),
-              Text(
-                'Field Type: ${fieldData.fieldType}',
-                style: TextStyle(fontSize: 16),
+              SizedBox(height: 10.0),
+              _buildFieldInfoItem('Field Type', fieldData.fieldType),
+              _buildFieldInfoItem('Ground Type', fieldData.groundType),
+              _buildFieldInfoItem(
+                  'Dimensions', '${fieldData.length} x ${fieldData.width}'),
+              _buildFieldInfoItem(
+                  'Available Material', fieldData.availableMaterial),
+              _buildFieldInfoItem('Price', '₹${fieldData.price}'),
+              _buildFieldInfoItem('Base Price', '₹${fieldData.basePrice}'),
+              _buildFieldInfoItem('Peak Price', '₹${fieldData.peakPrice}'),
+              SizedBox(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  'Time Slots',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
               ),
-              SizedBox(height: 8.0),
-              Text(
-                'Ground Type: ${fieldData.groundType}',
-                style: TextStyle(fontSize: 16),
+              Divider(color: Colors.grey),
+              SizedBox(height: 10.0),
+              _buildTimeSlots(fieldData.timeSlots),
+              SizedBox(height: 50.0),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implement your remove field logic here
+                      },
+                      child: Text('Remove Field'),
+                    ),
+                    SizedBox(width: 10.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implement your edit field logic here
+                      },
+                      child: Text('Edit Field'),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 8.0),
-              Text(
-                'Dimensions: ${fieldData.length} x ${fieldData.width}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Available Material: ${fieldData.availableMaterial}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Price: ₹${fieldData.price}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Base Price: ₹${fieldData.basePrice}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Peak Price: ₹${fieldData.peakPrice}',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-             _buildTimeSlots(fieldData.timeSlots), // Add time slots list
-
             ],
           ),
         ),
@@ -80,39 +99,69 @@ class FieldPage extends StatelessWidget {
 
   Widget _buildImageCarousel(List<dynamic>? images) {
     if (images == null || images.isEmpty) {
-      return SizedBox(height: 0); // No images, don't display carousel
+      return Container(); // No images, don't display carousel
     }
     return CarouselSlider(
       items: images
           .map((image) => Image.network(image, fit: BoxFit.cover))
           .toList(),
       options: CarouselOptions(
-        // Enable autoplay
         autoPlay: true,
-        // Use the built-in CarouselIndicator for pagination
-        enlargeCenterPage:
-            true, // Optional: Enlarge center page for a more prominent display
-        viewportFraction:
-            0.8, // Optional: Adjust the portion of the screen occupied by the carousel
-        aspectRatio: 16 / 9, // Optional: Set an aspect ratio for the carousel
-        onPageChanged: (index, reason) => print(
-            'Page changed to $index'), // Optional: Callback for page changes
+        enlargeCenterPage: true,
+        viewportFraction: 0.8,
+        aspectRatio: 16 / 9,
       ),
     );
   }
 
-Widget _buildTimeSlots(List<TimeSlot>? timeSlots) {
-  if (timeSlots == null || timeSlots.isEmpty) {
-    return Text('No time slots available.', style: TextStyle(fontSize: 16));
+  Widget _buildFieldInfoItem(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value,
+            style: TextStyle(fontSize: 18),
+          ),
+        ],
+      ),
+    );
   }
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: timeSlots.map((slot) => Text(
-      '• ${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
-      style: TextStyle(fontSize: 16),
-    )).toList(),
-  );
-}
 
-
+  Widget _buildTimeSlots(List<TimeSlot>? timeSlots) {
+    if (timeSlots == null || timeSlots.isEmpty) {
+      return Text(
+        'No time slots available.',
+        style: TextStyle(fontSize: 18, color: Colors.black54),
+      );
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: timeSlots
+            .map(
+              (slot) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.blue,
+                  ),
+                  child: Text(
+                    '${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
 }

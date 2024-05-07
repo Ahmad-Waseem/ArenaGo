@@ -511,17 +511,6 @@ class TimeSlot {
         endTime!.isAfter(other.startTime!);
   }
 
-  // Function to check if this slot overlaps with another
-  // bool overlaps(TimeSlot other) {
-  //   if (startTime == null ||
-  //       endTime == null ||
-  //       other.startTime == null ||
-  //       other.endTime == null) {
-  //     return false; // Don't consider incomplete slots for overlap
-  //   }
-  //   return startTime!.isBefore(other.endTime!) &&
-  //       endTime!.isAfter(other.startTime!);
-  // }
 }
 
 // Widget to display and manage a single time slot

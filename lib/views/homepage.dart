@@ -1,4 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
+import 'package:arenago/views/bookingViews/userBookings.dart';
 import 'package:arenago/views/homepage_widgets/RecentBookingsWidget.dart';
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
@@ -55,7 +56,25 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('ArenaGo'),
           automaticallyImplyLeading: false, // This removes the back button
+          actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text('My Bookings'),
+                value: 'myBookings',
+              ),
+            ],
+            onSelected: (value) {
+              if (value == 'myBookings') {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => UserFieldBookings(), // Navigate to UserFieldBookings widget
+                ));
+              }
+            },
+          ),
+        ],
       ),
+      
       body: const Column(
         children: [
           //here, we will have recent booking widget after booking is done

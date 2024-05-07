@@ -234,45 +234,49 @@ Widget _buildFieldList(BuildContext context, List<FieldInfo> fieldData) {
       ),
       SizedBox(height: 16.0),
       for (final field in fieldData)
-        GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BookField(fieldData: field),
-            ),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), // Set border radius
-              border: Border.all(
-                color: const Color.fromARGB(255, 190, 190, 190), // Customize border color
-                width: 1.0, // Customize border width
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0), // Add margin bottom
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FieldPage(fieldData: field),
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 11.0,horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Field ID: ${field.fieldId}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 190, 190, 190),
+                  width: 1.0,
                 ),
-                SizedBox(height: 8.0),
-                Text('Field Type: ${field.fieldType}'),
-                Text('Price: \$${field.price}'),
-                //Text('${field.timeSlots[0].startTime}'),
-                SizedBox(height: 8.0),
-                // Add more field details as needed
-              ],
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Field ID: ${field.fieldId}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text('Field Type: ${field.fieldType}'),
+                  Text('Price: \$${field.price}'),
+                  //Text('${field.timeSlots[0].startTime}'),
+                  SizedBox(height: 8.0),
+                  // Add more field details as needed
+                ],
+              ),
             ),
           ),
         ),
     ],
   );
 }
+
 
 class FieldInfo {
   final String fieldId;
