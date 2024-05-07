@@ -261,7 +261,7 @@ class _SearchPageState extends State<SearchPage> {
               const SizedBox(height: 6.0),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Srart Time',
+                  labelText: 'Start Time',
                   prefixIcon: Icon(Icons.sports_soccer_rounded),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(200.0),
@@ -275,6 +275,21 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               const SizedBox(height: 15.0),
+
+
+///////////////// func 2
+              const Center(
+                  child: Text(
+                "Select Friends to search for an Arena convenient to all",
+                style: TextStyle(
+                  fontSize: 14.6,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                ),
+              )),
+
+              const SizedBox(height: 6.0),
 
               ////////////func 1
               DropdownButtonFormField<String>(
@@ -329,92 +344,6 @@ class _SearchPageState extends State<SearchPage> {
               ),
 //////////////////
               const SizedBox(height: 15.0),
-
-///////////////// func 2
-              Center(
-                  child: Text(
-                "Select Friends to search for an Arena convenient to all",
-                style: TextStyle(
-                  fontSize: 14.6,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                ),
-              )),
-
-              const SizedBox(height: 6.0),
-
-//friend selection dropdown menu
-//////////////////
-              DropdownButtonFormField<Friend>(
-                // Use Friend class for dropdown values
-                value:
-                    _selectedFriends.isNotEmpty ? _selectedFriends.first : null,
-                onChanged: (Friend? newValue) {
-                  setState(() {
-                    if (newValue != null) {
-                      if (_selectedFriends.contains(newValue)) {
-                        _selectedFriends.remove(newValue);
-                      } else {
-                        _selectedFriends.add(newValue);
-                      }
-                    }
-                  });
-                },
-                items: friendsL.map((Friend friend) {
-                  return DropdownMenuItem<Friend>(
-                    value: friend, // Use the entire Friend object
-                    child: Text(friend
-                        .username), // Display friend username from Friend class
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(200.0), // Adjust as desired
-                  ),
-                  labelText: 'Select Friends',
-                  prefixIcon: Icon(Icons.people),
-                ),
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down),
-              ),
-              const SizedBox(height: 6),
-              Wrap(
-                children: _selectedFriends
-                    .map((Friend friend) => Chip(
-                          label: Text(friend
-                              .username), // Display friend username from Friend class
-                          onDeleted: () =>
-                              setState(() => _selectedFriends.remove(friend)),
-                        ))
-                    .toList(),
-              ),
-
-              //],
-/////////////////
-/*
-              Text("siuu"),
-              SizedBox(height: 20.0),
-
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (var frien in friendsL)
-                      Text(
-                        frien.username,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                  ],
-                ),
-              ),   */
-
-              ////////////////
             ]),
           ),
           SizedBox(height: 10.0),

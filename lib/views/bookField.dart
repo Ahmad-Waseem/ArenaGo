@@ -9,8 +9,9 @@ import 'package:firebase_database/firebase_database.dart';
 
 class BookField extends StatefulWidget {
   final FieldInfo fieldData;
-
-  BookField({Key? key, required this.fieldData}) : super(key: key);
+  final List<String>? notifyFriendIds;
+  
+  BookField({Key? key, required this.fieldData, this.notifyFriendIds}) : super(key: key);
 
   @override
   _BookFieldState createState() => _BookFieldState();
