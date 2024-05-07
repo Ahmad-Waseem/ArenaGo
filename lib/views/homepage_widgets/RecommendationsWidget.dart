@@ -103,7 +103,7 @@ class _RecommendationsWidgetState extends State<RecommendationsWidget> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 5.0, vertical: 5.0),
                         child: ListTile(
-                          tileColor: Colors.white,
+                          tileColor: Colors.grey[200],
                           // loginOutlinecolor, //Color.fromARGB(255, 244, 249, 250),
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 10.0,

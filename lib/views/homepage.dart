@@ -17,36 +17,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      
     });
     if (index == 4) {
-      Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const ProfileScreen(),
-                    ));
-    }
-    else if (index == 2) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const SearchPage(),
-                    ));
-    }
-    else if (index == 1) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const PlayBuddiesPage(),
-                    ));
-    }
-    else if (index == 0) {
-                    Navigator.of(context).push(MaterialPageRoute
-                    (
-                      builder: (context) => const HomePage(),
-                    ));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const ProfileScreen(),
+      ));
+    } else if (index == 2) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const SearchPage(),
+      ));
+    } else if (index == 1) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const PlayBuddiesPage(),
+      ));
+    } else if (index == 0) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
     }
   }
 
@@ -55,8 +45,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ArenaGo'),
-          automaticallyImplyLeading: false, // This removes the back button
-          actions: [
+        automaticallyImplyLeading: false, // This removes the back button
+        actions: [
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
@@ -67,34 +57,41 @@ class _HomePageState extends State<HomePage> {
             onSelected: (value) {
               if (value == 'myBookings') {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => UserFieldBookings(), // Navigate to UserFieldBookings widget
+                  builder: (context) =>
+                      UserFieldBookings(), // Navigate to UserFieldBookings widget
                 ));
               }
             },
           ),
         ],
       ),
-      
-      body: const Column(
+      body: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        //mainAxisSize: MainAxisSize.max,
         children: [
           //here, we will have recent booking widget after booking is done
           RecentBookingsWidget(),
           SizedBox(height: 4.0),
           Divider(),
-          Text(
-            'Top Recommendations',
-            //textAlign: TextAlign(textAlign.left),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: const Center(
+              child: Text(
+                'Top Recommendations',
+                //textAlign: TextAlign(textAlign.left),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           SizedBox(height: 8.0),
           RecommendationsWidget(),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:dBackgroundColor,
+        backgroundColor: dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,
-
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -118,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: kPrimaryColor, 
+        selectedItemColor: kPrimaryColor,
         onTap: _onItemTapped,
       ),
     );
