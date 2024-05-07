@@ -1,5 +1,6 @@
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/arenaPage.dart';
+import 'package:arenago/views/bookingViews/ownerFieldBookings.dart';
 
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:arenago/views/owner_search.dart';
@@ -51,7 +52,6 @@ class Location {
   });
 }
 
-
 class OwnerHomePage extends StatefulWidget {
   const OwnerHomePage({Key? key}) : super(key: key);
 
@@ -63,7 +63,45 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
   final arenasRef = FirebaseDatabase.instance.ref().child('ArenaInfo');
   final currentUserId = FirebaseAuth.instance.currentUser!.uid.toString();
 
+  List<ArenaInfo> arenas = [];
+
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchArenas();
+  }
+
+void _fetchArenas() {
+  arenasRef.orderByChild('owner_id').equalTo(currentUserId).onChildAdded.listen((event) {
+    final arenaData = event.snapshot.value as Map<dynamic, dynamic>;
+    setState(() {
+      final arena = ArenaInfo(
+        arenaId: event.snapshot.key!,
+        arenaName: arenaData['arena_name'] as String,
+        address: arenaData['address'] as String,
+        city: arenaData['city'] as String,
+        contact: arenaData['contact'] as String,
+        date: DateTime.parse(arenaData['date'] as String),
+        endTime: arenaData['end_time'] as String,
+        location: Location(
+          latitude: arenaData['location']['latitude'] as double,
+          longitude: arenaData['location']['longitude'] as double,
+        ),
+        price: arenaData['price'] as int,
+        startTime: arenaData['start_time'] as String,
+        town: arenaData['town'] as String,
+        arenaImages: (arenaData['arena_images'] as List<dynamic>)
+            .map((image) => image as String)
+            .toList(),
+      );
+      arenas.add(arena);
+    });
+  });
+}
+
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -87,7 +125,6 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
       ));
     }
   }
-
 
   Widget _buildArenaListItem(
       BuildContext context, Animation<double> animation, ArenaInfo arenaInfo) {
@@ -136,80 +173,102 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('ArenaGo'),
-          automaticallyImplyLeading: false, // Remove back button
-        ),
-        body: Column(
-          children: [
-            const SizedBox(height: 16.0), // Add a little spacing
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0), // Add padding
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Your Arenas',
-                  style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold), // Style for heading
+      appBar: AppBar(
+        title: const Text('ArenaGo'),
+        automaticallyImplyLeading: false, // Remove back button
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (String result) {
+              if (result == 'bookings') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OwnerFieldBookings(arenas:arenas),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'bookings',
+                child: Text('Bookings'),
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 16.0), // Add a little spacing
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0), // Add padding
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Your Arenas',
+                style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold), // Style for heading
+              ),
+            ),
+          ),
+          const SizedBox(height: 8.0), // Add a little spacing
+          Expanded(
+            // Use Expanded widget for list
+            child: FirebaseAnimatedList(
+              query: arenasRef.orderByChild('owner_id').equalTo(currentUserId),
+              itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                  Animation<double> animation, int index) {
+                final arenaData = snapshot.value as Map<dynamic, dynamic>;
+                final arenaInfo = ArenaInfo(
+                  arenaId: snapshot.key!,
+                  arenaName: arenaData['arena_name'] as String,
+                  address: arenaData['address'] as String,
+                  city: arenaData['city'] as String,
+                  contact: arenaData['contact'] as String,
+                  date: DateTime.parse(arenaData['date'] as String),
+                  endTime: arenaData['end_time'] as String,
+                  location: Location(
+                    latitude: arenaData['location']['latitude'] as double,
+                    longitude: arenaData['location']['longitude'] as double,
+                  ),
+                  price: arenaData['price'] as int,
+                  startTime: arenaData['start_time'] as String,
+                  town: arenaData['town'] as String,
+                  arenaImages: (arenaData['arena_images'] as List<dynamic>)
+                      .map((image) => image as String)
+                      .toList(),
+                );
+
+                return _buildArenaListItem(context, animation, arenaInfo);
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.end, // Align button to bottom right
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    right: 16.0, bottom: 16.0), // Add padding
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddArenaView()), // Assuming AddArenaView is defined
+                    );
+                  },
+                  child: const Icon(Icons.add),
                 ),
               ),
-            ),
-            const SizedBox(height: 8.0), // Add a little spacing
-            Expanded(
-              // Use Expanded widget for list
-              child: FirebaseAnimatedList(
-                query:
-                    arenasRef.orderByChild('owner_id').equalTo(currentUserId),
-                itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                    Animation<double> animation, int index) {
-                  final arenaData = snapshot.value as Map<dynamic, dynamic>;
-                  final arenaInfo = ArenaInfo(
-                    arenaId: snapshot.key!,
-                    arenaName: arenaData['arena_name'] as String,
-                    // ... Populate other properties from the data
-                    address: arenaData['address'] as String,
-                    city: arenaData['city'] as String,
-                    contact: arenaData['contact'] as String,
-                    date: DateTime.parse(arenaData['date'] as String),
-                    endTime: arenaData['end_time'] as String,
-                    location: Location(
-                      latitude: arenaData['location']['latitude'] as double,
-                      longitude: arenaData['location']['longitude'] as double,
-                    ),
-                    price: arenaData['price'] as int,
-                    startTime: arenaData['start_time'] as String,
-                    town: arenaData['town'] as String,
-                    arenaImages: (arenaData['arena_images'] as List<dynamic>)
-                        .map((image) => image as String)
-                        .toList(),
-                  );
-
-                  return _buildArenaListItem(context, animation, arenaInfo);
-                },
-              ),
-            ),
-            Row(
-          mainAxisAlignment: MainAxisAlignment.end, // Align button to bottom right
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0, bottom: 16.0), // Add padding
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddArenaView()), // Assuming AddArenaView is defined
-                  );
-                },
-                child: const Icon(Icons.add),
-              ),
-            ),
-          ],
-        ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
         backgroundColor: dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,
         items: const <BottomNavigationBarItem>[
@@ -238,7 +297,6 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
         selectedItemColor: loginOutlinecolor,
         onTap: _onItemTapped,
       ),
-
-        );
+    );
   }
 }

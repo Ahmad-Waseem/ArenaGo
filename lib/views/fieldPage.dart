@@ -107,6 +107,7 @@ Widget _buildTimeSlots(List<TimeSlot>? timeSlots) {
   }
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
+    
     children: timeSlots.map((slot) => Text(
       '• ${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
       style: TextStyle(fontSize: 16),

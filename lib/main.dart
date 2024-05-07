@@ -3,6 +3,7 @@
 
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/owner_homepage.dart';
 
 
 import 'package:firebase_core/firebase_core.dart';
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: loginOutlinecolor,
       ),
       home: user != null ? const HomePage() : const LoginView(),
-      //home: AddArenaView()
+      //home: OwnerHomePage()
       //routes: {
       //'/registration/': (context) => const RegistrationView(),
       //'/login/': (context) => const LoginView(),
