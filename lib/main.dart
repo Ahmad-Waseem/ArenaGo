@@ -51,8 +51,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: loginOutlinecolor,
       ),
-      home: user != null ? const HomePage() : const LoginView(),
-      //home: OwnerHomePage()
+      //home: user != null ? const HomePage() : const LoginView(),
+      home: OwnerHomePage()
       //routes: {
       //'/registration/': (context) => const RegistrationView(),
       //'/login/': (context) => const LoginView(),

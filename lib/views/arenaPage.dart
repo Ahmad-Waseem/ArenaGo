@@ -240,7 +240,7 @@ Widget _buildFieldList(BuildContext context, List<FieldInfo> fieldData) {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BookField(fieldData: field),
+                builder: (context) => FieldPage(fieldData: field),
               ),
             ),
             child: Container(
