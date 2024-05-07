@@ -124,93 +124,98 @@ class _RecentBookingsWidgetState extends State<RecentBookingsWidget> {
                 style: TextStyle(fontWeight: FontWeight.bold)),
           )
         : /////////////
-
         Container(
-            padding: const EdgeInsets.all(10.0), // Add padding here
-            decoration: BoxDecoration(
-              color: loginOutlinecolor,
-              borderRadius: BorderRadius.circular(16.0), // Rounded corners
-            ),
-            child: Column(children: [
-              const Center(
-                child: Text(
-                  'Recent Bookings',
-                  //textAlign: TextAlign(textAlign.left),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            child: Container(
+              padding: const EdgeInsets.all(10.0), // Add padding here
+              decoration: BoxDecoration(
+                color: loginOutlinecolor,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(
+                  color: Colors.black, // Border color
+                  width: 0.0, // Border width
                 ),
               ),
-              const SizedBox(
-                height: 2.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
+              child: Column(children: [
+                const Center(
+                  child: Text(
+                    'Recent Bookings',
+                    //textAlign: TextAlign(textAlign.left),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                child: SizedBox(
-                  height: 150,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _recentBookings.length,
-                    itemBuilder: (context, index) {
-                      final booking = _recentBookings[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: InkWell(
-                          onTap: () {
-                            _changeScreen(booking);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              color: Colors.grey[200],
-                              border: Border.all(
-                                color: Colors.black, // Border color
-                                width: 2.0, // Border width
+                const SizedBox(
+                  height: 2.0,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _recentBookings.length,
+                      itemBuilder: (context, index) {
+                        final booking = _recentBookings[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: InkWell(
+                            onTap: () {
+                              _changeScreen(booking);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                                color: Colors.grey[200],
+                                border: Border.all(
+                                  color: Colors.black, // Border color
+                                  width: 2.0, // Border width
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          8.0), // Rounded corners
-                                      child: SizedBox(
-                                        width: 80,
-                                        height: 130,
-                                        child: Image.network(
-                                          booking['image'],
-                                          fit: BoxFit
-                                              .fill, // Fit the image to the box
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Rounded corners
+                                        child: SizedBox(
+                                          width: 80,
+                                          height: 130,
+                                          child: Image.network(
+                                            booking['image'],
+                                            fit: BoxFit
+                                                .fill, // Fit the image to the box
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
 
-                                  Text(
-                                    _arenaNames[index],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  //const SizedBox(height: 8.0),
-                                  // Text('${booking['start_time']} - ${booking['end_time']}'),
-                                  //const SizedBox(height: 8.0),
-                                  // Text('Price: \$${booking['price'].toStringAsFixed(2)}'),
-                                ],
+                                    Text(
+                                      _arenaNames[index],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    //const SizedBox(height: 8.0),
+                                    // Text('${booking['start_time']} - ${booking['end_time']}'),
+                                    //const SizedBox(height: 8.0),
+                                    // Text('Price: \$${booking['price'].toStringAsFixed(2)}'),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ]),
-          );
-
+              ]),
+            ));
     //////////
   }
 }

@@ -101,7 +101,7 @@ class _RecommendationsWidgetState extends State<RecommendationsWidget> {
                     },
                     child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 5.0, vertical: 5.0),
+                            horizontal: 15.0, vertical: 5.0),
                         child: ListTile(
                           tileColor: Colors.grey[200],
                           // loginOutlinecolor, //Color.fromARGB(255, 244, 249, 250),
@@ -113,7 +113,7 @@ class _RecommendationsWidgetState extends State<RecommendationsWidget> {
                             side: const BorderSide(
                               // Add a black border here
                               color: Colors.black,
-                              width: 2.5, // Adjust border width as desired
+                              width: 2.2, // Adjust border width as desired
                             ),
                           ),
                           leading: SizedBox(
