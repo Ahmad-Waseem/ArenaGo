@@ -3,6 +3,7 @@ import 'package:arenago/views/bookingViews/userBookings.dart';
 import 'package:arenago/views/homepage_widgets/RecentBookingsWidget.dart';
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
+import 'package:arenago/views/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/play_buddies/friendlist.dart';
@@ -24,6 +25,10 @@ class _HomePageState extends State<HomePage> {
     if (index == 4) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const ProfileScreen(),
+      ));
+    } else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotificationsPage(), ///////////
       ));
     } else if (index == 2) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -120,8 +125,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
-            label: 'History',
+            icon: Icon(Icons.notifications_active_rounded),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_rounded),
