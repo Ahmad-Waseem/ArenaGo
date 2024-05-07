@@ -326,7 +326,7 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
   }
 
   Future<void> _sendFriendRequest(String toUserId) async {
-    await FriendsService().sendFriendRequest(currentUserId, toUserId);
+    await FriendsService().sendFriendRequest(context, currentUserId, toUserId);
   }
 
   Future<void> _acceptFriendRequest(String requestId, String fromUserId) async {
@@ -437,13 +437,21 @@ class FriendsService {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   // Send a friend request
-  Future<void> sendFriendRequest(String fromUserId, String toUserId) async {
+  Future<void> sendFriendRequest(BuildContext context, String fromUserId, String toUserId) async {
     final newRequestRef = _database.ref('friendRequests').push();
     await newRequestRef.set({
       'fromUserId': fromUserId,
       'toUserId': toUserId,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
     });
+     // Show alert message
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Friend request sent'),
+      duration: Duration(seconds: 2), // Adjust the duration as needed
+    ),
+    
+  );
     debugPrint("=================================================sent req");
     debugPrint("=============================================");
     debugPrint("=================================================%^*%^%");

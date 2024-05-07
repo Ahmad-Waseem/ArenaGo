@@ -1,3 +1,5 @@
+import 'package:arenago/views/arenaPage.dart';
+import 'package:arenago/views/bookField.dart';
 import 'package:arenago/views/homepage_widgets/recommendation_backend.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -51,11 +53,36 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
       debugPrint("\n");
       debugPrint(arenaData['arena_name']);
     } else {
-      arenaNames.add('Arena Not Found'); //arena data is not available
+      arenaNames.add('Anonymous Arena'); //arena data is not available
     }
   }
   return arenaNames;
-}//?? 
+  }//?? 
+
+  Future<void> _changeScreen(var field) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(color:loginOutlinecolor),
+        );
+      },
+    );
+    await Future.delayed(const Duration(seconds: 1));
+    FieldInfo fieldInfo = await _backend.fetchFieldInfo(field); // Implement this method to fetch FieldInfo
+
+    
+    
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => BookField(fieldData: fieldInfo,)),
+    );
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
@@ -67,7 +94,13 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
         itemCount: _availableFields.length,
         itemBuilder: (context, index) {
           final field = _availableFields[index];
-          return ListTile(
+          return InkWell(
+            onTap: (){
+              _changeScreen(field);
+            },
+            child: ListTile(
+            tileColor: Color.fromARGB(255, 244, 249, 250),
+
             leading: SizedBox(
                   width: 110,
                   height: 160, 
@@ -86,9 +119,13 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
               ],
             ),
             trailing: _buildFieldTypeEmojis(field['fieldType']),
-          );
+            
+          )
+      );
         },
+        
       ),
+      
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:arenago/views/arenaPage.dart';
 import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -216,12 +217,19 @@ void _bookField() {
   }
 
 Widget _buildTimeSlotList(List<TimeSlot> timeSlots) {
+
+  if (timeSlots.isEmpty) {
+    return const Text(
+      'NO SLOTS AVAILABLE  (つ﹏⊂)',
+      style: TextStyle(fontSize: 16, color: kPrimaryColor), // Customize the style as needed
+    );
+  }
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: timeSlots.map((slot) => RadioListTile<TimeSlot>(
       title: Text(
         '${DateFormat('hh:mm').format(slot.startTime)} - ${DateFormat('hh:mm').format(slot.endTime)}',
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
       ),
       value: slot,
       groupValue: _selectedTimeSlot,

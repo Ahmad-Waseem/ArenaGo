@@ -1,5 +1,5 @@
 import 'package:arenago/views/ProfileScreen.dart';
-
+import 'package:arenago/views/homepage_widgets/RecentBookingsWidget.dart';
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
@@ -16,32 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    // There will be widgets in it
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Friends',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Search',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: History',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Profile',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -84,10 +59,12 @@ class _HomePageState extends State<HomePage> {
       body: const Column(
         children: [
           //here, we will have recent booking widget after booking is done
+          RecentBookingsWidget(),
           SizedBox(height: 4.0),
           Divider(),
           Text(
-            'Recommendations',
+            'Top Recommendations',
+            //textAlign: TextAlign(textAlign.left),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
