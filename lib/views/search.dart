@@ -29,7 +29,11 @@ class Friend {
 
 class _SearchPageState extends State<SearchPage> {
   // List<String> _friendsList = []; // List to store fetched friends
-  List<String> friends = [];
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
+  List<String> friendIds = [];
+  List<String> friendNames = [];
+  List<Friend> friendList = [];
+
   List<String> p_selectedFriends = []; // List to store selected friends
 
   List<Friend> _selectedFriends = []; ////////////^
@@ -38,28 +42,47 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-
-    _fetchFriendList(); // Fetch friends list when the page is initialized
     _loadData();
   }
 
-  /////////
+  Future<List<Friend>> getFriends(String userId) async {
+    final DatabaseReference friendsRef = _database.ref('friends/$userId');
+    final DataSnapshot snapshot = await friendsRef.get();
 
-  void getFriendsWithUsernames() async {
-    for (final ffriendId in friends) {
-      final fuser = await _getUserById(
-          ffriendId); // Assuming _getUserById fetches User data
-      friendsL.add(Friend(friendId: ffriendId, username: fuser.username));
+    if (snapshot.exists) {
+      final Map<dynamic, dynamic>? data =
+          snapshot.value as Map<dynamic, dynamic>?;
+      if (data != null) {
+        List<Friend> friendList = [];
+        for (var entry in data.entries) {
+          final String friendId = entry.key as String;
+          final String username = await _getUsername(friendId);
+          if (username.isNotEmpty) {
+            friendList.add(Friend(friendId: friendId, username: username));
+          }
+        }
+        return friendList;
+      }
     }
+
+    return [];
   }
 
-  //////
-  void _loadData() {
-    // Load friends
-    FriendsService().getFriends(currentUserId).listen((friendIds) {
-      setState(() {
-        friends = friendIds;
-      });
+  Future<String> _getUsername(String userId) async {
+    final DataSnapshot userSnapshot =
+        await _database.ref('users/$userId/username').get();
+    if (userSnapshot.exists) {
+      return userSnapshot.value as String;
+    }
+    return '';
+  }
+
+  void _loadData() async {
+    final friendInstances = await getFriends(currentUserId);
+    setState(() {
+      friendList = friendInstances;
+      friendIds = friendList.map((friend) => friend.friendId).toList();
+      friendNames = friendList.map((friend) => friend.username).toList();
     });
   }
 
@@ -71,25 +94,6 @@ class _SearchPageState extends State<SearchPage> {
         id: userId,
         username: userData['username'],
         profilePic: userData['profilePic']);
-  }
-
-  void _fetchFriendList() {
-    // Implement logic to fetch friends list from Firebase or any other data source
-    // Here, we are using a dummy list as an example
-    setState(() {
-      //  _friendsList = [
-      //   'Friend 1',
-      //   'Friend 2',
-      //   'Friend 3',
-      //   'Friend 4',
-      // ];
-      _loadData();
-
-      getFriendsWithUsernames();
-      //print(_friendsList);
-      //FriendsService().getFriends(currentUserId);
-      //_buildFriendsList(_friendsList);
-    });
   }
 
   int _selectedIndex = 2;
@@ -280,6 +284,7 @@ class _SearchPageState extends State<SearchPage> {
                 onChanged: (String? newValue) {
                   setState(() {
                     if (newValue != null) {
+                                       
                       if (p_selectedFriends.contains(newValue)) {
                         p_selectedFriends.remove(newValue);
                       } else {
@@ -288,10 +293,10 @@ class _SearchPageState extends State<SearchPage> {
                     }
                   });
                 },
-                items: friends.map((String friend) {
+                items: friendList.map((Friend friend) {
                   return DropdownMenuItem<String>(
-                    value: friend,
-                    child: Text(friend), // Assuming you display friend names
+                    value: friend.friendId,       // use their ids
+                    child: Text(friend.username), // Display friend names
                   );
                 }).toList(),
                 decoration: InputDecoration(
@@ -311,16 +316,17 @@ class _SearchPageState extends State<SearchPage> {
               ),
               const SizedBox(height: 6),
               Wrap(
-                children: p_selectedFriends
-                    .map((friend) => Chip(
-                          label:
-                              Text(friend), // Assuming you display friend names
-                          onDeleted: () =>
-                              setState(() => p_selectedFriends.remove(friend)),
-                        ))
-                    .toList(),
+                children: p_selectedFriends.map((friendId) {
+                  final selectedFriend = friendList
+                      .firstWhere((friend) => friend.friendId == friendId);
+                  return Chip(
+                    label:
+                        Text(selectedFriend.username), // Display friend names
+                    onDeleted: () =>
+                        setState(() => p_selectedFriends.remove(friendId)),
+                  );
+                }).toList(),
               ),
-
 //////////////////
               const SizedBox(height: 15.0),
 

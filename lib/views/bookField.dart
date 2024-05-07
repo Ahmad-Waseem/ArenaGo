@@ -488,7 +488,7 @@ Widget _buildTimeSlotList(List<TimeSlot> timeSlots) {
   if (timeSlots.isEmpty) {
     return const Text(
       'NO SLOTS AVAILABLE  (つ﹏⊂)',
-      style: TextStyle(fontSize: 16, color: kPrimaryColor), // Customize the style as needed
+      style: TextStyle(fontSize: 16, color: kPrimaryColor),
     );
   }
   return Column(
