@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: const Text('ArenaGo'),
         automaticallyImplyLeading: false, // This removes the back button
         actions: [
@@ -74,8 +73,11 @@ class _HomePageState extends State<HomePage> {
 
           ///////
           Container(
-            color: Colors.white,
-            width: double.infinity, // Background color
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25.0),
+            ), // Background color
             child: Column(
               children: [
                 RecentBookingsWidget(),
