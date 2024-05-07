@@ -1,35 +1,42 @@
+import 'package:arenago/views/arenaPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class RecommendationsBackend {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  // Fetch the available fields from the 'FieldInfo' collection
+  // Fetch the available fields from the 'FieldInfo'
   Future<List<Map<dynamic, dynamic>>> getAvailableFields() async 
   {
+    debugPrint("getting recommendations");
     final DatabaseReference fieldInfoRef = _database.ref('FieldInfo');
     final DataSnapshot snapshot = await fieldInfoRef.get();
-    debugPrint("here is the error");
+    
     final List<Map<dynamic, dynamic>> availableFields = [];
-    debugPrint("here is the error=======2");
+    //debugPrint("here is the error=======2");
     for (final DataSnapshot data in snapshot.children) 
     {
       final Map<dynamic, dynamic> fieldInfo = data.value as Map<dynamic, dynamic>;
       //if the field has available timeslots and add it to the list
-      // if (isFieldAvailable(fieldInfo)) 
+      // if (isFieldAvailable(fieldInfo))
 
         //surge pricing logic
         // final double newPrice = calculateSurgePrice(fieldInfo);
         // fieldInfo['price'] = newPrice;
         availableFields.add(fieldInfo);
-        debugPrint("here is the error=======3");
+        //debugPrint("here is the error=======3");
       
     }
 
     return availableFields;
   }
+
+  // Future<FieldInfo> fetchFieldInfo(String fieldId)async
+  // {
+
+  //     return Null;
+  // }
 
   // Check if a field has available timeslots
   bool isFieldAvailable(Map<String, dynamic> fieldInfo) 
