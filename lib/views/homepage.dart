@@ -1,5 +1,10 @@
 import 'package:arenago/views/ProfileScreen.dart';
+<<<<<<< Updated upstream
 
+=======
+import 'package:arenago/views/friends.dart';
+import 'package:arenago/views/homepage_widgets/RecentBookingsWidget.dart';
+>>>>>>> Stashed changes
 import 'package:arenago/views/homepage_widgets/RecommendationsWidget.dart';
 import 'package:arenago/views/search.dart';
 import 'package:flutter/material.dart';
@@ -84,10 +89,12 @@ class _HomePageState extends State<HomePage> {
       body: const Column(
         children: [
           //here, we will have recent booking widget after booking is done
+          RecentBookingsWidget(),
           SizedBox(height: 4.0),
           Divider(),
           Text(
-            'Recommendations',
+            'Top Recommendations',
+            //textAlign: TextAlign(textAlign.left),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),

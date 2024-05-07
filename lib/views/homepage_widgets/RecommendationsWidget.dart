@@ -51,7 +51,7 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
       debugPrint("\n");
       debugPrint(arenaData['arena_name']);
     } else {
-      arenaNames.add('Arena Not Found'); //arena data is not available
+      arenaNames.add('Anonymous Arena'); //arena data is not available
     }
   }
   return arenaNames;
@@ -68,6 +68,8 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
         itemBuilder: (context, index) {
           final field = _availableFields[index];
           return ListTile(
+            tileColor: Color.fromARGB(255, 244, 249, 250),
+
             leading: SizedBox(
                   width: 110,
                   height: 160, 
@@ -86,9 +88,12 @@ Future<List<String>> _fetchArenaNames(List<Map<dynamic, dynamic>> fields) async 
               ],
             ),
             trailing: _buildFieldTypeEmojis(field['fieldType']),
+            
           );
         },
+        
       ),
+      
     );
   }
 
