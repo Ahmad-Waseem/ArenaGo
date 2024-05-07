@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:arenago/views/Searching_Logic/searchResult.dart';
 import 'package:arenago/views/play_buddies/friendlist.dart';
 
 import 'package:flutter/material.dart';
@@ -52,6 +52,36 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _loadData();
+  }
+
+
+  List<String> convertFriendListToIds(List<Friend> friends) {
+    return friends.map((friend) => friend.friendId).toList();
+  }
+  @override
+  void dispose() {
+    _arenaNameController.dispose();
+    _maxPriceController.dispose();
+    _arenaTypeController.dispose();
+    _startTimeController.dispose();
+    _maxDistanceController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchPressed() {
+    String arenaName = _arenaNameController.text;
+    double maxDistance = double.parse(_maxDistanceController.text);
+    //String startTimeString = pickingTime.format(context);
+    //TimeOfDay startTime = TimeOfDay.fromDateTime(DateTime.parse(startTimeString));
+    double maxPrice = double.parse(_maxPriceController.text);
+    List<Friend> p_selectedFriends = _selectedFriends;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResult(arenaName: arenaName, maxDistance: maxDistance, maxPrice:maxPrice, friendIds: convertFriendListToIds(p_selectedFriends),),
+      ),
+    );
   }
 
   Future<List<Friend>> getFriends(String userId) async {
@@ -129,6 +159,7 @@ class _SearchPageState extends State<SearchPage> {
       ));
     }
   }
+  var pickingTime;
     Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -138,6 +169,7 @@ class _SearchPageState extends State<SearchPage> {
     if (pickedTime != null) {
       setState(() {
         _startTime = pickedTime;
+        pickingTime = pickedTime;
       });
     }
   }
@@ -161,6 +193,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Column(children: <Widget>[
               TextFormField(
+                controller: _arenaNameController,
                 decoration: InputDecoration(
                   labelText: 'Arena Name',
                   prefixIcon: Icon(Icons.stadium_rounded),
@@ -199,6 +232,8 @@ class _SearchPageState extends State<SearchPage> {
                     // optional flex property if flex is 1 because the default flex is 1
                     flex: 1,
                     child: TextFormField(
+                      
+                      controller: _maxDistanceController,
                       decoration: InputDecoration(
                         labelText: 'Max Distance',
                         prefixIcon: Icon(Icons.route_rounded),
@@ -226,6 +261,7 @@ class _SearchPageState extends State<SearchPage> {
                       // optional flex property if flex is 1 because the default flex is 1
                       flex: 1,
                       child: DropdownButtonFormField<String>(
+                        
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -253,6 +289,7 @@ class _SearchPageState extends State<SearchPage> {
                     // optional flex property if flex is 1 because the default flex is 1
                     flex: 1,
                     child: TextFormField(
+                      controller: _maxPriceController,
                       decoration: InputDecoration(
                         labelText: 'Max Price',
                         prefixIcon: Icon(Icons.attach_money_rounded),
@@ -364,10 +401,7 @@ class _SearchPageState extends State<SearchPage> {
             width: 200,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SearchedArenasPage()));
+                _onSearchPressed();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: loginOutlinecolor,
@@ -412,70 +446,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-
-/*
-Widget _buildFriendsDropdown() {
-    return StreamBuilder(
-      stream: _fetchFriendList(),
-      builder: (context, AsyncSnapshot<List<String>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Text('No friends available');
-        } else {
-          return DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(200.0),
-              ),
-              hintText: 'Select Friends',
-              //prefixIcon: Icon(Icons.person_add),
-            ),
-            items: snapshot.data!.map((String friend) {
-              return DropdownMenuItem<String>(
-                value: friend,
-                child: Text(friend),
-              );
-            }).toList(),
-            onChanged: (String? selectedFriend) {
-              setState(() {
-                if (selectedFriend != null) {
-                  if (_selectedFriends.contains(selectedFriend)) {
-                    _selectedFriends.remove(selectedFriend);
-                  } else {
-                    _selectedFriends.add(selectedFriend);
-                  }
-                }
-              });
-            },
-            value: _selectedFriends.isNotEmpty ? _selectedFriends[0] : null,
-            isExpanded: true,
-            icon: Icon(Icons.arrow_drop_down),
-            iconSize: 36.0,
-            elevation: 16,
-            style: TextStyle(color: Colors.black),
-            dropdownColor: Colors.white,
-            // Allow selecting multiple options
-            //multiSelect: true,
-          );
-        }
-      },
-    );
-  }
-
-  Stream<List<String>> _fetchFriendList() {
-    // Replace this with your logic to fetch friend list from Firebase
-    // For demonstration, returning a dummy list of friends
-    return Stream.value(['Friend 1', 'Friend 2', 'Friend 3']);
-  }
-}
-
-
-
-*/
