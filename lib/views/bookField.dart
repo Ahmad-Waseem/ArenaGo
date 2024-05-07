@@ -20,9 +20,8 @@ class BookField extends StatefulWidget {
 
 class _BookFieldState extends State<BookField> {
   List<TimeSlot> availableTimeSlots = [];
-  TimeSlot?
-      _selectedTimeSlot; // Declare a variable to store the selected time slot
-
+  TimeSlot? _selectedTimeSlot; // Declare a variable to store the selected time slot
+  
   int price = 0;
 
   @override
