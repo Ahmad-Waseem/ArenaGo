@@ -113,13 +113,13 @@ class _RecentBookingsWidgetState extends State<RecentBookingsWidget> {
   Widget build(BuildContext context) {
     return !hasBooking
         ? Container(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Container(
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
                 color: loginOutlinecolor,
-                borderRadius: BorderRadius.circular(15.0), // Rounded corners
+                borderRadius: BorderRadius.circular(20.0), // Rounded corners
               ),
               child: const Text("( ･ω･ ?)\nNo recent Bewking",
                   textAlign: TextAlign.center,
@@ -127,31 +127,31 @@ class _RecentBookingsWidgetState extends State<RecentBookingsWidget> {
             ))
         : /////////////
         Container(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Container(
               padding: const EdgeInsets.all(10.0), // Add padding here
               decoration: BoxDecoration(
                 color: loginOutlinecolor,
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(40.0),
                 border: Border.all(
                   color: Colors.black, // Border color
                   width: 0.0, // Border width
                 ),
               ),
               child: Column(children: [
-                const Center(
+                /* const Center(
                   child: Text(
                     'Recent Bookings',
                     //textAlign: TextAlign(textAlign.left),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                ),
+                ), */
                 const SizedBox(
                   height: 2.0,
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
+                    borderRadius: BorderRadius.circular(25.0),
                   ),
                   child: SizedBox(
                     height: 150,
@@ -168,11 +168,11 @@ class _RecentBookingsWidgetState extends State<RecentBookingsWidget> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
+                                borderRadius: BorderRadius.circular(25.0),
                                 color: Colors.grey[200],
                                 border: Border.all(
                                   color: Colors.black, // Border color
-                                  width: 2.0, // Border width
+                                  width: 0.0, // Border width
                                 ),
                               ),
                               child: Padding(

@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text('ArenaGo'),
         automaticallyImplyLeading: false, // This removes the back button
         actions: [
@@ -70,21 +71,32 @@ class _HomePageState extends State<HomePage> {
         //mainAxisSize: MainAxisSize.max,
         children: [
           //here, we will have recent booking widget after booking is done
-          RecentBookingsWidget(),
-          SizedBox(height: 4.0),
-          Divider(),
 
+          ///////
           Container(
-            width: double.infinity,
             color: Colors.white,
-            child: const Center(
-              child: Text(
-                'Top Recommendations',
-                //textAlign: TextAlign(textAlign.left),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+            width: double.infinity, // Background color
+            child: Column(
+              children: [
+                RecentBookingsWidget(),
+                SizedBox(height: 4.0),
+                Divider(),
+                Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Top Recommendations',
+                      //textAlign: TextAlign(textAlign.left),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+          ////////////
           SizedBox(height: 8.0),
           RecommendationsWidget(),
         ],
