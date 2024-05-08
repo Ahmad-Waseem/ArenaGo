@@ -1,5 +1,6 @@
 import 'package:arenago/views/arenaPage.dart';
 import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class _BookFieldState extends State<BookField> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => OwnerHomePage()),
+      MaterialPageRoute(builder: (context) => HomePage()),
     );
   }
 
