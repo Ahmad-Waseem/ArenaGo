@@ -143,12 +143,39 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 );
               },
             )
+<<<<<<< Updated upstream
           : Center(
               child: Text(
                 'No recent notifications',
                 style: TextStyle(fontSize: 18),
+=======
+          :
+
+          //////////////
+
+          Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.notifications_none,
+                    size: 100,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'No Notifications',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+>>>>>>> Stashed changes
               ),
             ),
+
+      ////////////
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,
