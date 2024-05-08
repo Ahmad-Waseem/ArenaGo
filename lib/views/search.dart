@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:arenago/views/TriggerMenu_ProfileButton.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:arenago/views/Searching_Logic/searchResult.dart';
 import 'package:arenago/views/play_buddies/friendlist.dart';
@@ -51,6 +52,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+  _arenaNameController.text = "";
+  _maxPriceController.text = "";
+  _arenaTypeController.text = "";
+  _startTimeController.text = "";
+  _maxDistanceController.text = "";
     _loadData();
   }
 
@@ -70,10 +76,12 @@ class _SearchPageState extends State<SearchPage> {
 
   void _onSearchPressed() {
     String arenaName = _arenaNameController.text;
-    double maxDistance = double.parse(_maxDistanceController.text);
-    //String startTimeString = pickingTime.format(context);
-    //TimeOfDay startTime = TimeOfDay.fromDateTime(DateTime.parse(startTimeString));
-    double maxPrice = double.parse(_maxPriceController.text);
+    String MaxDist = _maxDistanceController.text;
+    debugPrint(MaxDist);
+    double maxDistance = MaxDist!="" ? double.parse(MaxDist): -1;
+    TimeOfDay? startTime = _startTime ?? null;
+    String maxP = _maxPriceController.text;
+    double maxPrice = maxP != "" ? double.parse(maxP) : -1;
     List<Friend> p_selectedFriends = _selectedFriends;
 
     Navigator.push(
@@ -232,8 +240,13 @@ class _SearchPageState extends State<SearchPage> {
                     // optional flex property if flex is 1 because the default flex is 1
                     flex: 1,
                     child: TextFormField(
-                      
+                      keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
                       controller: _maxDistanceController,
+                      
                       decoration: InputDecoration(
                         labelText: 'Max Distance',
                         prefixIcon: Icon(Icons.route_rounded),
@@ -290,6 +303,11 @@ class _SearchPageState extends State<SearchPage> {
                     flex: 1,
                     child: TextFormField(
                       controller: _maxPriceController,
+                      keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
                       decoration: InputDecoration(
                         labelText: 'Max Price',
                         prefixIcon: Icon(Icons.attach_money_rounded),
