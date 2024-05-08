@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:arenago/views/add_fields.dart';
 import 'package:arenago/views/owner_homepage.dart';
 import 'package:arenago/views/gmaps/EditableMap.dart';
+import 'package:arenago/views/owner_notifpage.dart';
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:arenago/views/owner_search.dart';
 import 'package:arenago/views/theme.dart';
@@ -110,6 +111,11 @@ class _AddArenaViewState extends State<AddArenaView> {
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const OwnerHomePage(),
+      ));
+    }
+    else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OwnerNotificationPage(), ///////////
       ));
     }
   }
@@ -445,7 +451,7 @@ class _AddArenaViewState extends State<AddArenaView> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
+            icon: Icon(Icons.notifications_active_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(

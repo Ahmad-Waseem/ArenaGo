@@ -1,3 +1,7 @@
+import 'package:arenago/views/add_arena.dart';
+import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/owner_profilescreen.dart';
+import 'package:arenago/views/owner_search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:arenago/views/play_buddies/FriendRequestPage.dart';
@@ -21,14 +25,14 @@ import 'package:arenago/views/play_buddies/friendlist.dart';
 
 import 'package:arenago/views/homepage_widgets/recent_bookings_backend.dart';
 
-class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({Key? key}) : super(key: key);
+class OwnerNotificationPage extends StatefulWidget {
+  const OwnerNotificationPage({Key? key}) : super(key: key);
 
   @override
-  _NotificationsPageState createState() => _NotificationsPageState();
+  _OwnerNotificationPageState createState() => _OwnerNotificationPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _OwnerNotificationPageState extends State<OwnerNotificationPage> {
   final RecentBookingsBackend _backend = RecentBookingsBackend();
   String? currentUserId;
   List<Map<dynamic, dynamic>> _recentBookings = [];
@@ -90,29 +94,26 @@ class _NotificationsPageState extends State<NotificationsPage> {
     });
     if (index == 4) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
+        builder: (context) => const OwnerProfileScreen(),
       ));
     } else if (index == 3) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => NotificationsPage(), ///////////
+        builder: (context) => OwnerNotificationPage(), ///////////
       ));
     } else if (index == 2) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const SearchPage(),
+        builder: (context) => const OwnerSearchPage(),
       ));
     } else if (index == 1) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const PlayBuddiesPage(),
+        builder: (context) => AddArenaView(),
       ));
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ));
-    } else if (index == 3) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => NotificationsPage(), ///////////
+        builder: (context) => const OwnerHomePage(),
       ));
     }
+   
   }
 
   @override
@@ -142,38 +143,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 );
               },
             )
-// <<<<<<< Updated upstream
-//           : /* Center(
-//               child: Text(
-//                 'No recent notifications',
-//                 style: TextStyle(fontSize: 18), */
-// =======
-//           :
-
-          //////////////
-
           : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.notifications_none,
-                    size: 100,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'No Notifications',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+              child: Text(
+                'No recent notifications',
+                style: TextStyle(fontSize: 18),
               ),
             ),
-
-      ////////////
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: dBackgroundColor,
         unselectedItemColor: loginOutlinecolor,
@@ -183,8 +158,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'Play Buddies',
+            icon: Icon(Icons.stadium),
+            label: 'Add Arena',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

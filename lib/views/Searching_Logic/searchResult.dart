@@ -107,7 +107,7 @@ class _SearchResultState extends State<SearchResult> {
     if (arenaName != null) {
       final arenaSnapshot = await _database
           .ref('ArenaInfo')
-          .orderByChild('arena_name')
+          .child('arena_name')
           .equalTo(arenaName)
           .get();
 
@@ -372,73 +372,74 @@ class _SearchResultState extends State<SearchResult> {
     }
     return arenaNames;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('ArenaGo'),
-          automaticallyImplyLeading: false, // This removes the back button
-        ),
-        body: Column
-        (children: [
-          ListView.builder(
-            itemCount: _filteredFields.length,
-            itemBuilder: (context, index) {
-              final field = _filteredFields[index];
-              return InkWell(
-                onTap: () {
-                  _changeScreen(field);
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                  child: ListTile(
-                    tileColor: Colors.white,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: const BorderSide(
-                        color: Colors.black,
-                        width: 2.5,
-                      ),
+      appBar: AppBar(
+        title: const Text('ArenaGo'),
+        automaticallyImplyLeading: false, // This removes the back button
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height, // Set a fixed height
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: _filteredFields.length,
+          itemBuilder: (context, index) {
+            final field = _filteredFields[index];
+            return InkWell(
+              onTap: () {
+                debugPrint(field['fieldId']);
+                _changeScreen(field);
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                child: ListTile(
+                  tileColor: Colors.white,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: const BorderSide(
+                      color: Colors.black,
+                      width: 2.5,
                     ),
-                    leading: SizedBox(
-                      width: 110,
-                      height: 160,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          image: DecorationImage(
-                            image: NetworkImage(field['field_images'][0]),
-                            fit: BoxFit.fill,
-                          ),
+                  ),
+                  leading: SizedBox(
+                    width: 110,
+                    height: 160,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                          image: NetworkImage(field['field_images'][0]),
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
-                    title: Text(_arenaNames[index]),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Field ID: ${field['fieldId']}'),
-                        const SizedBox(height: 0.5),
-                        Text(
-                            'Avg Price: Rs.${field['price'].toStringAsFixed(2)}'),
-                      ],
-                    ),
-                    trailing: CircleAvatar(
-                      radius: 22,
-                      child: _buildFieldTypeEmojis(field['fieldType']),
-                      backgroundColor: Colors.transparent,
-                    ),
+                  ),
+                  title: Text(_arenaNames[index]),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Field ID: ${field['fieldId']}'),
+                      const SizedBox(height: 0.5),
+                      Text('Avg Price: Rs.${field['price'].toStringAsFixed(2)}'),
+                    ],
+                  ),
+                  trailing: CircleAvatar(
+                    radius: 22,
+                    child: _buildFieldTypeEmojis(field['fieldType']),
+                    backgroundColor: Colors.transparent,
                   ),
                 ),
-              );
-            },
-          ),
-        ]));
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
-
   Widget _buildFieldTypeEmojis(String fieldType) {
     // Implement the logic to display emojis based on the field type
     return const Text('🏏 ⚽');

@@ -3,6 +3,7 @@ import 'package:arenago/views/add_arena.dart';
 
 
 import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/owner_notifpage.dart';
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
@@ -38,6 +39,11 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const OwnerHomePage(),
+      ));
+    }
+    else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OwnerNotificationPage(), ///////////
       ));
     }
   }
@@ -232,7 +238,7 @@ class _OwnerSearchPageState extends State<OwnerSearchPage> {
             label: 'Search Arena',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
+            icon: Icon(Icons.notifications_active_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(

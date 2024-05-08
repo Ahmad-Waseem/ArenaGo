@@ -2,6 +2,7 @@ import 'package:arenago/views/ProfileScreen.dart';
 import 'package:arenago/views/SearchedArenasPage.dart';
 import 'package:arenago/views/friends.dart';
 import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/notifications.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:arenago/views/theme.dart';
@@ -164,6 +165,11 @@ class _SearchPageState extends State<SearchPage> {
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const HomePage(),
+      ));
+    }
+    else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotificationsPage(), ///////////
       ));
     }
   }
@@ -449,8 +455,8 @@ class _SearchPageState extends State<SearchPage> {
             label: 'Search Arena',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
-            label: 'History',
+            icon: Icon(Icons.notifications_active_rounded),
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_rounded),
