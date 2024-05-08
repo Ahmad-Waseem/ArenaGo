@@ -108,8 +108,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const HomePage(),
       ));
-    }
-     else if (index == 3) {
+    } else if (index == 3) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => NotificationsPage(), ///////////
       ));
@@ -143,17 +142,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 );
               },
             )
-<<<<<<< Updated upstream
-          : Center(
-              child: Text(
-                'No recent notifications',
-                style: TextStyle(fontSize: 18),
-=======
-          :
+// <<<<<<< Updated upstream
+//           : /* Center(
+//               child: Text(
+//                 'No recent notifications',
+//                 style: TextStyle(fontSize: 18), */
+// =======
+//           :
 
           //////////////
 
-          Center(
+          : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -171,7 +170,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     ),
                   ),
                 ],
->>>>>>> Stashed changes
               ),
             ),
 
