@@ -1,6 +1,7 @@
 
 import 'package:arenago/views/homepage.dart';
 import 'package:arenago/views/login_view.dart';
+import 'package:arenago/views/notifications.dart';
 import 'package:arenago/views/search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -118,6 +119,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else if (index == 0) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const HomePage(),
+      ));
+    }
+     else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotificationsPage(), ///////////
       ));
     }
   }
@@ -375,7 +381,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
+            icon: Icon(Icons.notifications_active_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(

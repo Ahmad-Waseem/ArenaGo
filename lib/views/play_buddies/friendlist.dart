@@ -1,3 +1,4 @@
+import 'package:arenago/views/notifications.dart';
 import 'package:arenago/views/play_buddies/FriendRequestPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -92,6 +93,11 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
         builder: (context) => const HomePage(),
       ));
     }
+     else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotificationsPage(), ///////////
+      ));
+    }
   }
 
   @override
@@ -164,7 +170,7 @@ class _PlayBuddiesState extends State<PlayBuddiesPage> {
             label: 'Search Arena',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
+            icon: Icon(Icons.notifications_active_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(

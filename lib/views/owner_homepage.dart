@@ -1,6 +1,7 @@
 import 'package:arenago/views/add_arena.dart';
 import 'package:arenago/views/arenaPage.dart';
 import 'package:arenago/views/bookingViews/ownerFieldBookings.dart';
+import 'package:arenago/views/owner_notifpage.dart';
 
 import 'package:arenago/views/owner_profilescreen.dart';
 import 'package:arenago/views/owner_search.dart';
@@ -124,6 +125,11 @@ void _fetchArenas() {
         builder: (context) => const OwnerHomePage(),
       ));
     }
+    else if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OwnerNotificationPage(), ///////////
+      ));
+    }
   }
 
   Widget _buildArenaListItem(
@@ -220,7 +226,7 @@ void _fetchArenas() {
               query: arenasRef.orderByChild('owner_id').equalTo(currentUserId),
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
-                final arenaData = snapshot.value as Map<dynamic, dynamic>;
+                final arenaData = snapshot.value as Map<dynamic, dynamic> ;
                 final arenaInfo = ArenaInfo(
                   arenaId: snapshot.key!,
                   arenaName: arenaData['arena_name'] as String,
@@ -285,7 +291,7 @@ void _fetchArenas() {
             label: 'Search Arena',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_toggle_off),
+            icon: Icon(Icons.notifications_active_rounded),
             label: 'History',
           ),
           BottomNavigationBarItem(
