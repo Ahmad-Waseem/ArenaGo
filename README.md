@@ -29,7 +29,7 @@ ArenaGo aims to enhance user experience and streamline operations for sports fac
 ### Installation
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/ArenaGo.git
+   git clone https://github.com/Ahmad-Waseem/ArenaGo.git
    ```
 2. Navigate to the project directory:
    ```
