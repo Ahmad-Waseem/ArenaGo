@@ -50,7 +50,7 @@ ArenaGo aims to enhance user experience and streamline operations for sports fac
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Project Specifications Requirements
-[Project Specifications Requirements Document](docs/SRS.md)
+[Project Specifications Requirements Document](docs/SRS.pdf)
 
 ## Contact
 For any inquiries or feedback, please reach out to us!
