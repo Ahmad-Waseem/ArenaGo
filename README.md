@@ -20,6 +20,7 @@ ArenaGo aims to enhance user experience and streamline operations for sports fac
 
 ## Getting Started
 
+
 ### Prerequisites
 - Flutter SDK
 - Firebase account
@@ -45,12 +46,18 @@ ArenaGo aims to enhance user experience and streamline operations for sports fac
    ```
    flutter run
    ```
+## Project Specifications Requirements
+[Project Specifications Requirements Document](docs/SRS.pdf)
+
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Project Specifications Requirements
-[Project Specifications Requirements Document](docs/SRS.pdf)
+## Acknowledgments
+- Flutter
+- Firebase
+- Google Maps API
+- Open-source libraries and tools used in this project
 
 ## Contact
 For any inquiries or feedback, please reach out to us!
