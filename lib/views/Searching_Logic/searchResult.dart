@@ -1,8 +1,8 @@
 import 'dart:math';
-import 'package:arenago/views/arenaPage.dart';
-import 'package:arenago/views/bookField.dart';
-import 'package:arenago/views/homepage_widgets/recommendation_backend.dart';
-import 'package:arenago/views/search.dart';
+import 'package:arenago/views/Modules/businessModules/arenaPage.dart';
+import 'package:arenago/views/Modules/businessModules/bookField.dart';
+import 'package:arenago/views/Modules/userModules/homepage_widgets/recommendation_backend.dart';
+import 'package:arenago/views/Modules/userModules/search.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';

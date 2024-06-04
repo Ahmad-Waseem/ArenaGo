@@ -1,9 +1,9 @@
 
 
 
-import 'package:arenago/views/homepage.dart';
-import 'package:arenago/views/login_view.dart';
-import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/auxilaryPages/homepage.dart';
+import 'package:arenago/views/signin_signup/login_view.dart';
+import 'package:arenago/views/Modules/ownerModules/owner_homepage.dart';
 
 
 import 'package:firebase_core/firebase_core.dart';

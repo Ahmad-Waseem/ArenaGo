@@ -1,6 +1,6 @@
 
-import 'package:arenago/views/login_view.dart';
-import 'package:arenago/views/owner_homepage.dart';
+import 'package:arenago/views/signin_signup/login_view.dart';
+import 'package:arenago/views/Modules/ownerModules/owner_homepage.dart';
 import 'package:arenago/views/theme.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,9 +1,9 @@
 
 
-import 'package:arenago/views/owner_login_view.dart';
+import 'package:arenago/views/Modules/ownerModules/owner_login_view.dart';
 import 'package:arenago/views/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:arenago/views/homepage.dart';
+import 'package:arenago/views/auxilaryPages/homepage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:arenago/views/login_helpers/forgot_pw.dart';

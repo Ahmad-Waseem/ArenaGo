@@ -1,4 +1,4 @@
-import 'package:arenago/views/UpdateProfileView.dart';
+import 'package:arenago/views/Modules/userModules/UpdateProfileView.dart';
 
 
 
