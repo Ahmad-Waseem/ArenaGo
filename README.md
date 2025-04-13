@@ -1,6 +1,7 @@
 # ArenaGo Mobile Application
 
 ## Introduction
+![ArenaGo DEMO](https://github.com/Ahmad-Waseem/ArenaGo/blob/main/assets/arenaGo-gif.gif?raw=true)
 
 ### Purpose
 ArenaGo is a mobile application designed to revolutionize the management of futsal and sports arenas. It provides a user-friendly platform for owners, admins, and players to efficiently manage and book sports facilities. This document outlines the requirements and features of the ArenaGo app.
